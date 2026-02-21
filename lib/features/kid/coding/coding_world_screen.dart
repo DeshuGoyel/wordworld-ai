@@ -124,6 +124,7 @@ class _SequencesModuleState extends State<_SequencesModule> {
   int _q = 0; int _score = 0;
   List<String> _userOrder = [];
   bool _checked = false;
+  bool _done = false;
 
   static const _questions = [
     {'title': '🤖 Robot walks to the flower', 'steps': ['Start', 'Walk Forward', 'Walk Forward', 'Pick Flower', 'Done!'],
@@ -168,20 +169,18 @@ class _SequencesModuleState extends State<_SequencesModule> {
     if (_q < _questions.length - 1) {
       setState(() { _q++; _userOrder = []; _checked = false; });
     } else {
-      // Show results
-      showDialog(context: context, builder: (_) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        content: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Text('🎉', style: TextStyle(fontSize: 48)),
-          Text('$_score / ${_questions.length}', style: GoogleFonts.nunito(fontSize: 32, fontWeight: FontWeight.w900)),
-          const SizedBox(height: 8),
-          PrimaryButton(label: 'Done', onPressed: () { Navigator.pop(context); widget.onBack(); }),
-        ])));
+      setState(() => _done = true);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_done) {
+      return QuizResultScreen(
+        score: _score, total: _questions.length, title: '🔢 Sequences', color: const Color(0xFF00CEC9),
+        onBack: widget.onBack,
+        onRetry: () => setState(() { _q = 0; _score = 0; _userOrder = []; _checked = false; _done = false; }));
+    }
     final q = _questions[_q];
     final correctSteps = q['steps'] as List<String>;
     // Available steps = all steps not yet placed

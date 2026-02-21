@@ -15,6 +15,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../providers/app_providers.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 const _avatarEmojis = ['🦁', '🦊', '🐼', '🐰', '🐸', '🦄', '🐶', '🐱', '🐻', '🦋'];
 String _emojiForAvatarId(String? avatarId) {
@@ -272,15 +273,7 @@ class KidHomeScreen extends ConsumerWidget {
                           crossAxisSpacing: 10,
                           childAspectRatio: 0.95,
                           children: [
-                            _MoreTile(emoji: '🔊', label: 'Phonics', color: const Color(0xFF6C5CE7), onTap: () => context.push('/phonics')),
-                            _MoreTile(emoji: '📖', label: 'Sight Words', color: const Color(0xFF00B894), onTap: () => context.push('/sight-words')),
-                            _MoreTile(emoji: '📚', label: 'Reading', color: const Color(0xFF0984E3), onTap: () => context.push('/reading')),
-                            _MoreTile(emoji: '✍️', label: 'Writing', color: const Color(0xFFFF9F43), onTap: () => context.push('/story-writing')),
-                            _MoreTile(emoji: '💰', label: 'Adv Math', color: AppColors.mathWorld, onTap: () => context.push('/advanced-math')),
-                            _MoreTile(emoji: '🌍', label: 'Adv EVS', color: AppColors.evsWorld, onTap: () => context.push('/advanced-evs')),
-                            _MoreTile(emoji: '🏃', label: 'Activity', color: const Color(0xFFE17055), onTap: () => context.push('/physical-activity')),
-                            _MoreTile(emoji: '📇', label: 'Lessons', color: const Color(0xFF00CEC9), onTap: () => context.push('/lesson-cards')),
-                            _MoreTile(emoji: '🏆', label: 'Leaderboard', color: const Color(0xFFFD79A8), onTap: () => context.push('/leaderboard')),
+                            ..._buildMoreTiles(context),
                           ],
                         ),
                       ],
@@ -535,6 +528,29 @@ class KidHomeScreen extends ConsumerWidget {
       ],
     ));
   }
+  List<Widget> _buildMoreTiles(BuildContext context) {
+    final tiles = [
+      {'emoji': '🔊', 'label': 'Phonics',      'color': const Color(0xFF6C5CE7), 'route': '/phonics'},
+      {'emoji': '📖', 'label': 'Sight Words', 'color': const Color(0xFF00B894), 'route': '/sight-words'},
+      {'emoji': '📚', 'label': 'Reading',     'color': const Color(0xFF0984E3), 'route': '/reading'},
+      {'emoji': '✍️', 'label': 'Writing',     'color': const Color(0xFFFF9F43), 'route': '/story-writing'},
+      {'emoji': '💰', 'label': 'Adv Math',   'color': AppColors.mathWorld,      'route': '/advanced-math'},
+      {'emoji': '🌍', 'label': 'Adv EVS',    'color': AppColors.evsWorld,       'route': '/advanced-evs'},
+      {'emoji': '🏃', 'label': 'Activity',   'color': const Color(0xFFE17055), 'route': '/physical-activity'},
+      {'emoji': '📇', 'label': 'Lessons',    'color': const Color(0xFF00CEC9), 'route': '/lesson-cards'},
+      {'emoji': '🏆', 'label': 'Leaderboard','color': const Color(0xFFFD79A8), 'route': '/leaderboard'},
+    ];
+    return List.generate(tiles.length, (i) {
+      final t = tiles[i];
+      return _MoreTile(
+        emoji: t['emoji'] as String,
+        label: t['label'] as String,
+        color: t['color'] as Color,
+        onTap: () => context.push(t['route'] as String),
+        index: i,
+      );
+    });
+  }
 }
 
 /// Compact tile for the "More Learning" V2/V3 feature grid
@@ -542,8 +558,9 @@ class _MoreTile extends StatelessWidget {
   final String emoji, label;
   final Color color;
   final VoidCallback onTap;
+  final int index;
 
-  const _MoreTile({required this.emoji, required this.label, required this.color, required this.onTap});
+  const _MoreTile({required this.emoji, required this.label, required this.color, required this.onTap, this.index = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -573,6 +590,9 @@ class _MoreTile extends StatelessWidget {
           ],
         ),
       ),
-    );
+    )
+    .animate(delay: Duration(milliseconds: 80 * index))
+    .fadeIn(duration: 400.ms, curve: Curves.easeOut)
+    .slideY(begin: 0.2, end: 0, duration: 400.ms, curve: Curves.easeOut);
   }
 }
