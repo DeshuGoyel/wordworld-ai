@@ -40,7 +40,7 @@ class _StoryWritingScreenState extends ConsumerState<StoryWritingScreen> {
         child: Column(children: [
           Row(children: [
             GestureDetector(onTap: () => context.pop(),
-              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.accent2.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.accent2.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.accent2))),
             const SizedBox(width: 12),
             Text('✍️ Story Writing', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -62,7 +62,7 @@ class _StoryWritingScreenState extends ConsumerState<StoryWritingScreen> {
           child: GestureDetector(onTap: () => setState(() { _promptIdx = i; _step = 1; }),
             child: Container(padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: AppShadows.card,
-                border: Border.all(color: AppColors.accent2.withOpacity(0.2))),
+                border: Border.all(color: AppColors.accent2.withValues(alpha: 0.2))),
               child: Row(children: [
                 Text(p['emoji'] as String, style: const TextStyle(fontSize: 32)),
                 const SizedBox(width: 14),
@@ -82,7 +82,7 @@ class _StoryWritingScreenState extends ConsumerState<StoryWritingScreen> {
     final tips = p['tips'] as List<String>;
     return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(width: double.infinity, padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.accent2, AppColors.accent2.withOpacity(0.7)]),
+        decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.accent2, AppColors.accent2.withValues(alpha: 0.7)]),
           borderRadius: BorderRadius.circular(20)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('${p['emoji']} ${p['title']}', style: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white)),

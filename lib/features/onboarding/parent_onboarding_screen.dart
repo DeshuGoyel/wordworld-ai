@@ -77,7 +77,7 @@ class _ParentOnboardingScreenState extends ConsumerState<ParentOnboardingScreen>
             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
             decoration: InputDecoration(
               counterText: '', filled: true, fillColor: Colors.grey.shade100,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: AppColors.primary.withOpacity(0.3))),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.3))),
               focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.primary, width: 2)),
             ),
             onChanged: (v) { if (v.isNotEmpty && i < 3) FocusScope.of(context).nextFocus(); },
@@ -156,7 +156,7 @@ class _ParentOnboardingScreenState extends ConsumerState<ParentOnboardingScreen>
       Container(
         width: 100, height: 100,
         decoration: BoxDecoration(
-          color: AppColors.primary.withOpacity(0.1), shape: BoxShape.circle,
+          color: AppColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle,
           border: Border.all(color: AppColors.primary, width: 3),
         ),
         child: Center(child: Text(_avatars[_avatars.indexOf(_selectedAvatar.replaceAll('avatar_', '').isEmpty ? '🦊' : _avatars[int.tryParse(_selectedAvatar.replaceAll('avatar_', '')) != null ? (int.parse(_selectedAvatar.replaceAll('avatar_', '')) - 1).clamp(0, 9) : 0])], style: const TextStyle(fontSize: 50))),
@@ -169,7 +169,7 @@ class _ParentOnboardingScreenState extends ConsumerState<ParentOnboardingScreen>
           child: Container(
             width: 64, height: 64,
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary.withOpacity(0.15) : Colors.grey.shade100,
+              color: isSelected ? AppColors.primary.withValues(alpha: 0.15) : Colors.grey.shade100,
               shape: BoxShape.circle,
               border: Border.all(color: isSelected ? AppColors.primary : Colors.transparent, width: 3),
             ),

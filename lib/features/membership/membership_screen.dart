@@ -33,7 +33,7 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
               GestureDetector(
                 onTap: () => context.pop(),
                 child: Container(width: 44, height: 44,
-                  decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                   child: const Icon(Icons.arrow_back_rounded, color: Colors.white)),
               ),
               const Spacer(),
@@ -113,7 +113,7 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
       child: Row(children: [
         Container(
           width: 40, height: 40,
-          decoration: BoxDecoration(color: Colors.white.withOpacity(0.08), borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(12)),
           child: Center(child: Text(emoji, style: const TextStyle(fontSize: 20))),
         ),
         const SizedBox(width: 14),
@@ -134,9 +134,9 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
         duration: AppDurations.fast,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: selected ? AppColors.starActive.withOpacity(0.15) : Colors.white.withOpacity(0.05),
+          color: selected ? AppColors.starActive.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: selected ? AppColors.starActive : Colors.white.withOpacity(0.1), width: selected ? 2 : 1),
+          border: Border.all(color: selected ? AppColors.starActive : Colors.white.withValues(alpha: 0.1), width: selected ? 2 : 1),
         ),
         child: Row(children: [
           Container(

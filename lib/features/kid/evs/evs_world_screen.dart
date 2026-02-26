@@ -23,7 +23,7 @@ class EVSWorldScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
-                    decoration: BoxDecoration(color: AppColors.evsWorld.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                    decoration: BoxDecoration(color: AppColors.evsWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                     child: const Icon(Icons.arrow_back_rounded, color: AppColors.evsWorld)),
                 ),
                 const SizedBox(width: 12),
@@ -85,14 +85,14 @@ class EVSWorldScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [color, color.withOpacity(0.7)]),
+          gradient: LinearGradient(colors: [color, color.withValues(alpha: 0.7)]),
           borderRadius: BorderRadius.circular(20),
           boxShadow: AppShadows.soft(color),
         ),
         child: Row(children: [
           Container(
             width: 56, height: 56,
-            decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(16)),
+            decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(16)),
             child: Center(child: Text(emoji, style: const TextStyle(fontSize: 32))),
           ),
           const SizedBox(width: 14),
@@ -112,9 +112,9 @@ class EVSWorldScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.lockedGrey.withOpacity(0.1),
+        color: AppColors.lockedGrey.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.lockedGrey.withOpacity(0.2)),
+        border: Border.all(color: AppColors.lockedGrey.withValues(alpha: 0.2)),
       ),
       child: Row(children: [
         Text(emoji, style: const TextStyle(fontSize: 28)),
@@ -155,9 +155,9 @@ class EVSWorldScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.05),
+                  color: color.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: color.withOpacity(0.15)),
+                  border: Border.all(color: color.withValues(alpha: 0.15)),
                 ),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(children: [

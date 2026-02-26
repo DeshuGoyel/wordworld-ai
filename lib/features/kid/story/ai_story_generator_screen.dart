@@ -40,7 +40,7 @@ class _AIStoryGeneratorScreenState extends State<AIStoryGeneratorScreen> {
                 GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
-                    decoration: BoxDecoration(color: AppColors.storyTab.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                    decoration: BoxDecoration(color: AppColors.storyTab.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                     child: const Icon(Icons.arrow_back_rounded, color: AppColors.storyTab)),
                 ),
                 const SizedBox(width: 12),
@@ -140,7 +140,7 @@ class _AIStoryGeneratorScreenState extends State<AIStoryGeneratorScreen> {
                 decoration: BoxDecoration(
                   color: isSelected ? AppColors.storyTab : Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: isSelected ? AppColors.storyTab : AppColors.textLight.withOpacity(0.3), width: 1.5),
+                  border: Border.all(color: isSelected ? AppColors.storyTab : AppColors.textLight.withValues(alpha: 0.3), width: 1.5),
                 ),
                 child: Text(opt, style: GoogleFonts.nunito(
                   fontSize: 14, fontWeight: FontWeight.w600,
@@ -198,7 +198,7 @@ class _AIStoryGeneratorScreenState extends State<AIStoryGeneratorScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(28),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [scene.bgColor, scene.bgColor.withOpacity(0.7)]),
+                gradient: LinearGradient(colors: [scene.bgColor, scene.bgColor.withValues(alpha: 0.7)]),
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: AppShadows.soft(scene.bgColor),
               ),

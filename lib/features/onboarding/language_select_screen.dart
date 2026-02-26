@@ -69,8 +69,8 @@ class _LanguageCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.3), width: 2),
-          boxShadow: [BoxShadow(color: color.withOpacity(0.1), blurRadius: 12, offset: const Offset(0, 4))],
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 2),
+          boxShadow: [BoxShadow(color: color.withValues(alpha: 0.1), blurRadius: 12, offset: const Offset(0, 4))],
         ),
         child: Row(children: [
           Text(emoji, style: const TextStyle(fontSize: 40)),

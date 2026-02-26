@@ -94,14 +94,14 @@ class _TalkTabState extends ConsumerState<TalkTab> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [AppColors.talkTab.withOpacity(0.12), AppColors.talkTab.withOpacity(0.04)]),
+            gradient: LinearGradient(colors: [AppColors.talkTab.withValues(alpha: 0.12), AppColors.talkTab.withValues(alpha: 0.04)]),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.talkTab.withOpacity(0.2)),
+            border: Border.all(color: AppColors.talkTab.withValues(alpha: 0.2)),
           ),
           child: Row(children: [
             Container(
               width: 52, height: 52,
-              decoration: BoxDecoration(color: AppColors.talkTab.withOpacity(0.15), borderRadius: BorderRadius.circular(14)),
+              decoration: BoxDecoration(color: AppColors.talkTab.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(14)),
               child: Center(child: Text(widget.word.emoji, style: const TextStyle(fontSize: 30))),
             ),
             const SizedBox(width: 12),
@@ -127,7 +127,7 @@ class _TalkTabState extends ConsumerState<TalkTab> {
           width: double.infinity, padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppColors.talkTab.withOpacity(0.3), width: 2),
+            border: Border.all(color: AppColors.talkTab.withValues(alpha: 0.3), width: 2),
             boxShadow: AppShadows.card,
           ),
           child: Column(children: [
@@ -183,11 +183,11 @@ class _TalkTabState extends ConsumerState<TalkTab> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                (_score > 0.6 ? AppColors.success : AppColors.warning).withOpacity(0.12),
-                (_score > 0.6 ? AppColors.success : AppColors.warning).withOpacity(0.04),
+                (_score > 0.6 ? AppColors.success : AppColors.warning).withValues(alpha: 0.12),
+                (_score > 0.6 ? AppColors.success : AppColors.warning).withValues(alpha: 0.04),
               ]),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: (_score > 0.6 ? AppColors.success : AppColors.warning).withOpacity(0.3)),
+              border: Border.all(color: (_score > 0.6 ? AppColors.success : AppColors.warning).withValues(alpha: 0.3)),
             ),
             child: Column(children: [
               DuoProgressBar(progress: _score, color: _score > 0.8 ? AppColors.success : _score > 0.6 ? AppColors.accent1 : AppColors.warning),

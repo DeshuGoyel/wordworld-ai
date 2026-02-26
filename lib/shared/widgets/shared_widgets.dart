@@ -113,10 +113,10 @@ class GlassCard extends StatelessWidget {
         child: Container(
           padding: padding,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(
-              color: borderColor ?? Colors.white.withOpacity(0.25),
+              color: borderColor ?? Colors.white.withValues(alpha: 0.25),
               width: 1.5,
             ),
           ),
@@ -170,11 +170,11 @@ class WorldItemCard extends StatelessWidget {
         duration: AppDurations.normal,
         decoration: BoxDecoration(
           gradient: isLocked ? null : LinearGradient(
-            colors: [color, color.withOpacity(0.7)],
+            colors: [color, color.withValues(alpha: 0.7)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          color: isLocked ? AppColors.lockedGrey.withOpacity(0.3) : null,
+          color: isLocked ? AppColors.lockedGrey.withValues(alpha: 0.3) : null,
           borderRadius: BorderRadius.circular(AppRadius.lg),
           border: Border.all(
             color: isCurrent ? Colors.white : (isCompleted ? AppColors.accent1 : Colors.transparent),
@@ -296,7 +296,7 @@ class BrainMeter extends StatelessWidget {
               Container(
                 height: 12,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(6),
                 ),
               ),
@@ -307,7 +307,7 @@ class BrainMeter extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(colors: [Color(0xFFFF6B9D), Color(0xFFFFC312)]),
                     borderRadius: BorderRadius.circular(6),
-                    boxShadow: [BoxShadow(color: AppColors.xpPink.withOpacity(0.5), blurRadius: 8)],
+                    boxShadow: [BoxShadow(color: AppColors.xpPink.withValues(alpha: 0.5), blurRadius: 8)],
                   ),
                 ),
               ),
@@ -332,9 +332,9 @@ class StreakChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: AppColors.streakOrange.withOpacity(0.15),
+        color: AppColors.streakOrange.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.streakOrange.withOpacity(0.3)),
+        border: Border.all(color: AppColors.streakOrange.withValues(alpha: 0.3)),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         const Text('🔥', style: TextStyle(fontSize: 14)),
@@ -354,9 +354,9 @@ class StarChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: AppColors.starActive.withOpacity(0.15),
+        color: AppColors.starActive.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.starActive.withOpacity(0.3)),
+        border: Border.all(color: AppColors.starActive.withValues(alpha: 0.3)),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         const Icon(Icons.star_rounded, size: 16, color: AppColors.starActive),
@@ -483,8 +483,8 @@ class _FillBlankWidgetState extends State<FillBlankWidget> with SingleTickerProv
                   duration: AppDurations.normal,
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                   decoration: BoxDecoration(
-                    color: _selected == null ? AppColors.primary.withOpacity(0.08)
-                        : (_isCorrect! ? AppColors.success.withOpacity(0.15) : AppColors.error.withOpacity(0.15)),
+                    color: _selected == null ? AppColors.primary.withValues(alpha: 0.08)
+                        : (_isCorrect! ? AppColors.success.withValues(alpha: 0.15) : AppColors.error.withValues(alpha: 0.15)),
                     borderRadius: BorderRadius.circular(AppRadius.sm),
                     border: Border.all(
                       color: _selected == null ? AppColors.primary
@@ -524,7 +524,7 @@ class _FillBlankWidgetState extends State<FillBlankWidget> with SingleTickerProv
                 decoration: BoxDecoration(
                   color: isThis
                       ? (_isCorrect! ? AppColors.success : AppColors.error)
-                      : (showCorrect ? AppColors.success.withOpacity(0.2) : Colors.white),
+                      : (showCorrect ? AppColors.success.withValues(alpha: 0.2) : Colors.white),
                   borderRadius: BorderRadius.circular(AppRadius.xl),
                   border: Border.all(
                     color: isThis
@@ -533,7 +533,7 @@ class _FillBlankWidgetState extends State<FillBlankWidget> with SingleTickerProv
                     width: 2,
                   ),
                   boxShadow: isThis ? [] : AppShadows.button3D(
-                    showCorrect ? AppColors.success : AppColors.textLight.withOpacity(0.3),
+                    showCorrect ? AppColors.success : AppColors.textLight.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(
@@ -624,7 +624,7 @@ class _SentenceBuilderWidgetState extends State<SentenceBuilderWidget> {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: _isCorrect == null ? Colors.white
-                : (_isCorrect! ? AppColors.success.withOpacity(0.08) : AppColors.error.withOpacity(0.08)),
+                : (_isCorrect! ? AppColors.success.withValues(alpha: 0.08) : AppColors.error.withValues(alpha: 0.08)),
             borderRadius: BorderRadius.circular(AppRadius.lg),
             border: Border.all(
               color: _isCorrect == null ? AppColors.textLight
@@ -643,7 +643,7 @@ class _SentenceBuilderWidgetState extends State<SentenceBuilderWidget> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
+                        color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(AppRadius.sm),
                         border: Border.all(color: AppColors.primary, width: 1.5),
                       ),
@@ -666,7 +666,7 @@ class _SentenceBuilderWidgetState extends State<SentenceBuilderWidget> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(AppRadius.xl),
                 border: Border.all(color: AppColors.textLight, width: 1.5),
-                boxShadow: AppShadows.button3D(AppColors.textLight.withOpacity(0.3)),
+                boxShadow: AppShadows.button3D(AppColors.textLight.withValues(alpha: 0.3)),
               ),
               child: Text(word, style: GoogleFonts.nunito(fontSize: 17, fontWeight: FontWeight.w600, color: AppColors.textDark)),
             ),
@@ -720,7 +720,7 @@ class SubjectWorldTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           gradient: isLocked ? null : gradient,
-          color: isLocked ? AppColors.lockedGrey.withOpacity(0.15) : null,
+          color: isLocked ? AppColors.lockedGrey.withValues(alpha: 0.15) : null,
           borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: isLocked ? [] : AppShadows.soft(gradient.colors.first),
         ),
@@ -742,7 +742,7 @@ class SubjectWorldTile extends StatelessWidget {
                     // Mini progress bar
                     Stack(children: [
                       Container(height: 4, decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(2),
                       )),
                       FractionallySizedBox(
@@ -909,7 +909,7 @@ class _DuoButtonState extends State<DuoButton> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: _pressed ? [] : [
             BoxShadow(
-              color: widget.color.withOpacity(0.4),
+              color: widget.color.withValues(alpha: 0.4),
               offset: const Offset(0, 4),
               blurRadius: 0,
             ),
@@ -941,7 +941,7 @@ class DuoProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      decoration: BoxDecoration(color: color.withOpacity(0.2), borderRadius: BorderRadius.circular(height / 2)),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(height / 2)),
       child: FractionallySizedBox(
         widthFactor: progress.clamp(0, 1),
         alignment: Alignment.centerLeft,
@@ -950,7 +950,7 @@ class DuoProgressBar extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(height / 2),
-            boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 4)],
+            boxShadow: [BoxShadow(color: color.withValues(alpha: 0.3), blurRadius: 4)],
           ),
         ),
       ),
@@ -1008,7 +1008,7 @@ class ProgressRing extends StatelessWidget {
           child: CircularProgressIndicator(
             value: progress.clamp(0, 1),
             strokeWidth: strokeWidth,
-            backgroundColor: color.withOpacity(0.15),
+            backgroundColor: color.withValues(alpha: 0.15),
             valueColor: AlwaysStoppedAnimation(color),
           ),
         ),
@@ -1145,9 +1145,9 @@ class CategoryTile extends StatelessWidget {
       child: Container(
         width: 88, height: 88,
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
         ),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(emoji, style: const TextStyle(fontSize: 28)),
@@ -1223,7 +1223,7 @@ class _PulseWidgetState extends State<PulseWidget> with SingleTickerProviderStat
       builder: (context, child) {
         return Container(
           decoration: BoxDecoration(
-            boxShadow: [BoxShadow(color: widget.glowColor.withOpacity(0.15 + _ctrl.value * 0.25), blurRadius: 16 + _ctrl.value * 12, spreadRadius: _ctrl.value * 4)],
+            boxShadow: [BoxShadow(color: widget.glowColor.withValues(alpha: 0.15 + _ctrl.value * 0.25), blurRadius: 16 + _ctrl.value * 12, spreadRadius: _ctrl.value * 4)],
           ),
           child: child,
         );
@@ -1260,9 +1260,9 @@ class DailyMissionCard extends StatelessWidget {
         width: 120,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1276,7 +1276,7 @@ class DailyMissionCard extends StatelessWidget {
               width: 8, height: 8,
               margin: const EdgeInsets.only(right: 4),
               decoration: BoxDecoration(
-                color: i < completedLessons ? color : color.withOpacity(0.2),
+                color: i < completedLessons ? color : color.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
             ))),

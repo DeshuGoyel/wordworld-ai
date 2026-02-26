@@ -77,7 +77,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [AppColors.primary.withOpacity(0.08), AppColors.primaryLight.withOpacity(0.04)],
+                  colors: [AppColors.primary.withValues(alpha: 0.08), AppColors.primaryLight.withValues(alpha: 0.04)],
                 ),
               ),
             ),
@@ -87,7 +87,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [AppColors.primary.withOpacity(0.12), AppColors.accent4.withOpacity(0.06)],
+                  colors: [AppColors.primary.withValues(alpha: 0.12), AppColors.accent4.withValues(alpha: 0.06)],
                 ),
               ),
             ),
@@ -116,9 +116,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Text(emoji, style: const TextStyle(fontSize: 14)),
@@ -135,7 +135,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(36)),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 30, offset: const Offset(0, -10))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 30, offset: const Offset(0, -10))],
       ),
       child: Column(
         children: [
@@ -199,7 +199,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
       decoration: BoxDecoration(
         color: AppColors.bgLight,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.primary.withOpacity(0.1)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Text(emoji, style: const TextStyle(fontSize: 18)),

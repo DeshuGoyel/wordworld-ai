@@ -29,7 +29,7 @@ class SubjectWorldScreen extends StatelessWidget {
                     onTap: () => context.pop(),
                     child: Container(
                       width: 44, height: 44,
-                      decoration: BoxDecoration(color: config.color.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                      decoration: BoxDecoration(color: config.color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                       child: Icon(Icons.arrow_back_rounded, color: config.color),
                     ),
                   ),

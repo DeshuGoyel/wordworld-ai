@@ -93,14 +93,14 @@ class _WriteTabState extends ConsumerState<WriteTab> {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [AppColors.writeTab.withOpacity(0.12), AppColors.writeTab.withOpacity(0.04)]),
+            gradient: LinearGradient(colors: [AppColors.writeTab.withValues(alpha: 0.12), AppColors.writeTab.withValues(alpha: 0.04)]),
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: AppColors.writeTab.withOpacity(0.2)),
+            border: Border.all(color: AppColors.writeTab.withValues(alpha: 0.2)),
           ),
           child: Row(children: [
             Container(
               width: 48, height: 48,
-              decoration: BoxDecoration(color: AppColors.writeTab.withOpacity(0.15), borderRadius: BorderRadius.circular(14)),
+              decoration: BoxDecoration(color: AppColors.writeTab.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(14)),
               child: Center(child: Text(widget.word.emoji, style: const TextStyle(fontSize: 28))),
             ),
             const SizedBox(width: 10),
@@ -115,7 +115,7 @@ class _WriteTabState extends ConsumerState<WriteTab> {
               onTap: () => ref.read(ttsServiceProvider).speakEnglish(_isWordPhase ? 'Trace the word ${widget.word.word}' : 'Trace the letter $_currentChar'),
               child: Container(
                 width: 40, height: 40,
-                decoration: BoxDecoration(color: AppColors.writeTab.withOpacity(0.15), shape: BoxShape.circle),
+                decoration: BoxDecoration(color: AppColors.writeTab.withValues(alpha: 0.15), shape: BoxShape.circle),
                 child: const Icon(Icons.volume_up_rounded, color: AppColors.writeTab, size: 22),
               ),
             ),
@@ -140,7 +140,7 @@ class _WriteTabState extends ConsumerState<WriteTab> {
           width: double.infinity, height: 280,
           decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppColors.writeTab.withOpacity(0.3), width: 2),
+            border: Border.all(color: AppColors.writeTab.withValues(alpha: 0.3), width: 2),
             boxShadow: AppShadows.card,
           ),
           child: ClipRRect(
@@ -149,7 +149,7 @@ class _WriteTabState extends ConsumerState<WriteTab> {
               if (_showDots) Center(
                 child: Text(_currentChar,
                   style: GoogleFonts.nunito(fontSize: _isWordPhase ? 60 : 160, fontWeight: FontWeight.w800,
-                    color: AppColors.writeTab.withOpacity(0.12))),
+                    color: AppColors.writeTab.withValues(alpha: 0.12))),
               ),
               GestureDetector(
                 onPanStart: (d) => setState(() => _points.add(d.localPosition)),

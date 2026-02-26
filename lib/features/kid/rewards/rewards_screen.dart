@@ -42,7 +42,7 @@ class RewardsScreen extends ConsumerWidget {
                     onTap: () => context.pop(),
                     child: Container(
                       width: 44, height: 44,
-                      decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                      decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                       child: const Icon(Icons.arrow_back_rounded, color: AppColors.primary),
                     ),
                   ),
@@ -68,9 +68,9 @@ class RewardsScreen extends ConsumerWidget {
                     Container(
                       width: 80, height: 80,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 3),
                       ),
                       child: Center(child: Text(_rewardEmojiForAvatarId(child?.avatarId), style: const TextStyle(fontSize: 40))),
                     ),
@@ -102,7 +102,7 @@ class RewardsScreen extends ConsumerWidget {
                       child: LinearProgressIndicator(
                         value: xp.progressToNext,
                         minHeight: 10,
-                        backgroundColor: Colors.white.withOpacity(0.2),
+                        backgroundColor: Colors.white.withValues(alpha: 0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
                       ),
                     ),
@@ -136,7 +136,7 @@ class RewardsScreen extends ConsumerWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: AppColors.streakOrange.withOpacity(0.1),
+                            color: AppColors.streakOrange.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -158,7 +158,7 @@ class RewardsScreen extends ConsumerWidget {
                             Container(
                               width: 36, height: 36,
                               decoration: BoxDecoration(
-                                color: isActive ? AppColors.streakOrange : (isToday ? AppColors.streakOrange.withOpacity(0.2) : AppColors.bgLight),
+                                color: isActive ? AppColors.streakOrange : (isToday ? AppColors.streakOrange.withValues(alpha: 0.2) : AppColors.bgLight),
                                 shape: BoxShape.circle,
                                 border: isToday ? Border.all(color: AppColors.streakOrange, width: 2) : null,
                               ),
@@ -238,7 +238,7 @@ class RewardsScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -272,7 +272,7 @@ class RewardsScreen extends ConsumerWidget {
             const SizedBox(width: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
               child: Text('${(e.value * 100).toInt()}%', style: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w800, color: color)),
             ),
           ],
@@ -285,10 +285,10 @@ class RewardsScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: unlocked ? AppColors.starActive.withOpacity(0.08) : AppColors.bgLight,
+        color: unlocked ? AppColors.starActive.withValues(alpha: 0.08) : AppColors.bgLight,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: unlocked ? AppColors.starActive.withOpacity(0.3) : AppColors.textLight.withOpacity(0.15),
+          color: unlocked ? AppColors.starActive.withValues(alpha: 0.3) : AppColors.textLight.withValues(alpha: 0.15),
           width: 1.5,
         ),
       ),

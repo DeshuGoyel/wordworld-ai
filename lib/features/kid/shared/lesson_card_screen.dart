@@ -102,7 +102,7 @@ class _LessonCardScreenState extends ConsumerState<LessonCardScreen> {
           // Header
           Row(children: [
             GestureDetector(onTap: () => context.pop(),
-              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.primary))),
             const SizedBox(width: 12),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -115,7 +115,7 @@ class _LessonCardScreenState extends ConsumerState<LessonCardScreen> {
           // Progress
           ClipRRect(borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(value: (_currentCard + 1) / _cards.length, minHeight: 8,
-              backgroundColor: AppColors.primary.withOpacity(0.1), valueColor: const AlwaysStoppedAnimation(AppColors.primary))),
+              backgroundColor: AppColors.primary.withValues(alpha: 0.1), valueColor: const AlwaysStoppedAnimation(AppColors.primary))),
           const SizedBox(height: 20),
 
           // Card
@@ -132,7 +132,7 @@ class _LessonCardScreenState extends ConsumerState<LessonCardScreen> {
                 padding: const EdgeInsets.all(28),
                 decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(28),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 20, offset: const Offset(0, 8))]),
+                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 20, offset: const Offset(0, 8))]),
                 child: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text((card['emoji'] ?? '') as String, style: const TextStyle(fontSize: 40)),
                   const SizedBox(height: 12),
@@ -155,8 +155,8 @@ class _LessonCardScreenState extends ConsumerState<LessonCardScreen> {
                           },
                           child: Container(width: double.infinity,
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                            decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(14), border: Border.all(color: AppColors.primary.withOpacity(0.2))),
+                            decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(14), border: Border.all(color: AppColors.primary.withValues(alpha: 0.2))),
                             child: Text(opt, style: GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.textDark)))))),
                   ],
                 ])),

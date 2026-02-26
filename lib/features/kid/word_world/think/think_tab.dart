@@ -116,7 +116,7 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
               const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: AppColors.thinkTab.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(color: AppColors.thinkTab.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
                 child: Text('Level ${(_score ~/ 3) + 1} ⭐', style: GoogleFonts.nunito(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.thinkTab)),
               ),
               const Spacer(),
@@ -127,17 +127,17 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.thinkTab.withOpacity(0.12), AppColors.thinkTab.withOpacity(0.04)],
+                  colors: [AppColors.thinkTab.withValues(alpha: 0.12), AppColors.thinkTab.withValues(alpha: 0.04)],
                   begin: Alignment.topLeft, end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.thinkTab.withOpacity(0.2)),
+                border: Border.all(color: AppColors.thinkTab.withValues(alpha: 0.2)),
               ),
               child: Row(children: [
                 Container(
                   width: 56, height: 56,
                   decoration: BoxDecoration(
-                    color: AppColors.thinkTab.withOpacity(0.15),
+                    color: AppColors.thinkTab.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Center(child: Text(widget.word.emoji, style: const TextStyle(fontSize: 32))),
@@ -154,7 +154,7 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
                   onTap: () => ref.read(ttsServiceProvider).speakEnglish(_game.instruction),
                   child: Container(
                     width: 40, height: 40,
-                    decoration: BoxDecoration(color: AppColors.thinkTab.withOpacity(0.15), shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: AppColors.thinkTab.withValues(alpha: 0.15), shape: BoxShape.circle),
                     child: const Icon(Icons.volume_up_rounded, color: AppColors.thinkTab, size: 22),
                   ),
                 ),
@@ -211,9 +211,9 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
                         duration: const Duration(milliseconds: 200),
                         decoration: BoxDecoration(
                           gradient: isRight
-                              ? LinearGradient(colors: [AppColors.success.withOpacity(0.2), AppColors.success.withOpacity(0.05)])
+                              ? LinearGradient(colors: [AppColors.success.withValues(alpha: 0.2), AppColors.success.withValues(alpha: 0.05)])
                               : isWrong
-                                  ? LinearGradient(colors: [AppColors.error.withOpacity(0.2), AppColors.error.withOpacity(0.05)])
+                                  ? LinearGradient(colors: [AppColors.error.withValues(alpha: 0.2), AppColors.error.withValues(alpha: 0.05)])
                                   : null,
                           color: isRight || isWrong ? null : Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -222,8 +222,8 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
                                 : isSelected ? AppColors.thinkTab : Colors.grey.shade200,
                             width: isSelected ? 3 : 2,
                           ),
-                          boxShadow: [BoxShadow(color: isRight ? AppColors.success.withOpacity(0.2)
-                              : isWrong ? AppColors.error.withOpacity(0.2) : Colors.grey.withOpacity(0.08),
+                          boxShadow: [BoxShadow(color: isRight ? AppColors.success.withValues(alpha: 0.2)
+                              : isWrong ? AppColors.error.withValues(alpha: 0.2) : Colors.grey.withValues(alpha: 0.08),
                               blurRadius: 12, offset: const Offset(0, 4))],
                         ),
                         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -253,11 +253,11 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: _isCorrect!
-                        ? [AppColors.success.withOpacity(0.15), AppColors.success.withOpacity(0.05)]
-                        : [AppColors.error.withOpacity(0.15), AppColors.error.withOpacity(0.05)],
+                        ? [AppColors.success.withValues(alpha: 0.15), AppColors.success.withValues(alpha: 0.05)]
+                        : [AppColors.error.withValues(alpha: 0.15), AppColors.error.withValues(alpha: 0.05)],
                   ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: (_isCorrect! ? AppColors.success : AppColors.error).withOpacity(0.3)),
+                  border: Border.all(color: (_isCorrect! ? AppColors.success : AppColors.error).withValues(alpha: 0.3)),
                 ),
                 child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(_isCorrect! ? '🎉' : '💪', style: const TextStyle(fontSize: 24)),

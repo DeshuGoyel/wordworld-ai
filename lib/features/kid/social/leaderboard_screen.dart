@@ -38,7 +38,7 @@ class LeaderboardScreen extends ConsumerWidget {
           // Header
           Row(children: [
             GestureDetector(onTap: () => context.pop(),
-              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.starActive.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.starActive.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.starActive))),
             const SizedBox(width: 12),
             Text('🏆 Leaderboard', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -67,7 +67,7 @@ class LeaderboardScreen extends ConsumerWidget {
           // Stats bar
           Container(padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.primary, AppColors.primary.withOpacity(0.7)]),
+              gradient: LinearGradient(colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)]),
               borderRadius: BorderRadius.circular(16)),
             child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               _StatCol('Your Rank', '#${players.indexWhere((p) => p['name'] == 'You') + 1}', Icons.emoji_events_rounded),
@@ -84,14 +84,14 @@ class LeaderboardScreen extends ConsumerWidget {
               margin: const EdgeInsets.only(bottom: 8),
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: isYou ? AppColors.primary.withOpacity(0.08) : Colors.white,
+                color: isYou ? AppColors.primary.withValues(alpha: 0.08) : Colors.white,
                 borderRadius: BorderRadius.circular(16),
                 border: isYou ? Border.all(color: AppColors.primary, width: 2) : null,
                 boxShadow: AppShadows.card),
               child: Row(children: [
                 Container(width: 32, height: 32,
                   decoration: BoxDecoration(
-                    color: i < 3 ? [const Color(0xFFFFD700), const Color(0xFFC0C0C0), const Color(0xFFCD7F32)][i].withOpacity(0.2) : AppColors.textLight.withOpacity(0.1),
+                    color: i < 3 ? [const Color(0xFFFFD700), const Color(0xFFC0C0C0), const Color(0xFFCD7F32)][i].withValues(alpha: 0.2) : AppColors.textLight.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8)),
                   child: Center(child: Text('${i + 1}', style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w800,
                     color: i < 3 ? [const Color(0xFFFFD700), const Color(0xFFC0C0C0), const Color(0xFFCD7F32)][i] : AppColors.textMedium)))),
@@ -124,7 +124,7 @@ class _PodiumCard extends StatelessWidget {
       const SizedBox(height: 4),
       Container(height: height, width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [color, color.withOpacity(0.6)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+          gradient: LinearGradient(colors: [color, color.withValues(alpha: 0.6)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(12))),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(rank == 1 ? '👑' : rank == 2 ? '🥈' : '🥉', style: const TextStyle(fontSize: 24)),

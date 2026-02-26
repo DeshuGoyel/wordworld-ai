@@ -89,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.5),
+                          color: AppColors.primary.withValues(alpha: 0.5),
                           blurRadius: 40,
                           spreadRadius: 10,
                         ),
@@ -147,12 +147,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                       const SizedBox(height: 12),
                       Text(
                         'Every letter is a world! ✨',
-                        style: GoogleFonts.nunito(fontSize: 17, color: Colors.white.withOpacity(0.8)),
+                        style: GoogleFonts.nunito(fontSize: 17, color: Colors.white.withValues(alpha: 0.8)),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'हर अक्षर एक दुनिया है!',
-                        style: GoogleFonts.nunito(fontSize: 15, color: Colors.white.withOpacity(0.5)),
+                        style: GoogleFonts.nunito(fontSize: 15, color: Colors.white.withValues(alpha: 0.5)),
                       ),
                     ],
                   ),
@@ -167,7 +167,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                     height: 36,
                     child: CircularProgressIndicator(
                       strokeWidth: 3,
-                      valueColor: AlwaysStoppedAnimation(Colors.white.withOpacity(0.6)),
+                      valueColor: AlwaysStoppedAnimation(Colors.white.withValues(alpha: 0.6)),
                     ),
                   ),
                 ),
@@ -185,7 +185,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
               child: Text(
                 'Powered by AI ✨',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(fontSize: 13, color: Colors.white.withOpacity(0.4)),
+                style: GoogleFonts.nunito(fontSize: 13, color: Colors.white.withValues(alpha: 0.4)),
               ),
             ),
           ),
@@ -215,21 +215,21 @@ class _NeuralDotsPainter extends CustomPainter {
 
     // Draw connections between nearby dots
     final linePaint = Paint()
-      ..color = AppColors.primaryLight.withOpacity(0.08)
+      ..color = AppColors.primaryLight.withValues(alpha: 0.08)
       ..strokeWidth = 1;
 
     for (int i = 0; i < dots.length; i++) {
       for (int j = i + 1; j < dots.length; j++) {
         final dist = (dots[i] - dots[j]).distance;
         if (dist < 120) {
-          linePaint.color = AppColors.primaryLight.withOpacity(0.06 * (1 - dist / 120));
+          linePaint.color = AppColors.primaryLight.withValues(alpha: 0.06 * (1 - dist / 120));
           canvas.drawLine(dots[i], dots[j], linePaint);
         }
       }
     }
 
     // Draw dots
-    final dotPaint = Paint()..color = AppColors.primaryLight.withOpacity(0.2);
+    final dotPaint = Paint()..color = AppColors.primaryLight.withValues(alpha: 0.2);
     for (final dot in dots) {
       final radius = 2 + random.nextDouble() * 2;
       canvas.drawCircle(dot, radius, dotPaint);

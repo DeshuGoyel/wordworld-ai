@@ -103,12 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Divider
               Row(children: [
-                Expanded(child: Container(height: 1, color: AppColors.textLight.withOpacity(0.3))),
+                Expanded(child: Container(height: 1, color: AppColors.textLight.withValues(alpha: 0.3))),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text('or', style: GoogleFonts.nunito(fontSize: 14, color: AppColors.textLight)),
                 ),
-                Expanded(child: Container(height: 1, color: AppColors.textLight.withOpacity(0.3))),
+                Expanded(child: Container(height: 1, color: AppColors.textLight.withValues(alpha: 0.3))),
               ]),
               const SizedBox(height: 24),
 
@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: BoxDecoration(
         color: AppColors.bgLight,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.textLight.withOpacity(0.2)),
+        border: Border.all(color: AppColors.textLight.withValues(alpha: 0.2)),
       ),
       child: TextField(
         controller: controller,
@@ -186,8 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.textLight.withOpacity(0.3), width: 1.5),
-          boxShadow: AppShadows.button3D(AppColors.textLight.withOpacity(0.15)),
+          border: Border.all(color: AppColors.textLight.withValues(alpha: 0.3), width: 1.5),
+          boxShadow: AppShadows.button3D(AppColors.textLight.withValues(alpha: 0.15)),
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(emoji, style: const TextStyle(fontSize: 20)),

@@ -65,7 +65,7 @@ class _NounModuleScreenState extends State<NounModuleScreen> {
                     onTap: () => context.pop(),
                     child: Container(
                       width: 40, height: 40,
-                      decoration: BoxDecoration(color: AppColors.noraNoun.withOpacity(0.1), shape: BoxShape.circle),
+                      decoration: BoxDecoration(color: AppColors.noraNoun.withValues(alpha: 0.1), shape: BoxShape.circle),
                       child: const Icon(Icons.close_rounded, color: AppColors.noraNoun),
                     ),
                   ),
@@ -109,9 +109,9 @@ class _NounModuleScreenState extends State<NounModuleScreen> {
             children: lesson.examples.map((e) => Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: AppColors.noraNoun.withOpacity(0.1),
+                color: AppColors.noraNoun.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.noraNoun.withOpacity(0.3)),
+                border: Border.all(color: AppColors.noraNoun.withValues(alpha: 0.3)),
               ),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
                 Text(e.$1, style: const TextStyle(fontSize: 20)),

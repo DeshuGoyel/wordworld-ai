@@ -73,7 +73,7 @@ class _WordWorldScreenState extends ConsumerState<WordWorldScreen> with SingleTi
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [letterColor.withOpacity(0.08), AppColors.bgLight],
+                colors: [letterColor.withValues(alpha: 0.08), AppColors.bgLight],
                 begin: Alignment.topCenter, end: Alignment.bottomCenter,
               ),
             ),
@@ -89,9 +89,9 @@ class _WordWorldScreenState extends ConsumerState<WordWorldScreen> with SingleTi
                 Container(
                   width: 52, height: 52,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [letterColor.withOpacity(0.15), letterColor.withOpacity(0.05)]),
+                    gradient: LinearGradient(colors: [letterColor.withValues(alpha: 0.15), letterColor.withValues(alpha: 0.05)]),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: letterColor.withOpacity(0.3)),
+                    border: Border.all(color: letterColor.withValues(alpha: 0.3)),
                   ),
                   child: Center(child: Text(_word.emoji, style: const TextStyle(fontSize: 32))),
                 ),
@@ -152,8 +152,8 @@ class _WordWorldScreenState extends ConsumerState<WordWorldScreen> with SingleTi
                     height: isSelected ? 52 : 42,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: isSelected ? LinearGradient(colors: [tab.color, tab.color.withOpacity(0.7)]) : null,
-                      color: isSelected ? null : (tab.completed ? tab.color.withOpacity(0.12) : Colors.grey.shade100),
+                      gradient: isSelected ? LinearGradient(colors: [tab.color, tab.color.withValues(alpha: 0.7)]) : null,
+                      color: isSelected ? null : (tab.completed ? tab.color.withValues(alpha: 0.12) : Colors.grey.shade100),
                       border: Border.all(
                         color: tab.completed ? tab.color : (isSelected ? tab.color : Colors.grey.shade300),
                         width: isSelected ? 3 : (tab.completed ? 2 : 1.5),

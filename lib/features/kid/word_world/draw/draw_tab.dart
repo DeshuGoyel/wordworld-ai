@@ -75,9 +75,9 @@ class _DrawTabState extends ConsumerState<DrawTab> {
         Container(
           margin: const EdgeInsets.all(12), padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [AppColors.drawTab.withOpacity(0.12), AppColors.drawTab.withOpacity(0.04)]),
+            gradient: LinearGradient(colors: [AppColors.drawTab.withValues(alpha: 0.12), AppColors.drawTab.withValues(alpha: 0.04)]),
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: AppColors.drawTab.withOpacity(0.2)),
+            border: Border.all(color: AppColors.drawTab.withValues(alpha: 0.2)),
           ),
           child: Row(children: [
             Container(width: 36, height: 36,
@@ -92,7 +92,7 @@ class _DrawTabState extends ConsumerState<DrawTab> {
               onTap: () => ref.read(ttsServiceProvider).speakEnglish(_step!.instruction),
               child: Container(
                 width: 36, height: 36,
-                decoration: BoxDecoration(color: AppColors.drawTab.withOpacity(0.15), shape: BoxShape.circle),
+                decoration: BoxDecoration(color: AppColors.drawTab.withValues(alpha: 0.15), shape: BoxShape.circle),
                 child: const Icon(Icons.volume_up_rounded, color: AppColors.drawTab, size: 20),
               ),
             ),
@@ -102,7 +102,7 @@ class _DrawTabState extends ConsumerState<DrawTab> {
         Container(
           margin: const EdgeInsets.all(12), padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [AppColors.success.withOpacity(0.12), AppColors.success.withOpacity(0.04)]),
+            gradient: LinearGradient(colors: [AppColors.success.withValues(alpha: 0.12), AppColors.success.withValues(alpha: 0.04)]),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(children: [
@@ -127,7 +127,7 @@ class _DrawTabState extends ConsumerState<DrawTab> {
         child: Container(
           margin: const EdgeInsets.all(12),
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppColors.drawTab.withOpacity(0.3), width: 2),
+            border: Border.all(color: AppColors.drawTab.withValues(alpha: 0.3), width: 2),
             boxShadow: AppShadows.card),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(22),

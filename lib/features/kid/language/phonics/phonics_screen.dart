@@ -110,7 +110,7 @@ class _PhonicsScreenState extends ConsumerState<PhonicsScreen> {
             // Top bar
             Row(children: [
               GestureDetector(onTap: () => context.pop(),
-                child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.arrow_back_rounded, color: AppColors.primary))),
               const SizedBox(width: 12),
               Text('🔊 Phonics', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -130,7 +130,7 @@ class _PhonicsScreenState extends ConsumerState<PhonicsScreen> {
                   decoration: BoxDecoration(
                     color: _currentLevel == i ? AppColors.primary : Colors.white,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: _currentLevel == i ? AppColors.primary : AppColors.textLight.withOpacity(0.3)),
+                    border: Border.all(color: _currentLevel == i ? AppColors.primary : AppColors.textLight.withValues(alpha: 0.3)),
                   ),
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     Text(_levelEmojis[i], style: const TextStyle(fontSize: 18)),
@@ -146,7 +146,7 @@ class _PhonicsScreenState extends ConsumerState<PhonicsScreen> {
             // Progress
             ClipRRect(borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(value: progress, minHeight: 8,
-                backgroundColor: AppColors.primary.withOpacity(0.1), valueColor: const AlwaysStoppedAnimation(AppColors.primary))),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1), valueColor: const AlwaysStoppedAnimation(AppColors.primary))),
             const SizedBox(height: 4),
             Align(alignment: Alignment.centerRight,
               child: Text('${_currentQ + 1}/${_questions.length}', style: GoogleFonts.nunito(fontSize: 12, color: AppColors.textMedium))),
@@ -173,10 +173,10 @@ class _PhonicsScreenState extends ConsumerState<PhonicsScreen> {
                 final isThis = _selected == opt;
                 final isAns = opt == q['ans'];
                 Color bg = Colors.white;
-                Color border = AppColors.textLight.withOpacity(0.2);
+                Color border = AppColors.textLight.withValues(alpha: 0.2);
                 if (_answered) {
-                  if (isAns) { bg = AppColors.success.withOpacity(0.1); border = AppColors.success; }
-                  else if (isThis) { bg = AppColors.error.withOpacity(0.1); border = AppColors.error; }
+                  if (isAns) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
+                  else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; }
                 }
                 return Padding(padding: const EdgeInsets.only(bottom: 10),
                   child: GestureDetector(onTap: () => _answer(opt),

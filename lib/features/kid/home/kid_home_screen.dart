@@ -323,15 +323,15 @@ class KidHomeScreen extends ConsumerWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               gradient: isActive
-                                  ? LinearGradient(colors: [letterColor.withOpacity(0.15), letterColor.withOpacity(0.05)])
+                                  ? LinearGradient(colors: [letterColor.withValues(alpha: 0.15), letterColor.withValues(alpha: 0.05)])
                                   : null,
                               color: isActive ? null : Colors.grey.shade100,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: isMastered ? AppColors.success : isActive ? letterColor.withOpacity(0.4) : Colors.grey.shade200,
+                                color: isMastered ? AppColors.success : isActive ? letterColor.withValues(alpha: 0.4) : Colors.grey.shade200,
                                 width: isMastered ? 2.5 : 1.5,
                               ),
-                              boxShadow: isActive ? [BoxShadow(color: letterColor.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 3))] : [],
+                              boxShadow: isActive ? [BoxShadow(color: letterColor.withValues(alpha: 0.1), blurRadius: 8, offset: const Offset(0, 3))] : [],
                             ),
                             child: Stack(
                               children: [
@@ -472,7 +472,7 @@ class KidHomeScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -492,9 +492,9 @@ class KidHomeScreen extends ConsumerWidget {
         Container(
           width: 50, height: 50,
           decoration: BoxDecoration(
-            color: earned ? AppColors.starActive.withOpacity(0.15) : AppColors.bgLight,
+            color: earned ? AppColors.starActive.withValues(alpha: 0.15) : AppColors.bgLight,
             shape: BoxShape.circle,
-            border: Border.all(color: earned ? AppColors.starActive : AppColors.textLight.withOpacity(0.2), width: 2),
+            border: Border.all(color: earned ? AppColors.starActive : AppColors.textLight.withValues(alpha: 0.2), width: 2),
           ),
           child: Center(child: Text(emoji, style: TextStyle(fontSize: 22, color: earned ? null : Colors.grey))),
         ),
@@ -570,8 +570,8 @@ class _MoreTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: color.withOpacity(0.3), width: 1.5),
-          boxShadow: [BoxShadow(color: color.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, 4))],
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
+          boxShadow: [BoxShadow(color: color.withValues(alpha: 0.08), blurRadius: 10, offset: const Offset(0, 4))],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -579,7 +579,7 @@ class _MoreTile extends StatelessWidget {
             Container(
               width: 42, height: 42,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Center(child: Text(emoji, style: const TextStyle(fontSize: 22))),

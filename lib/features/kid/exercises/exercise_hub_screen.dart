@@ -45,7 +45,7 @@ class ExerciseHubScreen extends ConsumerWidget {
             // Header
             Row(children: [
               GestureDetector(onTap: () => context.pop(),
-                child: Container(width: 40, height: 40, decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                child: Container(width: 40, height: 40, decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: Icon(Icons.arrow_back_rounded, color: color))),
               const SizedBox(width: 12),
               Text('${data['emoji']} ${data['name']} Exercises', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -56,7 +56,7 @@ class ExerciseHubScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [color, color.withOpacity(0.7)]),
+                gradient: LinearGradient(colors: [color, color.withValues(alpha: 0.7)]),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(children: [
@@ -100,12 +100,12 @@ class ExerciseHubScreen extends ConsumerWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: AppShadows.card,
-                      border: Border.all(color: isLocked ? AppColors.lockedGrey : color.withOpacity(0.2)),
+                      border: Border.all(color: isLocked ? AppColors.lockedGrey : color.withValues(alpha: 0.2)),
                     ),
                     child: Row(children: [
                       Container(
                         width: 50, height: 50,
-                        decoration: BoxDecoration(color: isLocked ? Colors.grey.shade200 : color.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                        decoration: BoxDecoration(color: isLocked ? Colors.grey.shade200 : color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                         child: Center(child: Text(isLocked ? '🔒' : _topicEmoji(entry.key), style: const TextStyle(fontSize: 24))),
                       ),
                       const SizedBox(width: 14),
@@ -130,7 +130,7 @@ class ExerciseHubScreen extends ConsumerWidget {
                           child: LinearProgressIndicator(
                             value: exerciseCount > 0 ? solved / exerciseCount : 0,
                             minHeight: 6,
-                            backgroundColor: color.withOpacity(0.1),
+                            backgroundColor: color.withValues(alpha: 0.1),
                             valueColor: AlwaysStoppedAnimation(isLocked ? AppColors.lockedGrey : color),
                           ),
                         ),
@@ -162,7 +162,7 @@ class ExerciseHubScreen extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: i < (subjectProgress.values.isNotEmpty ? subjectProgress.values.first.currentLevel : 1) ? color.withOpacity(0.15) : Colors.grey.shade100,
+                    color: i < (subjectProgress.values.isNotEmpty ? subjectProgress.values.first.currentLevel : 1) ? color.withValues(alpha: 0.15) : Colors.grey.shade100,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: i < (subjectProgress.values.isNotEmpty ? subjectProgress.values.first.currentLevel : 1) ? color : Colors.grey.shade300),
                   ),

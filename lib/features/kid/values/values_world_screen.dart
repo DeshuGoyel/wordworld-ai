@@ -52,7 +52,7 @@ class ValuesWorldScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
-                    decoration: BoxDecoration(color: AppColors.valuesWorld.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                    decoration: BoxDecoration(color: AppColors.valuesWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                     child: const Icon(Icons.arrow_back_rounded, color: AppColors.valuesWorld)),
                 ),
                 const SizedBox(width: 12),
@@ -91,7 +91,7 @@ class ValuesWorldScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.valuesWorld.withOpacity(0.2)),
+                        border: Border.all(color: AppColors.valuesWorld.withValues(alpha: 0.2)),
                         boxShadow: AppShadows.card,
                       ),
                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -124,7 +124,7 @@ class ValuesWorldScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [e.color, e.color.withOpacity(0.7)]),
+          gradient: LinearGradient(colors: [e.color, e.color.withValues(alpha: 0.7)]),
           borderRadius: BorderRadius.circular(20),
           boxShadow: AppShadows.soft(e.color),
         ),
@@ -135,7 +135,7 @@ class ValuesWorldScreen extends StatelessWidget {
             Text(e.name, style: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white)),
             Text(e.hindi, style: GoogleFonts.nunito(fontSize: 12, color: Colors.white70)),
             const SizedBox(height: 4),
-            Text(e.description, style: GoogleFonts.nunito(fontSize: 13, color: Colors.white.withOpacity(0.85))),
+            Text(e.description, style: GoogleFonts.nunito(fontSize: 13, color: Colors.white.withValues(alpha: 0.85))),
           ])),
           const Icon(Icons.chevron_right_rounded, color: Colors.white54, size: 28),
         ]),
@@ -165,9 +165,9 @@ class ValuesWorldScreen extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: e.color.withOpacity(0.08),
+              color: e.color.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: e.color.withOpacity(0.2)),
+              border: Border.all(color: e.color.withValues(alpha: 0.2)),
             ),
             child: Text(e.scenario, textAlign: TextAlign.center,
                 style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w600, height: 1.4)),
@@ -192,9 +192,9 @@ class ValuesWorldScreen extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
-                  color: entry.key == 0 ? e.color.withOpacity(0.1) : AppColors.bgLight,
+                  color: entry.key == 0 ? e.color.withValues(alpha: 0.1) : AppColors.bgLight,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: entry.key == 0 ? e.color.withOpacity(0.3) : AppColors.textLight.withOpacity(0.2), width: 1.5),
+                  border: Border.all(color: entry.key == 0 ? e.color.withValues(alpha: 0.3) : AppColors.textLight.withValues(alpha: 0.2), width: 1.5),
                 ),
                 child: Text(entry.value,
                     style: GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.textDark)),

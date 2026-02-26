@@ -103,14 +103,14 @@ class _ExercisePlayerScreenState extends ConsumerState<ExercisePlayerScreen> {
               GestureDetector(
                 onTap: () => context.pop(),
                 child: Container(width: 40, height: 40,
-                  decoration: BoxDecoration(color: _color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: _color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: Icon(Icons.close_rounded, color: _color)),
               ),
               const SizedBox(width: 12),
               Expanded(child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: LinearProgressIndicator(value: progress, minHeight: 10,
-                  backgroundColor: _color.withOpacity(0.15), valueColor: AlwaysStoppedAnimation(_color)),
+                  backgroundColor: _color.withValues(alpha: 0.15), valueColor: AlwaysStoppedAnimation(_color)),
               )),
               const SizedBox(width: 12),
               Text('${_current + 1}/${_exercises.length}', style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w700, color: _color)),
@@ -121,7 +121,7 @@ class _ExercisePlayerScreenState extends ConsumerState<ExercisePlayerScreen> {
             Row(children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: _color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(color: _color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
                 child: Text('Level ${ex.level}', style: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w700, color: _color)),
               ),
               const Spacer(),
@@ -158,10 +158,10 @@ class _ExercisePlayerScreenState extends ConsumerState<ExercisePlayerScreen> {
                   final isSelected = _selected == opt;
                   final isCorrectOpt = opt == ex.correctAnswer;
                   Color bgColor = Colors.white;
-                  Color borderColor = AppColors.textLight.withOpacity(0.2);
+                  Color borderColor = AppColors.textLight.withValues(alpha: 0.2);
                   if (_answered) {
-                    if (isCorrectOpt) { bgColor = AppColors.success.withOpacity(0.1); borderColor = AppColors.success; }
-                    else if (isSelected) { bgColor = AppColors.error.withOpacity(0.1); borderColor = AppColors.error; }
+                    if (isCorrectOpt) { bgColor = AppColors.success.withValues(alpha: 0.1); borderColor = AppColors.success; }
+                    else if (isSelected) { bgColor = AppColors.error.withValues(alpha: 0.1); borderColor = AppColors.error; }
                   } else if (isSelected) {
                     borderColor = _color;
                   }

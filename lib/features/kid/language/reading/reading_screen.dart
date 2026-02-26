@@ -119,7 +119,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
         child: Column(children: [
           Row(children: [
             GestureDetector(onTap: () => context.pop(),
-              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.primary))),
             const SizedBox(width: 12),
             Expanded(child: Text('📖 Reading ${_passage + 1}/${_passages.length}', style: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w800))),
@@ -128,7 +128,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
           const SizedBox(height: 12),
           ClipRRect(borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(value: (_passage + 1) / _passages.length, minHeight: 8,
-              backgroundColor: AppColors.primary.withOpacity(0.1), valueColor: const AlwaysStoppedAnimation(AppColors.primary))),
+              backgroundColor: AppColors.primary.withValues(alpha: 0.1), valueColor: const AlwaysStoppedAnimation(AppColors.primary))),
           const SizedBox(height: 16),
 
           Expanded(child: SingleChildScrollView(child: Column(children: [
@@ -156,7 +156,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
     if (_q >= _currentQuestions.length) {
       return Column(children: [
         Container(padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(color: AppColors.success.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+          decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(20)),
           child: Column(children: [
             const Text('✅', style: TextStyle(fontSize: 36)),
             Text('Passage Complete!', style: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w800)),
@@ -171,14 +171,14 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
     final q = _currentQuestions[_q];
     return Column(children: [
       Container(width: double.infinity, padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.05), borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(16)),
         child: Text('Q${_q + 1}: ${q['q']}', style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w700))),
       const SizedBox(height: 10),
       ...(q['opts'] as List<String>).map((o) {
         final isSel = _sel == o; final isA = o == q['a'];
-        Color bg = Colors.white, border = AppColors.textLight.withOpacity(0.2);
-        if (_ans) { if (isA) { bg = AppColors.success.withOpacity(0.1); border = AppColors.success; }
-          else if (isSel) { bg = AppColors.error.withOpacity(0.1); border = AppColors.error; } }
+        Color bg = Colors.white, border = AppColors.textLight.withValues(alpha: 0.2);
+        if (_ans) { if (isA) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
+          else if (isSel) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; } }
         return Padding(padding: const EdgeInsets.only(bottom: 8), child: GestureDetector(
           onTap: () { if (_ans) return; HapticFeedback.lightImpact();
             setState(() { _sel = o; _ans = true; if (o == q['a']) { _score++; ref.read(xpServiceProvider).addXP(8); } }); },

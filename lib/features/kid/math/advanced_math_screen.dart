@@ -35,7 +35,7 @@ class _AdvancedMathScreenState extends ConsumerState<AdvancedMathScreen> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             GestureDetector(onTap: () => context.pop(),
-              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.mathWorld.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.mathWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.mathWorld))),
             const SizedBox(width: 12),
             Text('🔢 Advanced Math', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -57,7 +57,7 @@ class _AdvancedMathScreenState extends ConsumerState<AdvancedMathScreen> {
                 child: Container(padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: AppShadows.card),
                   child: Row(children: [
-                    Container(width: 50, height: 50, decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                    Container(width: 50, height: 50, decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                       child: Center(child: Text(m['emoji'] as String, style: const TextStyle(fontSize: 24)))),
                     const SizedBox(width: 14),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -112,7 +112,7 @@ class _MoneyModuleState extends State<_MoneyModule> {
         child: Column(children: [
           Row(children: [
             GestureDetector(onTap: widget.onBack, child: Container(width: 40, height: 40,
-              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
               child: Icon(Icons.arrow_back_rounded, color: color))),
             const SizedBox(width: 12),
             Expanded(child: Text('$title ${_q + 1}/${_qs.length}', style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w800))),
@@ -120,7 +120,7 @@ class _MoneyModuleState extends State<_MoneyModule> {
           ]),
           const SizedBox(height: 12),
           ClipRRect(borderRadius: BorderRadius.circular(8), child: LinearProgressIndicator(value: (_q + 1) / _qs.length, minHeight: 8,
-            backgroundColor: color.withOpacity(0.1), valueColor: AlwaysStoppedAnimation(color))),
+            backgroundColor: color.withValues(alpha: 0.1), valueColor: AlwaysStoppedAnimation(color))),
           const SizedBox(height: 20),
           Container(width: double.infinity, padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: AppShadows.card),
@@ -128,9 +128,9 @@ class _MoneyModuleState extends State<_MoneyModule> {
           const SizedBox(height: 16),
           ...(q['opts'] as List<String>).map((o) {
             final isSel = _sel == o; final isA = o == q['a'];
-            Color bg = Colors.white, border = AppColors.textLight.withOpacity(0.2);
-            if (_ans) { if (isA) { bg = AppColors.success.withOpacity(0.1); border = AppColors.success; }
-              else if (isSel) { bg = AppColors.error.withOpacity(0.1); border = AppColors.error; } }
+            Color bg = Colors.white, border = AppColors.textLight.withValues(alpha: 0.2);
+            if (_ans) { if (isA) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
+              else if (isSel) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; } }
             return Padding(padding: const EdgeInsets.only(bottom: 10), child: GestureDetector(
               onTap: () { if (_ans) return; HapticFeedback.lightImpact();
                 setState(() { _sel = o; _ans = true; if (o == q['a']) { _score++; widget.xpService.addXP(5); } }); },
@@ -185,7 +185,7 @@ class _TimeModuleState extends State<_TimeModule> {
         child: Column(children: [
           Row(children: [
             GestureDetector(onTap: widget.onBack, child: Container(width: 40, height: 40,
-              decoration: BoxDecoration(color: const Color(0xFF0984E3).withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: const Color(0xFF0984E3).withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
               child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF0984E3)))),
             const SizedBox(width: 12),
             Expanded(child: Text('🕐 Time ${_q + 1}/${_qs.length}', style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w800))),
@@ -193,7 +193,7 @@ class _TimeModuleState extends State<_TimeModule> {
           ]),
           const SizedBox(height: 12),
           ClipRRect(borderRadius: BorderRadius.circular(8), child: LinearProgressIndicator(value: (_q + 1) / _qs.length, minHeight: 8,
-            backgroundColor: const Color(0xFF0984E3).withOpacity(0.1), valueColor: const AlwaysStoppedAnimation(Color(0xFF0984E3)))),
+            backgroundColor: const Color(0xFF0984E3).withValues(alpha: 0.1), valueColor: const AlwaysStoppedAnimation(Color(0xFF0984E3)))),
           const SizedBox(height: 20),
           Container(width: double.infinity, padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: AppShadows.card),
@@ -201,9 +201,9 @@ class _TimeModuleState extends State<_TimeModule> {
           const SizedBox(height: 16),
           ...(q['opts'] as List<String>).map((o) {
             final isSel = _sel == o; final isA = o == q['a'];
-            Color bg = Colors.white, border = AppColors.textLight.withOpacity(0.2);
-            if (_ans) { if (isA) { bg = AppColors.success.withOpacity(0.1); border = AppColors.success; }
-              else if (isSel) { bg = AppColors.error.withOpacity(0.1); border = AppColors.error; } }
+            Color bg = Colors.white, border = AppColors.textLight.withValues(alpha: 0.2);
+            if (_ans) { if (isA) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
+              else if (isSel) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; } }
             return Padding(padding: const EdgeInsets.only(bottom: 10), child: GestureDetector(
               onTap: () { if (_ans) return; HapticFeedback.lightImpact();
                 setState(() { _sel = o; _ans = true; if (o == q['a']) { _score++; widget.xpService.addXP(5); } }); },
@@ -256,7 +256,7 @@ class _MeasurementModuleState extends State<_MeasurementModule> {
         child: Column(children: [
           Row(children: [
             GestureDetector(onTap: widget.onBack, child: Container(width: 40, height: 40,
-              decoration: BoxDecoration(color: const Color(0xFFFF9F43).withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: const Color(0xFFFF9F43).withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
               child: const Icon(Icons.arrow_back_rounded, color: Color(0xFFFF9F43)))),
             const SizedBox(width: 12),
             Expanded(child: Text('📏 Measure ${_q + 1}/${_qs.length}', style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w800))),
@@ -264,7 +264,7 @@ class _MeasurementModuleState extends State<_MeasurementModule> {
           ]),
           const SizedBox(height: 12),
           ClipRRect(borderRadius: BorderRadius.circular(8), child: LinearProgressIndicator(value: (_q + 1) / _qs.length, minHeight: 8,
-            backgroundColor: const Color(0xFFFF9F43).withOpacity(0.1), valueColor: const AlwaysStoppedAnimation(Color(0xFFFF9F43)))),
+            backgroundColor: const Color(0xFFFF9F43).withValues(alpha: 0.1), valueColor: const AlwaysStoppedAnimation(Color(0xFFFF9F43)))),
           const SizedBox(height: 20),
           Container(width: double.infinity, padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: AppShadows.card),
@@ -272,9 +272,9 @@ class _MeasurementModuleState extends State<_MeasurementModule> {
           const SizedBox(height: 16),
           ...(q['opts'] as List<String>).map((o) {
             final isSel = _sel == o; final isA = o == q['a'];
-            Color bg = Colors.white, border = AppColors.textLight.withOpacity(0.2);
-            if (_ans) { if (isA) { bg = AppColors.success.withOpacity(0.1); border = AppColors.success; }
-              else if (isSel) { bg = AppColors.error.withOpacity(0.1); border = AppColors.error; } }
+            Color bg = Colors.white, border = AppColors.textLight.withValues(alpha: 0.2);
+            if (_ans) { if (isA) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
+              else if (isSel) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; } }
             return Padding(padding: const EdgeInsets.only(bottom: 10), child: GestureDetector(
               onTap: () { if (_ans) return; HapticFeedback.lightImpact();
                 setState(() { _sel = o; _ans = true; if (o == q['a']) { _score++; widget.xpService.addXP(5); } }); },

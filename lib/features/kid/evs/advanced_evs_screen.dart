@@ -39,7 +39,7 @@ class _AdvancedEVSScreenState extends ConsumerState<AdvancedEVSScreen> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             GestureDetector(onTap: () => context.pop(),
-              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.evsWorld.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.evsWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.evsWorld))),
             const SizedBox(width: 12),
             Text('🌍 Advanced EVS', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -61,7 +61,7 @@ class _AdvancedEVSScreenState extends ConsumerState<AdvancedEVSScreen> {
                 child: Container(padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: AppShadows.card),
                   child: Row(children: [
-                    Container(width: 50, height: 50, decoration: BoxDecoration(color: c.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                    Container(width: 50, height: 50, decoration: BoxDecoration(color: c.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                       child: Center(child: Text(m['emoji'] as String, style: const TextStyle(fontSize: 24)))),
                     const SizedBox(width: 14),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -262,7 +262,7 @@ class _EVSQuizShell extends StatelessWidget {
         child: Column(children: [
           Row(children: [
             GestureDetector(onTap: onBack, child: Container(width: 40, height: 40,
-              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
               child: Icon(Icons.arrow_back_rounded, color: color))),
             const SizedBox(width: 12),
             Expanded(child: Text('$title ${q + 1}/$total', style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w800))),
@@ -271,7 +271,7 @@ class _EVSQuizShell extends StatelessWidget {
           const SizedBox(height: 12),
           ClipRRect(borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(value: (q + 1) / total, minHeight: 8,
-              backgroundColor: color.withOpacity(0.1), valueColor: AlwaysStoppedAnimation(color))),
+              backgroundColor: color.withValues(alpha: 0.1), valueColor: AlwaysStoppedAnimation(color))),
           const SizedBox(height: 20),
           Container(width: double.infinity, padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: AppShadows.card),
@@ -279,9 +279,9 @@ class _EVSQuizShell extends StatelessWidget {
           const SizedBox(height: 16),
           ...options.map((opt) {
             final isThis = selected == opt; final isAns = opt == answer;
-            Color bg = Colors.white, border = AppColors.textLight.withOpacity(0.2);
-            if (answered) { if (isAns) { bg = AppColors.success.withOpacity(0.1); border = AppColors.success; }
-              else if (isThis) { bg = AppColors.error.withOpacity(0.1); border = AppColors.error; } }
+            Color bg = Colors.white, border = AppColors.textLight.withValues(alpha: 0.2);
+            if (answered) { if (isAns) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
+              else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; } }
             return Padding(padding: const EdgeInsets.only(bottom: 10), child: GestureDetector(onTap: () => onSelect(opt),
               child: Container(width: double.infinity, padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                 decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(16), border: Border.all(color: border, width: 2)),

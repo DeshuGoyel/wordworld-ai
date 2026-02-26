@@ -63,21 +63,21 @@ class _TypeCardState extends State<_TypeCard> {
         width: double.infinity,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: widget.color.withOpacity(0.08),
+          color: widget.color.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: widget.color.withOpacity(0.3), width: 2),
-          boxShadow: [BoxShadow(color: widget.color.withOpacity(_pressed ? 0.05 : 0.15), blurRadius: 16, offset: Offset(0, _pressed ? 2 : 6))],
+          border: Border.all(color: widget.color.withValues(alpha: 0.3), width: 2),
+          boxShadow: [BoxShadow(color: widget.color.withValues(alpha: _pressed ? 0.05 : 0.15), blurRadius: 16, offset: Offset(0, _pressed ? 2 : 6))],
         ),
         child: Row(children: [
           Container(
             width: 70, height: 70,
-            decoration: BoxDecoration(color: widget.color.withOpacity(0.15), borderRadius: BorderRadius.circular(20)),
+            decoration: BoxDecoration(color: widget.color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(20)),
             child: Center(child: Text(widget.emoji, style: const TextStyle(fontSize: 36))),
           ),
           const SizedBox(width: 16),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(widget.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: widget.color, fontFamily: 'Nunito')),
-            Text(widget.titleHi, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: widget.color.withOpacity(0.7), fontFamily: 'Nunito')),
+            Text(widget.titleHi, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: widget.color.withValues(alpha: 0.7), fontFamily: 'Nunito')),
             const SizedBox(height: 4),
             Text(widget.subtitle, style: const TextStyle(fontSize: 13, color: AppColors.textMedium, fontFamily: 'Nunito')),
           ])),

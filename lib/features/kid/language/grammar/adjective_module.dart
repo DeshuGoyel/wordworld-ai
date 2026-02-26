@@ -48,7 +48,7 @@ class _AdjectiveModuleScreenState extends State<AdjectiveModuleScreen> {
           GestureDetector(
             onTap: () => context.pop(),
             child: Container(width: 40, height: 40,
-              decoration: BoxDecoration(color: AppColors.adaAdjective.withOpacity(0.1), shape: BoxShape.circle),
+              decoration: BoxDecoration(color: AppColors.adaAdjective.withValues(alpha: 0.1), shape: BoxShape.circle),
               child: const Icon(Icons.close_rounded, color: AppColors.adaAdjective)),
           ),
           const SizedBox(width: 12),
@@ -78,8 +78,8 @@ class _AdjectiveModuleScreenState extends State<AdjectiveModuleScreen> {
       const SizedBox(height: 24),
       Wrap(spacing: 10, runSpacing: 10, children: lesson.examples.map((e) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(color: AppColors.adaAdjective.withOpacity(0.1), borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.adaAdjective.withOpacity(0.3))),
+        decoration: BoxDecoration(color: AppColors.adaAdjective.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.adaAdjective.withValues(alpha: 0.3))),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Text(e.$1, style: const TextStyle(fontSize: 20)), const SizedBox(width: 6),
           Text(e.$2, style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.adaAdjective)),

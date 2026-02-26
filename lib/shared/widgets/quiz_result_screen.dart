@@ -132,7 +132,7 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                         borderRadius: BorderRadius.circular(28),
                         boxShadow: AppShadows.card,
                         border: Border.all(
-                            color: widget.color.withOpacity(0.3), width: 2),
+                            color: widget.color.withValues(alpha: 0.3), width: 2),
                       ),
                       child: Column(
                         children: [

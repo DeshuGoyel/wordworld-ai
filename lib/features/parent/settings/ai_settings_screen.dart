@@ -54,7 +54,7 @@ class _AISettingsScreenState extends ConsumerState<AISettingsScreen> {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.primary.withOpacity(0.1), AppColors.secondary.withOpacity(0.1)],
+                colors: [AppColors.primary.withValues(alpha: 0.1), AppColors.secondary.withValues(alpha: 0.1)],
               ),
               borderRadius: BorderRadius.circular(16),
             ),
@@ -168,7 +168,7 @@ class _AISettingsScreenState extends ConsumerState<AISettingsScreen> {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.08) : Colors.white,
+          color: isSelected ? color.withValues(alpha: 0.08) : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected ? color : Colors.grey.shade200,

@@ -39,7 +39,7 @@ class _FillBlankScreenState extends State<FillBlankScreen> {
                 GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(width: 40, height: 40,
-                    decoration: BoxDecoration(color: AppColors.languageWorld.withOpacity(0.1), shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: AppColors.languageWorld.withValues(alpha: 0.1), shape: BoxShape.circle),
                     child: const Icon(Icons.close_rounded, color: AppColors.languageWorld)),
                 ),
                 const SizedBox(width: 12),

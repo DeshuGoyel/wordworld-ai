@@ -34,7 +34,7 @@ class PrintCenterScreen extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.3), width: 2)),
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 2)),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: color, fontFamily: 'Nunito')),
           const SizedBox(height: 8),

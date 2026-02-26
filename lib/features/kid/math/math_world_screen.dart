@@ -43,7 +43,7 @@ class MathWorldScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
-                    decoration: BoxDecoration(color: AppColors.mathWorld.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                    decoration: BoxDecoration(color: AppColors.mathWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                     child: const Icon(Icons.arrow_back_rounded, color: AppColors.mathWorld)),
                 ),
                 const SizedBox(width: 12),
@@ -80,7 +80,7 @@ class MathWorldScreen extends StatelessWidget {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [n.color, n.color.withOpacity(0.7)]),
+                              gradient: LinearGradient(colors: [n.color, n.color.withValues(alpha: 0.7)]),
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: AppShadows.soft(n.color),
                             ),
@@ -112,13 +112,13 @@ class MathWorldScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: game.color.withOpacity(0.2), width: 2),
+                            border: Border.all(color: game.color.withValues(alpha: 0.2), width: 2),
                             boxShadow: AppShadows.card,
                           ),
                           child: Row(children: [
                             Container(
                               width: 48, height: 48,
-                              decoration: BoxDecoration(color: game.color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                              decoration: BoxDecoration(color: game.color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                               child: Center(child: Text(game.emoji, style: const TextStyle(fontSize: 24))),
                             ),
                             const SizedBox(width: 14),
@@ -150,11 +150,11 @@ class MathWorldScreen extends StatelessWidget {
       builder: (_) => Container(
         padding: const EdgeInsets.all(28),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [n.color, n.color.withOpacity(0.8)]),
+          gradient: LinearGradient(colors: [n.color, n.color.withValues(alpha: 0.8)]),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), borderRadius: BorderRadius.circular(2))),
+          Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.3), borderRadius: BorderRadius.circular(2))),
           const SizedBox(height: 24),
           Text('${n.num}', style: GoogleFonts.nunito(fontSize: 80, fontWeight: FontWeight.w900, color: Colors.white)),
           const SizedBox(height: 8),

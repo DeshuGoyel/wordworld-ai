@@ -65,7 +65,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
             // Header
             Row(children: [
               GestureDetector(onTap: () => context.pop(),
-                child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.accent2.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.accent2.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.arrow_back_rounded, color: AppColors.accent2))),
               const SizedBox(width: 12),
               Text('📖 Sight Words', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -82,7 +82,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
                   decoration: BoxDecoration(
                     color: _level == i ? AppColors.accent2 : Colors.white,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: _level == i ? AppColors.accent2 : AppColors.textLight.withOpacity(0.3))),
+                    border: Border.all(color: _level == i ? AppColors.accent2 : AppColors.textLight.withValues(alpha: 0.3))),
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     Text(_levelEmojis[i], style: const TextStyle(fontSize: 16)),
                     Text(_levelNames[i], style: GoogleFonts.nunito(fontSize: 9, fontWeight: FontWeight.w700,
@@ -134,7 +134,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.accent2, AppColors.accent2.withOpacity(0.7)]),
+              gradient: LinearGradient(colors: [AppColors.accent2, AppColors.accent2.withValues(alpha: 0.7)]),
               borderRadius: BorderRadius.circular(32),
               boxShadow: AppShadows.card),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -159,7 +159,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
             decoration: BoxDecoration(
               color: _currentCard == i ? AppColors.accent2 : Colors.white,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: _currentCard == i ? AppColors.accent2 : AppColors.textLight.withOpacity(0.2))),
+              border: Border.all(color: _currentCard == i ? AppColors.accent2 : AppColors.textLight.withValues(alpha: 0.2))),
             child: Center(child: Text(words[i], style: GoogleFonts.nunito(fontSize: 11, fontWeight: FontWeight.w700,
               color: _currentCard == i ? Colors.white : AppColors.textDark))),
           ),
@@ -186,7 +186,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
     return Column(children: [
       ClipRRect(borderRadius: BorderRadius.circular(8),
         child: LinearProgressIndicator(value: (_quizQ + 1) / qs.length, minHeight: 8,
-          backgroundColor: AppColors.accent2.withOpacity(0.1), valueColor: const AlwaysStoppedAnimation(AppColors.accent2))),
+          backgroundColor: AppColors.accent2.withValues(alpha: 0.1), valueColor: const AlwaysStoppedAnimation(AppColors.accent2))),
       const SizedBox(height: 16),
       Container(
         width: double.infinity, padding: const EdgeInsets.all(24),
@@ -197,10 +197,10 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
         final isThis = _selected == opt;
         final isAns = opt == q['ans'];
         Color bg = Colors.white;
-        Color border = AppColors.textLight.withOpacity(0.2);
+        Color border = AppColors.textLight.withValues(alpha: 0.2);
         if (_answered) {
-          if (isAns) { bg = AppColors.success.withOpacity(0.1); border = AppColors.success; }
-          else if (isThis) { bg = AppColors.error.withOpacity(0.1); border = AppColors.error; }
+          if (isAns) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
+          else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; }
         }
         return Padding(padding: const EdgeInsets.only(bottom: 10),
           child: GestureDetector(onTap: () {

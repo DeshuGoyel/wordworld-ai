@@ -24,7 +24,7 @@ class TeacherDashboardScreen extends ConsumerWidget {
           Container(
             width: double.infinity, padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.accent2, AppColors.accent2.withOpacity(0.7)]),
+              gradient: LinearGradient(colors: [AppColors.accent2, AppColors.accent2.withValues(alpha: 0.7)]),
               borderRadius: BorderRadius.circular(20)),
             child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Welcome, Teacher! 👩‍🏫', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Colors.white, fontFamily: 'Nunito')),
@@ -54,7 +54,7 @@ class TeacherDashboardScreen extends ConsumerWidget {
           const SizedBox(height: 12),
           DuoCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
-              Container(width: 48, height: 48, decoration: BoxDecoration(color: AppColors.accent2.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              Container(width: 48, height: 48, decoration: BoxDecoration(color: AppColors.accent2.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Center(child: Text('A', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: AppColors.accent2)))),
               const SizedBox(width: 12),
               const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -74,9 +74,9 @@ class TeacherDashboardScreen extends ConsumerWidget {
             final color = AppColors.letterColors[l] ?? AppColors.primary;
             return Container(
               margin: const EdgeInsets.only(bottom: 8), padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: color.withOpacity(0.2))),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: color.withValues(alpha: 0.2))),
               child: Row(children: [
-                Container(width: 36, height: 36, decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+                Container(width: 36, height: 36, decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                   child: Center(child: Text(l, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: color)))),
                 const SizedBox(width: 12),
                 Text('Letter $l', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
@@ -84,7 +84,7 @@ class TeacherDashboardScreen extends ConsumerWidget {
                 const Spacer(),
                 GestureDetector(onTap: () => context.push('/letter/$l'),
                   child: Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                     child: Text('View', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: color)))),
               ]),
             );
@@ -99,8 +99,8 @@ class TeacherDashboardScreen extends ConsumerWidget {
     return GestureDetector(onTap: onTap, child: Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2), width: 2),
-        boxShadow: [BoxShadow(color: color.withOpacity(0.08), blurRadius: 8, offset: const Offset(0, 4))]),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 2),
+        boxShadow: [BoxShadow(color: color.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 4))]),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(emoji, style: const TextStyle(fontSize: 28)),
         const SizedBox(height: 8),

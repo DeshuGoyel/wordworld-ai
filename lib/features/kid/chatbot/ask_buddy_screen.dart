@@ -213,7 +213,7 @@ class _AskBuddyScreenState extends ConsumerState<AskBuddyScreen>
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: AppColors.primary.withOpacity(0.3)),
+            side: BorderSide(color: AppColors.primary.withValues(alpha: 0.3)),
           ),
           onPressed: () => _sendMessage(s),
         )).toList(),
@@ -250,7 +250,7 @@ class _AskBuddyScreenState extends ConsumerState<AskBuddyScreen>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),
@@ -270,7 +270,7 @@ class _AskBuddyScreenState extends ConsumerState<AskBuddyScreen>
             Container(
               width: 32, height: 32, margin: const EdgeInsets.only(left: 8),
               decoration: BoxDecoration(
-                color: AppColors.secondary.withOpacity(0.2),
+                color: AppColors.secondary.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: const Center(child: Text('👦', style: TextStyle(fontSize: 16))),
@@ -308,7 +308,7 @@ class _AskBuddyScreenState extends ConsumerState<AskBuddyScreen>
                     margin: EdgeInsets.only(left: i > 0 ? 4 : 0),
                     width: 8, height: 8,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.3 + _bounceController.value * 0.5),
+                      color: AppColors.primary.withValues(alpha: 0.3 + _bounceController.value * 0.5),
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -327,7 +327,7 @@ class _AskBuddyScreenState extends ConsumerState<AskBuddyScreen>
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -2)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -2)),
         ],
       ),
       child: SafeArea(
@@ -337,7 +337,7 @@ class _AskBuddyScreenState extends ConsumerState<AskBuddyScreen>
             Container(
               width: 44, height: 44,
               decoration: BoxDecoration(
-                color: _isRecording ? AppColors.error : AppColors.secondary.withOpacity(0.1),
+                color: _isRecording ? AppColors.error : AppColors.secondary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: IconButton(

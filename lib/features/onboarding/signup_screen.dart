@@ -144,10 +144,10 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
             // Divider
             Row(children: [
-              Expanded(child: Container(height: 1, color: AppColors.textLight.withOpacity(0.3))),
+              Expanded(child: Container(height: 1, color: AppColors.textLight.withValues(alpha: 0.3))),
               Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text('or', style: GoogleFonts.nunito(fontSize: 14, color: AppColors.textLight))),
-              Expanded(child: Container(height: 1, color: AppColors.textLight.withOpacity(0.3))),
+              Expanded(child: Container(height: 1, color: AppColors.textLight.withValues(alpha: 0.3))),
             ]),
             const SizedBox(height: 16),
 
@@ -157,8 +157,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
               child: Container(
                 width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 14),
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.textLight.withOpacity(0.3), width: 1.5),
-                  boxShadow: AppShadows.button3D(AppColors.textLight.withOpacity(0.15))),
+                  border: Border.all(color: AppColors.textLight.withValues(alpha: 0.3), width: 1.5),
+                  boxShadow: AppShadows.button3D(AppColors.textLight.withValues(alpha: 0.15))),
                 child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   const Text('🔵', style: TextStyle(fontSize: 20)),
                   const SizedBox(width: 10),
@@ -190,7 +190,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     bool obscure = false, TextInputType? keyboard, Widget? suffixIcon}) {
     return Container(
       decoration: BoxDecoration(color: AppColors.bgLight, borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.textLight.withOpacity(0.2))),
+        border: Border.all(color: AppColors.textLight.withValues(alpha: 0.2))),
       child: TextField(controller: controller, obscureText: obscure, keyboardType: keyboard,
         style: GoogleFonts.nunito(fontSize: 16, color: AppColors.textDark),
         decoration: InputDecoration(hintText: hint, hintStyle: GoogleFonts.nunito(color: AppColors.textLight),
@@ -207,9 +207,9 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
         duration: AppDurations.fast,
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: selected ? (index >= 0 ? AppColors.starActive.withOpacity(0.08) : AppColors.primary.withOpacity(0.05)) : AppColors.bgLight,
+          color: selected ? (index >= 0 ? AppColors.starActive.withValues(alpha: 0.08) : AppColors.primary.withValues(alpha: 0.05)) : AppColors.bgLight,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: selected ? (index >= 0 ? AppColors.starActive : AppColors.primary) : AppColors.textLight.withOpacity(0.2), width: selected ? 2 : 1),
+          border: Border.all(color: selected ? (index >= 0 ? AppColors.starActive : AppColors.primary) : AppColors.textLight.withValues(alpha: 0.2), width: selected ? 2 : 1),
         ),
         child: Row(children: [
           Container(width: 22, height: 22,

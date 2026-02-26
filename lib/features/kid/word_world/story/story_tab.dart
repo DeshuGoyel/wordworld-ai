@@ -129,7 +129,7 @@ class _StoryTabState extends ConsumerState<StoryTab> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.storyTab, AppColors.storyTab.withOpacity(0.6)]),
+              gradient: LinearGradient(colors: [AppColors.storyTab, AppColors.storyTab.withValues(alpha: 0.6)]),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text('📖 AI CINEMA', style: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: 0.5)),
@@ -137,7 +137,7 @@ class _StoryTabState extends ConsumerState<StoryTab> {
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(color: AppColors.storyTab.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: AppColors.storyTab.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
             child: Text('Scene ${_currentScene + 1} of ${_scenes.length}', style: GoogleFonts.nunito(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.storyTab)),
           ),
         ]),
@@ -160,7 +160,7 @@ class _StoryTabState extends ConsumerState<StoryTab> {
               gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
                 colors: _bgColors[bgIdx]),
               borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: AppColors.storyTab.withOpacity(0.2), width: 2),
+              border: Border.all(color: AppColors.storyTab.withValues(alpha: 0.2), width: 2),
               boxShadow: AppShadows.soft(AppColors.storyTab),
             ),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -180,9 +180,9 @@ class _StoryTabState extends ConsumerState<StoryTab> {
                 ])
               else
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Icon(Icons.touch_app_rounded, color: AppColors.storyTab.withOpacity(0.5), size: 20),
+                  Icon(Icons.touch_app_rounded, color: AppColors.storyTab.withValues(alpha: 0.5), size: 20),
                   const SizedBox(width: 4),
-                  Text('Tap to continue', style: GoogleFonts.nunito(fontSize: 13, color: AppColors.storyTab.withOpacity(0.5))),
+                  Text('Tap to continue', style: GoogleFonts.nunito(fontSize: 13, color: AppColors.storyTab.withValues(alpha: 0.5))),
                 ]),
             ]),
           ),
@@ -218,9 +218,9 @@ class _StoryTabState extends ConsumerState<StoryTab> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
-                color: _autoReading ? AppColors.error.withOpacity(0.1) : AppColors.storyTab.withOpacity(0.1),
+                color: _autoReading ? AppColors.error.withValues(alpha: 0.1) : AppColors.storyTab.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: (_autoReading ? AppColors.error : AppColors.storyTab).withOpacity(0.3)),
+                border: Border.all(color: (_autoReading ? AppColors.error : AppColors.storyTab).withValues(alpha: 0.3)),
               ),
               child: Icon(_autoReading ? Icons.pause_rounded : Icons.play_arrow_rounded,
                 color: _autoReading ? AppColors.error : AppColors.storyTab, size: 24),

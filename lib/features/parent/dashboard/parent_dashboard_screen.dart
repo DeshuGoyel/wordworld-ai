@@ -53,7 +53,7 @@ class ParentDashboardScreen extends ConsumerWidget {
                 const Spacer(),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(16)),
+                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(16)),
                   child: Text('Level $level', style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white)),
                 ),
               ]),
@@ -99,7 +99,7 @@ class ParentDashboardScreen extends ConsumerWidget {
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(color: skillColor.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+                      decoration: BoxDecoration(color: skillColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
                       child: Text('${(e.value * 100).toInt()}%', style: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w800, color: skillColor)),
                     ),
                   ]));
@@ -137,9 +137,9 @@ class ParentDashboardScreen extends ConsumerWidget {
             Container(
               width: double.infinity, padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [AppColors.warning.withOpacity(0.08), AppColors.warning.withOpacity(0.02)]),
+                gradient: LinearGradient(colors: [AppColors.warning.withValues(alpha: 0.08), AppColors.warning.withValues(alpha: 0.02)]),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.warning.withOpacity(0.2)),
+                border: Border.all(color: AppColors.warning.withValues(alpha: 0.2)),
               ),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('💡 Recommended focus areas for ${child?.name ?? "your child"}:', style: GoogleFonts.nunito(fontSize: 14, color: AppColors.textMedium)),
@@ -148,7 +148,7 @@ class ParentDashboardScreen extends ConsumerWidget {
                   Container(padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.white, borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+                      border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
                       boxShadow: AppShadows.soft(AppColors.warning),
                     ),
                     child: Text(a, style: GoogleFonts.nunito(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.warning)))
@@ -234,7 +234,7 @@ class _StatPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(child: Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.15), borderRadius: BorderRadius.circular(14)),
+      decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(14)),
       child: Column(children: [
         Icon(icon, color: color, size: 20),
         const SizedBox(height: 2),
@@ -266,7 +266,7 @@ class _ActivityItem extends StatelessWidget {
         ])),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
           child: Row(children: [
             Icon(Icons.star_rounded, size: 14, color: AppColors.starActive),
             const SizedBox(width: 2),
@@ -298,7 +298,7 @@ class _WeeklyChartPainter extends CustomPainter {
       final color = isToday ? AppColors.primary : AppColors.primaryLight;
       final paint = Paint()
         ..shader = LinearGradient(
-          colors: [color, color.withOpacity(0.6)],
+          colors: [color, color.withValues(alpha: 0.6)],
           begin: Alignment.topCenter, end: Alignment.bottomCenter,
         ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight));
 

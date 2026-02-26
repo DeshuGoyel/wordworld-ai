@@ -72,11 +72,11 @@ class _MeetTabState extends ConsumerState<MeetTab> {
             width: double.infinity, padding: const EdgeInsets.all(28),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.meetTab.withOpacity(0.1), AppColors.meetTab.withOpacity(0.03)],
+                colors: [AppColors.meetTab.withValues(alpha: 0.1), AppColors.meetTab.withValues(alpha: 0.03)],
                 begin: Alignment.topCenter, end: Alignment.bottomCenter,
               ),
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: AppColors.meetTab.withOpacity(0.15)),
+              border: Border.all(color: AppColors.meetTab.withValues(alpha: 0.15)),
             ),
             child: Column(children: [
               Text(widget.word.emoji, style: const TextStyle(fontSize: 100)),
@@ -133,7 +133,7 @@ class _MeetTabState extends ConsumerState<MeetTab> {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               gradient: isCurrent
-                  ? LinearGradient(colors: [AppColors.meetTab.withOpacity(0.12), AppColors.meetTab.withOpacity(0.04)])
+                  ? LinearGradient(colors: [AppColors.meetTab.withValues(alpha: 0.12), AppColors.meetTab.withValues(alpha: 0.04)])
                   : null,
               color: isCurrent ? null : (isPast ? Colors.grey.shade50 : Colors.white),
               borderRadius: BorderRadius.circular(16),
@@ -147,7 +147,7 @@ class _MeetTabState extends ConsumerState<MeetTab> {
               Container(
                 width: 36, height: 36,
                 decoration: BoxDecoration(
-                  color: line.speaker == 'character' ? AppColors.meetTab.withOpacity(0.15) : Colors.grey.shade100,
+                  color: line.speaker == 'character' ? AppColors.meetTab.withValues(alpha: 0.15) : Colors.grey.shade100,
                   shape: BoxShape.circle,
                 ),
                 child: Center(child: Text(line.speaker == 'character' ? widget.word.emoji : '📖', style: const TextStyle(fontSize: 18))),
@@ -159,7 +159,7 @@ class _MeetTabState extends ConsumerState<MeetTab> {
                   color: isCurrent ? AppColors.meetTab : AppColors.textDark)),
                 const SizedBox(height: 2),
                 Text(line.textHi, style: GoogleFonts.nunito(
-                  fontSize: 14, color: isCurrent ? AppColors.meetTab.withOpacity(0.7) : AppColors.textMedium)),
+                  fontSize: 14, color: isCurrent ? AppColors.meetTab.withValues(alpha: 0.7) : AppColors.textMedium)),
               ])),
               if (isCurrent && _playing)
                 SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.meetTab)),
@@ -175,9 +175,9 @@ class _MeetTabState extends ConsumerState<MeetTab> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.info.withOpacity(0.08), AppColors.info.withOpacity(0.02)]),
+              gradient: LinearGradient(colors: [AppColors.info.withValues(alpha: 0.08), AppColors.info.withValues(alpha: 0.02)]),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.info.withOpacity(0.2)),
+              border: Border.all(color: AppColors.info.withValues(alpha: 0.2)),
             ),
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text('🤖', style: TextStyle(fontSize: 22)),
@@ -192,7 +192,7 @@ class _MeetTabState extends ConsumerState<MeetTab> {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.success.withOpacity(0.12), AppColors.success.withOpacity(0.04)]),
+              gradient: LinearGradient(colors: [AppColors.success.withValues(alpha: 0.12), AppColors.success.withValues(alpha: 0.04)]),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [

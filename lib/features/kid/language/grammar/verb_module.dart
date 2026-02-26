@@ -54,7 +54,7 @@ class _VerbModuleScreenState extends State<VerbModuleScreen> {
                   onTap: () => context.pop(),
                   child: Container(
                     width: 40, height: 40,
-                    decoration: BoxDecoration(color: AppColors.veraVerb.withOpacity(0.1), shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: AppColors.veraVerb.withValues(alpha: 0.1), shape: BoxShape.circle),
                     child: const Icon(Icons.close_rounded, color: AppColors.veraVerb),
                   ),
                 ),
@@ -90,8 +90,8 @@ class _VerbModuleScreenState extends State<VerbModuleScreen> {
         const SizedBox(height: 24),
         Wrap(spacing: 10, runSpacing: 10, children: lesson.examples.map((e) => Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(color: AppColors.veraVerb.withOpacity(0.1), borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.veraVerb.withOpacity(0.3))),
+          decoration: BoxDecoration(color: AppColors.veraVerb.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.veraVerb.withValues(alpha: 0.3))),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Text(e.$1, style: const TextStyle(fontSize: 20)),
             const SizedBox(width: 6),

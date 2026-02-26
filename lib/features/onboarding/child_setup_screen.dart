@@ -57,7 +57,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.bgLight,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.textLight.withOpacity(0.2)),
+                  border: Border.all(color: AppColors.textLight.withValues(alpha: 0.2)),
                 ),
                 child: TextField(
                   controller: _nameCtrl,
@@ -96,7 +96,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
                         decoration: BoxDecoration(
                           color: selected ? AppColors.primary : AppColors.bgLight,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: selected ? AppColors.primary : AppColors.textLight.withOpacity(0.2), width: 2),
+                          border: Border.all(color: selected ? AppColors.primary : AppColors.textLight.withValues(alpha: 0.2), width: 2),
                           boxShadow: selected ? AppShadows.button3D(AppColors.primaryDark) : [],
                         ),
                         child: Center(
@@ -136,7 +136,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
                     child: AnimatedContainer(
                       duration: AppDurations.fast,
                       decoration: BoxDecoration(
-                        color: selected ? AppColors.primary.withOpacity(0.1) : AppColors.bgLight,
+                        color: selected ? AppColors.primary.withValues(alpha: 0.1) : AppColors.bgLight,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: selected ? AppColors.primary : Colors.transparent,
@@ -197,7 +197,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
           decoration: BoxDecoration(
             color: selected ? AppColors.primary : AppColors.bgLight,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: selected ? AppColors.primary : AppColors.textLight.withOpacity(0.2), width: 2),
+            border: Border.all(color: selected ? AppColors.primary : AppColors.textLight.withValues(alpha: 0.2), width: 2),
             boxShadow: selected ? AppShadows.button3D(AppColors.primaryDark) : [],
           ),
           child: Column(children: [

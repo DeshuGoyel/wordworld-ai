@@ -25,7 +25,7 @@ class GrammarWorldScreen extends StatelessWidget {
                     onTap: () => context.pop(),
                     child: Container(
                       width: 44, height: 44,
-                      decoration: BoxDecoration(color: AppColors.languageWorld.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+                      decoration: BoxDecoration(color: AppColors.languageWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
                       child: const Icon(Icons.arrow_back_rounded, color: AppColors.languageWorld),
                     ),
                   ),
@@ -104,7 +104,7 @@ class GrammarWorldScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [color, color.withOpacity(0.7)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+          gradient: LinearGradient(colors: [color, color.withValues(alpha: 0.7)], begin: Alignment.topLeft, end: Alignment.bottomRight),
           borderRadius: BorderRadius.circular(20),
           boxShadow: AppShadows.soft(color),
         ),
@@ -115,7 +115,7 @@ class GrammarWorldScreen extends StatelessWidget {
               children: [
                 Container(
                   width: 52, height: 52,
-                  decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(16)),
+                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(16)),
                   child: Center(child: Text(emoji, style: const TextStyle(fontSize: 28))),
                 ),
                 const SizedBox(width: 12),
@@ -127,14 +127,14 @@ class GrammarWorldScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Text(description, style: GoogleFonts.nunito(fontSize: 14, color: Colors.white.withOpacity(0.9))),
+            Text(description, style: GoogleFonts.nunito(fontSize: 14, color: Colors.white.withValues(alpha: 0.9))),
             const SizedBox(height: 10),
             // Example chips
             Wrap(
               spacing: 6, runSpacing: 6,
               children: examples.map((e) => Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(12)),
                 child: Text(e, style: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white)),
               )).toList(),
             ),

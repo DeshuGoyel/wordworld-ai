@@ -71,7 +71,7 @@ class _PhysicalActivityScreenState extends ConsumerState<PhysicalActivityScreen>
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             GestureDetector(onTap: () => context.pop(),
-              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.error.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.error))),
             const SizedBox(width: 12),
             Text('🏃 Activity Break', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w800)),
@@ -80,7 +80,7 @@ class _PhysicalActivityScreenState extends ConsumerState<PhysicalActivityScreen>
 
           Container(width: double.infinity, padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [AppColors.error, AppColors.error.withOpacity(0.7)]),
+              gradient: LinearGradient(colors: [AppColors.error, AppColors.error.withValues(alpha: 0.7)]),
               borderRadius: BorderRadius.circular(24)),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text('💪🎉', style: TextStyle(fontSize: 36)),
@@ -97,7 +97,7 @@ class _PhysicalActivityScreenState extends ConsumerState<PhysicalActivityScreen>
                 child: Container(padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: AppShadows.card),
                   child: Row(children: [
-                    Container(width: 44, height: 44, decoration: BoxDecoration(color: c.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                    Container(width: 44, height: 44, decoration: BoxDecoration(color: c.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                       child: Center(child: Text(a['emoji'] as String, style: const TextStyle(fontSize: 22)))),
                     const SizedBox(width: 12),
                     Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -132,7 +132,7 @@ class _PhysicalActivityScreenState extends ConsumerState<PhysicalActivityScreen>
               child: Stack(alignment: Alignment.center, children: [
                 SizedBox(width: 150, height: 150,
                   child: CircularProgressIndicator(value: progress, strokeWidth: 10,
-                    backgroundColor: c.withOpacity(0.1), valueColor: AlwaysStoppedAnimation(c))),
+                    backgroundColor: c.withValues(alpha: 0.1), valueColor: AlwaysStoppedAnimation(c))),
                 Text('$_secondsLeft', style: GoogleFonts.nunito(fontSize: 48, fontWeight: FontWeight.w900, color: c)),
               ])),
             const SizedBox(height: 24),

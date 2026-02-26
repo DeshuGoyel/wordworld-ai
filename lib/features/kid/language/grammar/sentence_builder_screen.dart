@@ -39,7 +39,7 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen> {
                 GestureDetector(
                   onTap: () => context.pop(),
                   child: Container(width: 40, height: 40,
-                    decoration: BoxDecoration(color: AppColors.fredFull.withOpacity(0.1), shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: AppColors.fredFull.withValues(alpha: 0.1), shape: BoxShape.circle),
                     child: const Icon(Icons.close_rounded, color: AppColors.fredFull)),
                 ),
                 const SizedBox(width: 12),

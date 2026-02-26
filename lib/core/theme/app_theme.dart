@@ -184,7 +184,7 @@ class AppGradients {
   static LinearGradient forLetter(String letter) {
     final color = AppColors.letterColors[letter] ?? AppColors.primary;
     return LinearGradient(
-      colors: [color, color.withOpacity(0.7)],
+      colors: [color, color.withValues(alpha: 0.7)],
       begin: Alignment.topLeft, end: Alignment.bottomRight,
     );
   }
@@ -193,24 +193,24 @@ class AppGradients {
 /// Shadow presets
 class AppShadows {
   static List<BoxShadow> soft(Color color) => [
-    BoxShadow(color: color.withOpacity(0.15), blurRadius: 12, offset: const Offset(0, 4)),
+    BoxShadow(color: color.withValues(alpha: 0.15), blurRadius: 12, offset: const Offset(0, 4)),
   ];
   static List<BoxShadow> medium(Color color) => [
-    BoxShadow(color: color.withOpacity(0.25), blurRadius: 16, offset: const Offset(0, 6)),
+    BoxShadow(color: color.withValues(alpha: 0.25), blurRadius: 16, offset: const Offset(0, 6)),
   ];
   static List<BoxShadow> strong(Color color) => [
-    BoxShadow(color: color.withOpacity(0.35), blurRadius: 24, offset: const Offset(0, 8)),
+    BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 24, offset: const Offset(0, 8)),
   ];
   static const List<BoxShadow> card = [
     BoxShadow(color: Color(0x12000000), blurRadius: 12, offset: Offset(0, 4)),
   ];
   // Duolingo 3D button bottom shadow
   static List<BoxShadow> button3D(Color color) => [
-    BoxShadow(color: color.withOpacity(0.5), blurRadius: 0, offset: const Offset(0, 4)),
+    BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 0, offset: const Offset(0, 4)),
   ];
   // Glow shadow for XP/streak/AI elements
   static List<BoxShadow> glow(Color color) => [
-    BoxShadow(color: color.withOpacity(0.4), blurRadius: 20, spreadRadius: 2),
+    BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 20, spreadRadius: 2),
   ];
 }
 
@@ -312,7 +312,7 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: AppColors.bgCard, elevation: 4,
-        shadowColor: AppColors.primary.withOpacity(0.15),
+        shadowColor: AppColors.primary.withValues(alpha: 0.15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
       ),
     );

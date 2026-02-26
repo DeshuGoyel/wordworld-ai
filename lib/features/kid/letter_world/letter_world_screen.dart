@@ -48,9 +48,9 @@ class LetterWorldScreen extends ConsumerWidget {
             margin: const EdgeInsets.symmetric(horizontal: 24),
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [letterColor, letterColor.withOpacity(0.7)]),
+              gradient: LinearGradient(colors: [letterColor, letterColor.withValues(alpha: 0.7)]),
               borderRadius: BorderRadius.circular(24),
-              boxShadow: [BoxShadow(color: letterColor.withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8))],
+              boxShadow: [BoxShadow(color: letterColor.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 8))],
             ),
             child: Column(children: [
               Text(letter, style: const TextStyle(fontSize: 80, fontWeight: FontWeight.w800, color: Colors.white, fontFamily: 'Nunito')),
@@ -59,7 +59,7 @@ class LetterWorldScreen extends ConsumerWidget {
                 onTap: () { tts.speakLetter(letter); tts.speakPhonetic(letter); },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(20)),
+                  decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(20)),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
                     const Icon(Icons.volume_up_rounded, color: Colors.white, size: 20),
                     const SizedBox(width: 8),
@@ -94,8 +94,8 @@ class LetterWorldScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.white, borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: letterColor.withOpacity(0.2), width: 2),
-                      boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.08), blurRadius: 8, offset: const Offset(0, 3))],
+                      border: Border.all(color: letterColor.withValues(alpha: 0.2), width: 2),
+                      boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 3))],
                     ),
                     child: Row(children: [
                       ProgressRing(
@@ -112,7 +112,7 @@ class LetterWorldScreen extends ConsumerWidget {
                       if (wp?.isMastered ?? false)
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(color: AppColors.success.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+                          decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                           child: const Text('✅', style: TextStyle(fontSize: 16)),
                         )
                       else
