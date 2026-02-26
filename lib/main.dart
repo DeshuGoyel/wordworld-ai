@@ -19,4 +19,5 @@ Future<void> _initHive() async {
   await Hive.openBox('activities');
   await Hive.openBox('progress');
   await Hive.openBox('user_data');
+  await Hive.openBox('ai_cache'); // Added for offline persistence of AI requests
 }

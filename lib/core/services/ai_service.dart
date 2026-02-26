@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'ai_provider.dart';
 import 'providers/mock_ai_provider.dart';
 import 'providers/openai_provider.dart';
@@ -71,13 +73,20 @@ class AIService {
   //  DELEGATED METHODS WITH CACHING & SAFETY
   // ═══════════════════════════════════════════════
 
-  /// Generate text with caching
+  /// Generate text with caching and offline fallback
   Future<String> generateText(String prompt, {AIConfig? config, bool cache = true}) async {
     final cacheKey = 'text:${prompt.hashCode}';
-    if (cache) {
+    final online = await _isNetworkAvailable();
+    
+    if (cache || !online) {
       final cached = _getCache(cacheKey);
       if (cached != null) return cached as String;
     }
+
+    if (!online) {
+      return MockAIProvider().generateText(prompt, config: config);
+    }
+
     await _checkRateLimit();
     final result = await _provider.generateText(_sanitizePrompt(prompt), config: config);
     final safe = _filterResponse(result);
@@ -108,8 +117,15 @@ class AIService {
   /// Generate image with caching
   Future<Uint8List> generateImage(String prompt, {int width = 512, int height = 512}) async {
     final cacheKey = 'img:${prompt.hashCode}';
+    final online = await _isNetworkAvailable();
+    
     final cached = _getCache(cacheKey);
     if (cached != null) return cached as Uint8List;
+
+    if (!online) {
+      return MockAIProvider().generateImage(prompt, width: width, height: height);
+    }
+
     await _checkRateLimit();
     final result = await _provider.generateImage(
       '$prompt. Style: child-friendly, colorful, safe for children aged 2-7.',
@@ -122,18 +138,27 @@ class AIService {
 
   /// Animate an image
   Future<Uint8List> animateImage(Uint8List imageData, String motionPrompt) async {
+    final online = await _isNetworkAvailable();
+    if (!online) return MockAIProvider().animateImage(imageData, motionPrompt);
+    
     await _checkRateLimit();
     return _provider.animateImage(imageData, motionPrompt);
   }
 
   /// Analyze image (vision)
   Future<String> analyzeImage(Uint8List imageData, String question) async {
+    final online = await _isNetworkAvailable();
+    if (!online) return MockAIProvider().analyzeImage(imageData, question);
+
     await _checkRateLimit();
     return _provider.analyzeImage(imageData, question);
   }
 
   /// Transcribe audio
   Future<String> transcribeAudio(Uint8List audioData, {String? language}) async {
+    final online = await _isNetworkAvailable();
+    if (!online) return MockAIProvider().transcribeAudio(audioData, language: language);
+
     await _checkRateLimit();
     return _provider.transcribeAudio(audioData, language: language);
   }
@@ -141,8 +166,15 @@ class AIService {
   /// Generate speech
   Future<Uint8List> generateSpeech(String text, {String? voice, String? language}) async {
     final cacheKey = 'speech:${text.hashCode}:$voice';
+    final online = await _isNetworkAvailable();
+
     final cached = _getCache(cacheKey);
     if (cached != null) return cached as Uint8List;
+
+    if (!online) {
+      return MockAIProvider().generateSpeech(text, voice: voice, language: language);
+    }
+
     await _checkRateLimit();
     final result = await _provider.generateSpeech(text, voice: voice, language: language);
     _setCache(cacheKey, result);
@@ -151,6 +183,9 @@ class AIService {
 
   /// Generate video
   Future<Uint8List> generateVideo(String prompt, {int durationSeconds = 10}) async {
+    final online = await _isNetworkAvailable();
+    if (!online) return MockAIProvider().generateVideo(prompt, durationSeconds: durationSeconds);
+
     await _checkRateLimit();
     return _provider.generateVideo(
       '$prompt. Child-friendly animation, bright colors, no scary content.',
@@ -160,20 +195,37 @@ class AIService {
 
   /// Analyze video
   Future<String> analyzeVideo(Uint8List videoData, String question) async {
+    final online = await _isNetworkAvailable();
+    if (!online) return MockAIProvider().analyzeVideo(videoData, question);
+
     await _checkRateLimit();
     return _provider.analyzeVideo(videoData, question);
   }
 
   /// Advanced reasoning
   Future<String> reason(String prompt, {AIConfig? config}) async {
+    final online = await _isNetworkAvailable();
+    if (!online) return MockAIProvider().reason(prompt, config: config);
+
     await _checkRateLimit();
     return _provider.reason(prompt, config: config);
   }
 
   /// Fast AI response
   Future<String> fastResponse(String prompt, {AIConfig? config}) async {
+    final online = await _isNetworkAvailable();
+    final cacheKey = 'fast:${prompt.hashCode}';
+
+    if (!online) {
+      final cached = _getCache(cacheKey);
+      if (cached != null) return cached as String;
+      return MockAIProvider().fastResponse(prompt, config: config);
+    }
+
     await _checkRateLimit();
-    return _provider.fastResponse(_sanitizePrompt(prompt), config: config);
+    final result = await _provider.fastResponse(_sanitizePrompt(prompt), config: config);
+    _setCache(cacheKey, result);
+    return result;
   }
 
   // ═══════════════════════════════════════════════
@@ -247,10 +299,38 @@ Rules:
   }
 
   // ═══════════════════════════════════════════════
-  //  IN-MEMORY CACHE
+  //  PERSISTENT OFFLINE CACHE & NETWORK
   // ═══════════════════════════════════════════════
 
+  Future<bool> _isNetworkAvailable() async {
+    try {
+      final results = await Connectivity().checkConnectivity();
+      return results.isNotEmpty && !results.contains(ConnectivityResult.none);
+    } catch (_) {
+      return true; // Assume online if check fails
+    }
+  }
+
+  Box get _cacheBox => Hive.box('ai_cache');
+
   dynamic _getCache(String key) {
+    // 1. Check persistent offline cache (lasts 7 days)
+    if (_cacheBox.containsKey(key)) {
+      final data = _cacheBox.get(key);
+      if (data != null && data is Map) {
+        final createdStr = data['created'] as String?;
+        if (createdStr != null) {
+          final timestamp = DateTime.parse(createdStr);
+          if (DateTime.now().difference(timestamp).inDays < 7) {
+            return data['value'];
+          } else {
+            _cacheBox.delete(key);
+          }
+        }
+      }
+    }
+
+    // 2. Check fast memory cache
     final entry = _cache[key];
     if (entry == null) return null;
     if (DateTime.now().difference(entry.created).inHours > 24) {
@@ -261,15 +341,30 @@ Rules:
   }
 
   void _setCache(String key, dynamic data) {
-    // Keep cache under 100 entries
-    if (_cache.length > 100) {
+    if (data == null) return;
+    
+    // Save to Hive for persistent offline mode
+    try {
+      _cacheBox.put(key, {
+        'value': data,
+        'created': DateTime.now().toIso8601String(),
+      });
+    } catch (_) {
+      // Ignore Hive serialization errors if data is too complex
+    }
+
+    // Also fast memory cache
+    if (_cache.length > 200) {
       final oldest = _cache.entries.reduce((a, b) => a.value.created.isBefore(b.value.created) ? a : b);
       _cache.remove(oldest.key);
     }
     _cache[key] = _CacheEntry(data: data, created: DateTime.now());
   }
 
-  void clearCache() => _cache.clear();
+  void clearCache() {
+    _cache.clear();
+    _cacheBox.clear();
+  }
 
   void dispose() {
     _provider.dispose();
