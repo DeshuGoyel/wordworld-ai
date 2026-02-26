@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../providers/app_providers.dart';
+import '../../../core/services/storage_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/ai_provider.dart';
 
 /// AI Settings screen — choose AI provider and configure API key.
-class AISettingsScreen extends StatefulWidget {
+class AISettingsScreen extends ConsumerStatefulWidget {
   const AISettingsScreen({super.key});
 
   @override
-  State<AISettingsScreen> createState() => _AISettingsScreenState();
+  ConsumerState<AISettingsScreen> createState() => _AISettingsScreenState();
 }
 
-class _AISettingsScreenState extends State<AISettingsScreen> {
+class _AISettingsScreenState extends ConsumerState<AISettingsScreen> {
   AIProviderType _selectedProvider = AIProviderType.mock;
   final _apiKeyController = TextEditingController();
   bool _showApiKey = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final aiService = ref.read(aiServiceProvider);
+      final storage = ref.read(storageServiceProvider);
+      setState(() {
+        _selectedProvider = aiService.providerType;
+        _apiKeyController.text = storage.getSetting('ai_api_key') ?? '';
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -239,7 +255,10 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   }
 
   void _saveSettings() {
-    // TODO: Wire up to AIService.switchProvider()
+    ref.read(aiServiceProvider).switchProvider(
+      _selectedProvider,
+      apiKey: _apiKeyController.text.trim(),
+    );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('AI Provider set to ${_selectedProvider.name}'),

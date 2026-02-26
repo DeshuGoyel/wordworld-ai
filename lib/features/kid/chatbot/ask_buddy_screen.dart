@@ -1,23 +1,31 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:record/record.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../providers/app_providers.dart';
 
 /// "Ask Buddy" — AI chatbot screen for kids.
 /// Features a friendly character, voice input, and simple chat interface.
-class AskBuddyScreen extends StatefulWidget {
+class AskBuddyScreen extends ConsumerStatefulWidget {
   final int childAge;
   const AskBuddyScreen({super.key, this.childAge = 4});
 
   @override
-  State<AskBuddyScreen> createState() => _AskBuddyScreenState();
+  ConsumerState<AskBuddyScreen> createState() => _AskBuddyScreenState();
 }
 
-class _AskBuddyScreenState extends State<AskBuddyScreen>
+class _AskBuddyScreenState extends ConsumerState<AskBuddyScreen>
     with TickerProviderStateMixin {
   final _controller = TextEditingController();
   final _scrollController = ScrollController();
   final List<_ChatBubble> _messages = [];
   bool _isTyping = false;
   late AnimationController _bounceController;
+  final _audioRecorder = AudioRecorder();
+  bool _isRecording = false;
 
   @override
   void initState() {
@@ -39,7 +47,41 @@ class _AskBuddyScreenState extends State<AskBuddyScreen>
     _controller.dispose();
     _scrollController.dispose();
     _bounceController.dispose();
+    _audioRecorder.dispose();
     super.dispose();
+  }
+
+  Future<void> _toggleRecording() async {
+    if (await Permission.microphone.request().isGranted) {
+      if (_isRecording) {
+        final path = await _audioRecorder.stop();
+        setState(() => _isRecording = false);
+        if (path != null) {
+          setState(() => _isTyping = true); // Show typing while transcribing
+          try {
+            final bytes = await File(path).readAsBytes();
+            final text = await ref.read(sttServiceProvider).transcribe(bytes);
+            setState(() => _isTyping = false);
+            if (text.isNotEmpty) {
+              _sendMessage(text);
+            }
+          } catch (e) {
+            setState(() => _isTyping = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Failed to transcribe audio. Please try again.')),
+            );
+          }
+        }
+      } else {
+        final directory = await getTemporaryDirectory();
+        final path = '${directory.path}/buddy_mic.m4a';
+        await _audioRecorder.start(
+          const RecordConfig(encoder: AudioEncoder.aacLc),
+          path: path,
+        );
+        setState(() => _isRecording = true);
+      }
+    }
   }
 
   void _sendMessage(String text) {
@@ -295,15 +337,15 @@ class _AskBuddyScreenState extends State<AskBuddyScreen>
             Container(
               width: 44, height: 44,
               decoration: BoxDecoration(
-                color: AppColors.secondary.withOpacity(0.1),
+                color: _isRecording ? AppColors.error : AppColors.secondary.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                icon: Icon(Icons.mic, color: AppColors.secondary),
-                onPressed: () {
-                  // TODO: Integrate STT service
-                  _sendMessage('🎤 (voice message)');
-                },
+                icon: Icon(
+                  _isRecording ? Icons.stop : Icons.mic,
+                  color: _isRecording ? Colors.white : AppColors.secondary,
+                ),
+                onPressed: _toggleRecording,
               ),
             ),
             const SizedBox(width: 8),
