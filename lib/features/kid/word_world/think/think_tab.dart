@@ -29,11 +29,19 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
   late AnimationController _shakeController;
   late Animation<double> _shakeAnimation;
 
-  ThinkGame get _game => widget.word.thinkGames[_currentGame];
+  late final List<ThinkGame> _availableGames;
+  ThinkGame get _game => _availableGames[_currentGame];
 
   @override
   void initState() {
     super.initState();
+    final child = ref.read(activeChildProvider);
+    final age = child?.age ?? 4;
+    _availableGames = widget.word.thinkGames.where((g) => age >= g.ageMin && age <= g.ageMax).toList();
+    if (_availableGames.isEmpty) {
+      _availableGames = widget.word.thinkGames; // fallback
+    }
+
     _confettiController = ConfettiController(duration: const Duration(seconds: 2));
     _shakeController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     _shakeAnimation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(parent: _shakeController, curve: Curves.elasticIn));
@@ -77,11 +85,11 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
         final child = ref.read(activeChildProvider);
         if (child != null) ref.read(progressServiceProvider).completeTab(child.id, widget.word.id, 'think');
 
-        if (_currentGame < widget.word.thinkGames.length - 1) {
+        if (_currentGame < _availableGames.length - 1) {
           setState(() { _currentGame++; _selectedAnswer = null; _isCorrect = null; });
           // Speak next question
           Future.delayed(const Duration(milliseconds: 300), () {
-            if (mounted) TTSService.instance.speak(widget.word.thinkGames[_currentGame].instruction);
+            if (mounted) TTSService.instance.speak(_availableGames[_currentGame].instruction);
           });
         } else {
           setState(() => _gameActive = false);
@@ -181,11 +189,11 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
               const SizedBox(width: 8),
               // Progress
               Expanded(child: DuoProgressBar(
-                progress: (_currentGame + 1) / widget.word.thinkGames.length,
+                progress: (_currentGame + 1) / _availableGames.length,
                 color: AppColors.thinkTab, height: 12,
               )),
               const SizedBox(width: 8),
-              Text('${_currentGame + 1}/${widget.word.thinkGames.length}',
+              Text('${_currentGame + 1}/${_availableGames.length}',
                 style: GoogleFonts.nunito(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textMedium)),
             ]),
             const SizedBox(height: 20),
@@ -309,7 +317,7 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
             setState(() { _currentGame = 0; _gameActive = true; _selectedAnswer = null; _isCorrect = null; _score = 0; });
             
             Future.delayed(const Duration(milliseconds: 300), () {
-              if (mounted) TTSService.instance.speak(widget.word.thinkGames[0].instruction);
+              if (mounted) TTSService.instance.speak(_availableGames[0].instruction);
             });
           }),
         ])),

@@ -7,9 +7,12 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/progress_service.dart';
 import '../../../core/services/tutor_brain_service.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/purchase_service.dart';
+import '../../../data/models/models.dart';
 import '../../../data/seed/content_seed.dart';
 import '../../../providers/app_providers.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import '../../paywall/paywall_sheet.dart';
 
 class ParentDashboardScreen extends ConsumerStatefulWidget {
   const ParentDashboardScreen({super.key});
@@ -36,11 +39,27 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
     final child = ref.watch(activeChildProvider);
     final progress = ref.read(progressServiceProvider);
     final tutor = ref.read(tutorBrainProvider);
+    final storage = ref.read(storageServiceProvider);
+    
     final totalStars = child != null ? progress.getTotalStars(child.id) : 0;
     final skills = child != null ? progress.getSkillsBreakdown(child.id) : <String, double>{};
     final weakAreas = child != null ? tutor.getWeakAreas(child.id) : <String>[];
     final masteredCount = child != null ? progress.getMasteredLettersCount(child.id) : 0;
     final level = (totalStars / 10).floor() + 1;
+
+    final activities = child != null ? storage.getActivitiesForChild(child.id) : <Activity>[];
+    
+    final weeklyValues = List.filled(7, 0);
+    final now = DateTime.now();
+    final startOfWeek = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
+    for (final a in activities) {
+      if (!a.timestamp.isBefore(startOfWeek)) {
+        final dayIndex = a.timestamp.weekday - 1;
+        if (dayIndex >= 0 && dayIndex < 7) {
+          weeklyValues[dayIndex] += (a.durationSeconds / 60).round();
+        }
+      }
+    }
 
     return Scaffold(
       backgroundColor: AppColors.bgLight,
@@ -143,7 +162,7 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
               color: Colors.white, borderRadius: BorderRadius.circular(20),
               boxShadow: AppShadows.card,
             ),
-            child: CustomPaint(painter: _WeeklyChartPainter()),
+            child: CustomPaint(painter: _WeeklyChartPainter(values: weeklyValues)),
           ),
           const SizedBox(height: 24),
 
@@ -182,7 +201,12 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
               const Spacer(),
               if (_aiReport == null)
                 TextButton.icon(
-                  onPressed: _isGeneratingReport || child == null ? null : () => _generateReport(child.id, child.name, child.age),
+                  onPressed: _isGeneratingReport || child == null ? null : () async {
+                    final unlocked = await PaywallSheet.checkAndShow(context, ref, 'Detailed AI Report');
+                    if (unlocked) {
+                       _generateReport(child.id, child.name, child.age);
+                    }
+                  },
                   icon: _isGeneratingReport ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.auto_awesome),
                   label: Text(_isGeneratingReport ? 'Analyzing...' : 'Generate AI Report'),
                 ),
@@ -241,10 +265,25 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
             width: double.infinity, padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: AppShadows.card),
             child: Column(children: [
-              _ActivityItem(emoji: '🍎', word: 'Apple', tab: 'Meet', time: 'Today, 10:30 AM', stars: 1),
-              _ActivityItem(emoji: '🐜', word: 'Ant', tab: 'Think', time: 'Today, 10:15 AM', stars: 2),
-              _ActivityItem(emoji: '🛩️', word: 'Airplane', tab: 'Write', time: 'Yesterday', stars: 1),
-              _ActivityItem(emoji: '🐊', word: 'Alligator', tab: 'Draw', time: 'Yesterday', stars: 1),
+              if (activities.isEmpty)
+                 Padding(
+                   padding: const EdgeInsets.symmetric(vertical: 20),
+                   child: Text('Play a game to see activity!', style: GoogleFonts.nunito(color: AppColors.textMedium)),
+                 ),
+              ...activities.take(5).map((a) {
+                // Find word for emoji since Activity only saves wordId
+                final word = ContentSeed.getAllActiveWords().cast<WordData?>().firstWhere((w) => w?.id == a.wordId, orElse: () => null);
+                final wordName = word?.word ?? 'Unknown';
+                final emoji = word?.emoji ?? '✨';
+                final timePrefix = a.timestamp.year == now.year && a.timestamp.month == now.month && a.timestamp.day == now.day ? 'Today' : '${a.timestamp.day}/${a.timestamp.month}';
+                return _ActivityItem(
+                  emoji: emoji, 
+                  word: wordName, 
+                  tab: a.tab[0].toUpperCase() + a.tab.substring(1), 
+                  time: '$timePrefix, ${a.timestamp.hour}:${a.timestamp.minute.toString().padLeft(2, '0')}', 
+                  stars: a.score
+                );
+              }),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text('Activity data updates as your child learns', style: GoogleFonts.nunito(fontSize: 12, color: AppColors.textLight)),
@@ -257,7 +296,12 @@ class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
           Text('Quick Actions', style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800)),
           const SizedBox(height: 12),
           Row(children: [
-            Expanded(child: DuoButton(text: '🖨️ Print Center', color: AppColors.info, onPressed: () => context.push('/print-center'))),
+            Expanded(child: DuoButton(text: '🖨️ Print Center', color: AppColors.info, onPressed: () async {
+              final unlocked = await PaywallSheet.checkAndShow(context, ref, 'Print Center');
+              if (unlocked && context.mounted) {
+                context.push('/print-center');
+              }
+            })),
             const SizedBox(width: 12),
             Expanded(child: DuoButton(text: '⚙️ Settings', color: Colors.grey, onPressed: () => context.push('/parent-settings'))),
           ]),
@@ -327,11 +371,13 @@ class _ActivityItem extends StatelessWidget {
 
 // ─── Weekly Activity Chart ───
 class _WeeklyChartPainter extends CustomPainter {
+  final List<int> values;
+  _WeeklyChartPainter({required this.values});
+
   @override
   void paint(Canvas canvas, Size size) {
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    final values = [15, 25, 10, 30, 20, 35, 5]; // Simulated minutes
-    final maxVal = 40.0;
+    final maxVal = values.fold<double>(40.0, (prev, e) => e > prev ? e.toDouble() : prev);
     final barWidth = size.width / (days.length * 2 + 1);
     final maxBarHeight = size.height - 30;
 

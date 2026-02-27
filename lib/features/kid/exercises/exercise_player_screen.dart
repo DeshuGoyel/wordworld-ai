@@ -8,6 +8,11 @@ import '../../../core/services/exercise_bank.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
 import 'package:learn_app/core/widgets/tappable.dart';
+import 'games/mcq_game.dart';
+import 'games/fill_blank_game.dart';
+import 'games/drag_match_game.dart';
+import 'games/sorting_buckets_game.dart';
+import 'games/memory_game.dart';
 
 /// Universal Exercise Player — plays exercises from ExerciseBank
 class ExercisePlayerScreen extends ConsumerStatefulWidget {
@@ -132,62 +137,7 @@ class _ExercisePlayerScreenState extends ConsumerState<ExercisePlayerScreen> {
 
             // Question card
             Expanded(
-              child: Column(children: [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: AppShadows.card,
-                  ),
-                  child: Column(children: [
-                    Text(_topicEmoji(widget.topic), style: const TextStyle(fontSize: 40)),
-                    const SizedBox(height: 12),
-                    Text(ex.question, style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800, color: AppColors.textDark),
-                      textAlign: TextAlign.center),
-                    if (_answered && !isCorrect && ex.hint.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Text('💡 ${ex.hint}', style: GoogleFonts.nunito(fontSize: 13, color: AppColors.textMedium, fontStyle: FontStyle.italic)),
-                    ],
-                  ]),
-                ),
-                const SizedBox(height: 20),
-
-                // Options
-                ...ex.options.map((opt) {
-                  final isSelected = _selected == opt;
-                  final isCorrectOpt = opt == ex.correctAnswer;
-                  Color bgColor = Colors.white;
-                  Color borderColor = AppColors.textLight.withValues(alpha: 0.2);
-                  if (_answered) {
-                    if (isCorrectOpt) { bgColor = AppColors.success.withValues(alpha: 0.1); borderColor = AppColors.success; }
-                    else if (isSelected) { bgColor = AppColors.error.withValues(alpha: 0.1); borderColor = AppColors.error; }
-                  } else if (isSelected) {
-                    borderColor = _color;
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Tappable(
-                      onTap: () => _answer(opt),
-                      child: AnimatedContainer(
-                        duration: AppDurations.fast,
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                        decoration: BoxDecoration(
-                          color: bgColor, borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: borderColor, width: 2),
-                        ),
-                        child: Row(children: [
-                          Expanded(child: Text(opt, style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.textDark))),
-                          if (_answered && isCorrectOpt) const Icon(Icons.check_circle, color: AppColors.success),
-                          if (_answered && isSelected && !isCorrectOpt) const Icon(Icons.cancel, color: AppColors.error),
-                        ]),
-                      ),
-                    ),
-                  );
-                }),
-              ]),
+              child: _buildGameEngine(ex),
             ),
 
             // Next / Continue
@@ -289,5 +239,54 @@ class _ExercisePlayerScreenState extends ConsumerState<ExercisePlayerScreen> {
       'emotions': '😊', 'life_skills': '🌟', 'social': '🤝',
     };
     return map[topic] ?? '📚';
+  }
+
+  Widget _buildGameEngine(Exercise ex) {
+    if (ex.type == 'fill_blank') {
+      return FillBlankGame(
+        exercise: ex,
+        color: _color,
+        isAnswered: _answered,
+        selectedAnswer: _selected,
+        onAnswer: _answer,
+        topicEmoji: _topicEmoji(widget.topic),
+      );
+    } else if (ex.type == 'match') {
+      return DragMatchGame(
+        exercise: ex,
+        color: _color,
+        isAnswered: _answered,
+        selectedAnswer: _selected,
+        onAnswer: _answer,
+        topicEmoji: _topicEmoji(widget.topic),
+      );
+    } else if (ex.type == 'sorting') {
+      return SortingBucketsGame(
+        exercise: ex,
+        color: _color,
+        isAnswered: _answered,
+        selectedAnswer: _selected,
+        onAnswer: _answer,
+        topicEmoji: _topicEmoji(widget.topic),
+      );
+    } else if (ex.type == 'memory') {
+      return MemoryGame(
+        exercise: ex,
+        color: _color,
+        isAnswered: _answered,
+        onAnswer: _answer,
+        topicEmoji: _topicEmoji(widget.topic),
+      );
+    } else {
+      // Default to MCQ
+      return McqGame(
+        exercise: ex,
+        color: _color,
+        isAnswered: _answered,
+        selectedAnswer: _selected,
+        onAnswer: _answer,
+        topicEmoji: _topicEmoji(widget.topic),
+      );
+    }
   }
 }

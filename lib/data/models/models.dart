@@ -165,6 +165,23 @@ class WordData {
     this.storyContent,
     this.talkLines = const [],
   });
+
+  factory WordData.fromJson(Map<String, dynamic> json) => WordData(
+    id: json['id'] as String,
+    word: json['word'] as String,
+    wordHi: json['wordHi'] as String,
+    letter: json['letter'] as String,
+    emoji: json['emoji'] as String,
+    description: json['description'] as String,
+    descriptionHi: json['descriptionHi'] as String,
+    category: json['category'] as String,
+    meetContent: MeetContent.fromJson(json['meetContent'] as Map<String, dynamic>),
+    thinkGames: (json['thinkGames'] as List).map((e) => ThinkGame.fromJson(e)).toList(),
+    writeContent: WriteContent.fromJson(json['writeContent'] as Map<String, dynamic>),
+    drawContent: DrawContent.fromJson(json['drawContent'] as Map<String, dynamic>),
+    storyContent: json['storyContent'] != null ? StoryContent.fromJson(json['storyContent'] as Map<String, dynamic>) : null,
+    talkLines: (json['talkLines'] as List).map((e) => TalkLine.fromJson(e)).toList(),
+  );
 }
 
 class MeetContent {
@@ -175,6 +192,11 @@ class MeetContent {
     required this.linesYoung,
     required this.linesOlder,
   });
+
+  factory MeetContent.fromJson(Map<String, dynamic> json) => MeetContent(
+    linesYoung: (json['linesYoung'] as List).map((e) => ScriptLine.fromJson(e)).toList(),
+    linesOlder: (json['linesOlder'] as List).map((e) => ScriptLine.fromJson(e)).toList(),
+  );
 }
 
 class ScriptLine {
@@ -187,6 +209,12 @@ class ScriptLine {
     required this.textEn,
     required this.textHi,
   });
+
+  factory ScriptLine.fromJson(Map<String, dynamic> json) => ScriptLine(
+    speaker: json['speaker'] as String,
+    textEn: json['textEn'] as String,
+    textHi: json['textHi'] as String,
+  );
 }
 
 class TalkLine {
@@ -199,6 +227,12 @@ class TalkLine {
     required this.textHi,
     this.sampleAudioRef = '',
   });
+
+  factory TalkLine.fromJson(Map<String, dynamic> json) => TalkLine(
+    textEn: json['textEn'] as String,
+    textHi: json['textHi'] as String,
+    sampleAudioRef: json['sampleAudioRef'] as String? ?? '',
+  );
 }
 
 class ThinkGame {
@@ -221,6 +255,17 @@ class ThinkGame {
     this.ageMax = 7,
     required this.config,
   });
+
+  factory ThinkGame.fromJson(Map<String, dynamic> json) => ThinkGame(
+    id: json['id'] as String,
+    type: json['type'] as String,
+    title: json['title'] as String,
+    instruction: json['instruction'] as String,
+    instructionHi: json['instructionHi'] as String,
+    ageMin: json['ageMin'] as int? ?? 2,
+    ageMax: json['ageMax'] as int? ?? 7,
+    config: json['config'] as Map<String, dynamic>,
+  );
 }
 
 class WriteContent {
@@ -235,6 +280,13 @@ class WriteContent {
     this.letterStrokes = const [],
     this.wordStrokes = const [],
   });
+
+  factory WriteContent.fromJson(Map<String, dynamic> json) => WriteContent(
+    letters: List<String>.from(json['letters'] as List),
+    word: json['word'] as String,
+    letterStrokes: (json['letterStrokes'] as List?)?.map((e) => StrokeData.fromJson(e)).toList() ?? [],
+    wordStrokes: (json['wordStrokes'] as List?)?.map((e) => StrokeData.fromJson(e)).toList() ?? [],
+  );
 }
 
 class StrokeData {
@@ -245,6 +297,13 @@ class StrokeData {
     required this.points,
     required this.direction,
   });
+
+  factory StrokeData.fromJson(Map<String, dynamic> json) {
+    return StrokeData(
+      points: (json['points'] as List).map((p) => Map<String, double>.from(p)).toList(),
+      direction: json['direction'] as String,
+    );
+  }
 }
 
 class DrawContent {
@@ -255,6 +314,11 @@ class DrawContent {
     required this.steps,
     required this.finalDescription,
   });
+
+  factory DrawContent.fromJson(Map<String, dynamic> json) => DrawContent(
+    steps: (json['steps'] as List).map((e) => DrawStep.fromJson(e)).toList(),
+    finalDescription: json['finalDescription'] as String,
+  );
 }
 
 class DrawStep {
@@ -271,6 +335,14 @@ class DrawStep {
     required this.shape,
     this.position,
   });
+
+  factory DrawStep.fromJson(Map<String, dynamic> json) => DrawStep(
+    stepNumber: json['stepNumber'] as int,
+    instruction: json['instruction'] as String,
+    instructionHi: json['instructionHi'] as String,
+    shape: json['shape'] as String,
+    position: json['position'] != null ? Map<String, double>.from(json['position']) : null,
+  );
 }
 
 class StoryContent {
@@ -287,6 +359,14 @@ class StoryContent {
     required this.moral,
     required this.moralHi,
   });
+
+  factory StoryContent.fromJson(Map<String, dynamic> json) => StoryContent(
+    title: json['title'] as String,
+    titleHi: json['titleHi'] as String,
+    scenes: (json['scenes'] as List).map((e) => StoryScene.fromJson(e)).toList(),
+    moral: json['moral'] as String,
+    moralHi: json['moralHi'] as String,
+  );
 }
 
 class StoryScene {
@@ -305,6 +385,15 @@ class StoryScene {
     this.characters = const [],
     this.choice,
   });
+
+  factory StoryScene.fromJson(Map<String, dynamic> json) => StoryScene(
+    sceneNumber: json['sceneNumber'] as int,
+    textEn: json['textEn'] as String,
+    textHi: json['textHi'] as String,
+    backgroundDesc: json['backgroundDesc'] as String,
+    characters: List<String>.from(json['characters'] as List? ?? []),
+    choice: json['choice'] != null ? StoryChoice.fromJson(json['choice']) : null,
+  );
 }
 
 class StoryChoice {
@@ -325,6 +414,16 @@ class StoryChoice {
     required this.option2Hi,
     this.correctOption = 1,
   });
+
+  factory StoryChoice.fromJson(Map<String, dynamic> json) => StoryChoice(
+    questionEn: json['questionEn'] as String,
+    questionHi: json['questionHi'] as String,
+    option1En: json['option1En'] as String,
+    option1Hi: json['option1Hi'] as String,
+    option2En: json['option2En'] as String,
+    option2Hi: json['option2Hi'] as String,
+    correctOption: json['correctOption'] as int? ?? 1,
+  );
 }
 
 class Activity {

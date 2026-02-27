@@ -8,8 +8,11 @@ import '../../../../providers/app_providers.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
 import 'package:learn_app/core/services/story_service.dart';
 import 'package:learn_app/core/models/story_models.dart';
+import 'package:learn_app/core/services/purchase_service.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 import '../../story_generator/story_generator_screen.dart';
 import '../../story_generator/story_player_screen.dart';
+import '../../../paywall/paywall_sheet.dart';
 
 class StoryTab extends ConsumerWidget {
   final WordData word;
@@ -18,11 +21,9 @@ class StoryTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // We assume isPremium is always true for now, 
-    // or handle it via a provider if we had one.
-    // Let's just default to true for the MVP, or we can check a provider
-    // final isPremium = ref.watch(subscriptionProvider) ?? false;
-    final isPremium = true; 
+    // Read premium status from PurchaseService
+    final purchaseService = ref.watch(purchaseServiceProvider);
+    final isPremium = purchaseService.isPremium;
 
     final savedStories = StoryService.instance.getSavedStories()
         .where((s) => s.heroName == word.word)
@@ -77,9 +78,19 @@ class StoryTab extends ConsumerWidget {
           
           // LOCKED overlay if !isPremium:
           if (!isPremium)
-            _PremiumLockedCard(
-              feature: 'AI Story Generator',
-              emoji: '📖',
+            Tappable(
+              onTap: () async {
+                 final unlocked = await PaywallSheet.checkAndShow(context, ref, 'AI Story Generator');
+                 if (unlocked) {
+                    // PurchaseService triggers rebuild manually, or riverpod picks it up
+                    // Just triggering state refresh
+                    ref.invalidate(purchaseServiceProvider);
+                 }
+              },
+              child: _PremiumLockedCard(
+                feature: 'AI Story Generator',
+                emoji: '📖',
+              ),
             )
           else ...[
             // CREATE NEW STORY BUTTON:

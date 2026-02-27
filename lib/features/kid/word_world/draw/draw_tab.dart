@@ -12,6 +12,7 @@ import '../../../../data/models/models.dart';
 import '../../../../providers/app_providers.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
 import 'package:learn_app/core/widgets/tappable.dart';
+import 'package:perfect_freehand/perfect_freehand.dart' as pf;
 
 class DrawTab extends ConsumerStatefulWidget {
   final WordData word;
@@ -22,7 +23,7 @@ class DrawTab extends ConsumerStatefulWidget {
 
 class _DrawTabState extends ConsumerState<DrawTab> {
   List<_DrawStroke> _strokes = [];
-  List<Offset?> _currentStroke = [];
+  List<pf.Point> _currentStroke = [];
   Color _selectedColor = AppColors.drawTab;
   int _currentStep = 0;
   bool _completed = false;
@@ -171,8 +172,8 @@ class _DrawTabState extends ConsumerState<DrawTab> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(22),
               child: Tappable(
-                onPanStart: (d) => setState(() => _currentStroke = [d.localPosition]),
-                onPanUpdate: (d) => setState(() => _currentStroke.add(d.localPosition)),
+                onPanStart: (d) => setState(() => _currentStroke = [pf.Point(d.localPosition.dx, d.localPosition.dy)]),
+                onPanUpdate: (d) => setState(() => _currentStroke.add(pf.Point(d.localPosition.dx, d.localPosition.dy))),
                 onPanEnd: (d) => setState(() {
                   _strokes.add(_DrawStroke(List.from(_currentStroke), _selectedColor, _strokeWidth));
                   _currentStroke = [];
@@ -233,7 +234,7 @@ class _DrawTabState extends ConsumerState<DrawTab> {
 }
 
 class _DrawStroke {
-  final List<Offset?> points;
+  final List<pf.Point> points;
   final Color color;
   final double width;
   _DrawStroke(this.points, this.color, this.width);
@@ -241,27 +242,45 @@ class _DrawStroke {
 
 class _DrawPainter extends CustomPainter {
   final List<_DrawStroke> strokes;
-  final List<Offset?> currentStroke;
+  final List<pf.Point> currentStroke;
   final Color currentColor;
   final double strokeWidth;
   _DrawPainter({required this.strokes, required this.currentStroke, required this.currentColor, required this.strokeWidth});
 
+  void _drawStroke(Canvas canvas, List<pf.Point> points, Color color, double width) {
+    if (points.isEmpty) return;
+    
+    final outlinePoints = pf.getStroke(
+      points,
+      size: width * 3, // slightly thicker for better feel
+      thinning: 0.5,
+      smoothing: 0.5,
+      streamline: 0.5,
+      simulatePressure: true,
+    );
+
+    if (outlinePoints.isEmpty) return;
+
+    final path = Path();
+    path.moveTo(outlinePoints[0].x, outlinePoints[0].y);
+    for (int i = 1; i < outlinePoints.length; i++) {
+      path.lineTo(outlinePoints[i].x, outlinePoints[i].y);
+    }
+    path.close();
+
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+    
+    canvas.drawPath(path, paint);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     for (final stroke in strokes) {
-      final paint = Paint()..color = stroke.color..strokeCap = StrokeCap.round..strokeWidth = stroke.width;
-      for (int i = 0; i < stroke.points.length - 1; i++) {
-        if (stroke.points[i] != null && stroke.points[i + 1] != null) {
-          canvas.drawLine(stroke.points[i]!, stroke.points[i + 1]!, paint);
-        }
-      }
+      _drawStroke(canvas, stroke.points, stroke.color, stroke.width);
     }
-    final paint = Paint()..color = currentColor..strokeCap = StrokeCap.round..strokeWidth = strokeWidth;
-    for (int i = 0; i < currentStroke.length - 1; i++) {
-      if (currentStroke[i] != null && currentStroke[i + 1] != null) {
-        canvas.drawLine(currentStroke[i]!, currentStroke[i + 1]!, paint);
-      }
-    }
+    _drawStroke(canvas, currentStroke, currentColor, strokeWidth);
   }
 
   @override
