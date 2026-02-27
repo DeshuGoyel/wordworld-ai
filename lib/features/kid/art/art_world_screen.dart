@@ -7,6 +7,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
 import '../../../shared/widgets/quiz_result_screen.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Art World — color mixing, patterns, music, drawing activities
 class ArtWorldScreen extends ConsumerStatefulWidget {
@@ -38,7 +39,7 @@ class _ArtWorldScreenState extends ConsumerState<ArtWorldScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
-              GestureDetector(onTap: () => context.pop(),
+              Tappable(onTap: () => context.pop(),
                 child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.artWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.arrow_back_rounded, color: AppColors.artWorld))),
               const SizedBox(width: 12),
@@ -64,7 +65,7 @@ class _ArtWorldScreenState extends ConsumerState<ArtWorldScreen> {
               final m = _modules[i];
               final color = Color(m['color'] as int);
               return Padding(padding: const EdgeInsets.only(bottom: 12),
-                child: GestureDetector(
+                child: Tappable(
                   onTap: () => setState(() => _selectedModule = i),
                   child: Container(padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: AppShadows.card),
@@ -349,7 +350,7 @@ class _ArtQuizShell extends StatelessWidget {
       body: SafeArea(child: Padding(padding: const EdgeInsets.all(20),
         child: Column(children: [
           Row(children: [
-            GestureDetector(onTap: onBack, child: Container(width: 40, height: 40,
+            Tappable(onTap: onBack, child: Container(width: 40, height: 40,
               decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
               child: Icon(Icons.arrow_back_rounded, color: color))),
             const SizedBox(width: 12),
@@ -373,7 +374,7 @@ class _ArtQuizShell extends StatelessWidget {
               else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; }
             }
             return Padding(padding: const EdgeInsets.only(bottom: 10),
-              child: GestureDetector(onTap: () => onSelect(opt),
+              child: Tappable(onTap: () => onSelect(opt),
                 child: Container(width: double.infinity, padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                   decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(16), border: Border.all(color: border, width: 2)),
                   child: Row(children: [Expanded(child: Text(opt, style: GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w700))),

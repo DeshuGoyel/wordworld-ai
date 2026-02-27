@@ -7,6 +7,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
 import '../../../shared/widgets/quiz_result_screen.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Advanced EVS — Plants, Animals, Weather, Community Helpers
 class AdvancedEVSScreen extends ConsumerStatefulWidget {
@@ -38,7 +39,7 @@ class _AdvancedEVSScreenState extends ConsumerState<AdvancedEVSScreen> {
       body: SafeArea(child: SingleChildScrollView(padding: const EdgeInsets.all(20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            GestureDetector(onTap: () => context.pop(),
+            Tappable(onTap: () => context.pop(),
               child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.evsWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.evsWorld))),
             const SizedBox(width: 12),
@@ -57,7 +58,7 @@ class _AdvancedEVSScreenState extends ConsumerState<AdvancedEVSScreen> {
           ...List.generate(_modules.length, (i) {
             final m = _modules[i]; final c = Color(m['color'] as int);
             return Padding(padding: const EdgeInsets.only(bottom: 12),
-              child: GestureDetector(onTap: () => setState(() => _sel = i),
+              child: Tappable(onTap: () => setState(() => _sel = i),
                 child: Container(padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: AppShadows.card),
                   child: Row(children: [
@@ -261,7 +262,7 @@ class _EVSQuizShell extends StatelessWidget {
       body: SafeArea(child: Padding(padding: const EdgeInsets.all(20),
         child: Column(children: [
           Row(children: [
-            GestureDetector(onTap: onBack, child: Container(width: 40, height: 40,
+            Tappable(onTap: onBack, child: Container(width: 40, height: 40,
               decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
               child: Icon(Icons.arrow_back_rounded, color: color))),
             const SizedBox(width: 12),
@@ -282,7 +283,7 @@ class _EVSQuizShell extends StatelessWidget {
             Color bg = Colors.white, border = AppColors.textLight.withValues(alpha: 0.2);
             if (answered) { if (isAns) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
               else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; } }
-            return Padding(padding: const EdgeInsets.only(bottom: 10), child: GestureDetector(onTap: () => onSelect(opt),
+            return Padding(padding: const EdgeInsets.only(bottom: 10), child: Tappable(onTap: () => onSelect(opt),
               child: Container(width: double.infinity, padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                 decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(16), border: Border.all(color: border, width: 2)),
                 child: Row(children: [Expanded(child: Text(opt, style: GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w700))),

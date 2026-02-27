@@ -7,6 +7,7 @@ import '../../core/services/storage_service.dart';
 import '../../data/models/models.dart';
 import '../../providers/app_providers.dart';
 import '../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class ParentOnboardingScreen extends ConsumerStatefulWidget {
   const ParentOnboardingScreen({super.key});
@@ -164,7 +165,7 @@ class _ParentOnboardingScreenState extends ConsumerState<ParentOnboardingScreen>
       const SizedBox(height: 24),
       Wrap(spacing: 12, runSpacing: 12, children: List.generate(_avatars.length, (i) {
         final isSelected = _selectedAvatar == 'avatar_${i + 1}';
-        return GestureDetector(
+        return Tappable(
           onTap: () => setState(() => _selectedAvatar = 'avatar_${i + 1}'),
           child: Container(
             width: 64, height: 64,

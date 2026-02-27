@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/freemium_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class MembershipScreen extends ConsumerStatefulWidget {
   const MembershipScreen({super.key});
@@ -30,7 +31,7 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
           child: Column(children: [
             // Header
             Row(children: [
-              GestureDetector(
+              Tappable(
                 onTap: () => context.pop(),
                 child: Container(width: 44, height: 44,
                   decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
@@ -128,7 +129,7 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
 
   Widget _planCard(int index, String price, String period, String subtitle, bool popular) {
     final selected = _selectedPlan == index;
-    return GestureDetector(
+    return Tappable(
       onTap: () => setState(() => _selectedPlan = index),
       child: AnimatedContainer(
         duration: AppDurations.fast,

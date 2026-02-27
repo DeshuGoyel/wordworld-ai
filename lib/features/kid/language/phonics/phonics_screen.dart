@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/xp_service.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Phonics Screen — letter sounds, blending, rhyming
 class PhonicsScreen extends ConsumerStatefulWidget {
@@ -109,7 +110,7 @@ class _PhonicsScreenState extends ConsumerState<PhonicsScreen> {
           child: Column(children: [
             // Top bar
             Row(children: [
-              GestureDetector(onTap: () => context.pop(),
+              Tappable(onTap: () => context.pop(),
                 child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.arrow_back_rounded, color: AppColors.primary))),
               const SizedBox(width: 12),
@@ -121,7 +122,7 @@ class _PhonicsScreenState extends ConsumerState<PhonicsScreen> {
 
             // Level tabs
             Row(children: List.generate(3, (i) => Expanded(
-              child: GestureDetector(
+              child: Tappable(
                 onTap: () => _switchLevel(i),
                 child: AnimatedContainer(
                   duration: AppDurations.fast,
@@ -179,7 +180,7 @@ class _PhonicsScreenState extends ConsumerState<PhonicsScreen> {
                   else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; }
                 }
                 return Padding(padding: const EdgeInsets.only(bottom: 10),
-                  child: GestureDetector(onTap: () => _answer(opt),
+                  child: Tappable(onTap: () => _answer(opt),
                     child: AnimatedContainer(duration: AppDurations.fast, width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(16),

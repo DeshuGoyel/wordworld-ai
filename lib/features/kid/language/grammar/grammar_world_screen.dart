@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Grammar World — 6 character-driven grammar modules
 class GrammarWorldScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class GrammarWorldScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  GestureDetector(
+                  Tappable(
                     onTap: () => context.pop(),
                     child: Container(
                       width: 44, height: 44,
@@ -96,7 +97,7 @@ class GrammarWorldScreen extends StatelessWidget {
 
   Widget _characterCard(BuildContext context, String name, String title, String emoji,
       String description, Color color, String route, List<String> examples) {
-    return GestureDetector(
+    return Tappable(
       onTap: () {
         HapticFeedback.lightImpact();
         context.push(route);

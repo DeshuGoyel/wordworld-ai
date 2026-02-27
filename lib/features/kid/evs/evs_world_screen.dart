@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// EVS World — My Body, My Family topics
 class EVSWorldScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class EVSWorldScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(children: [
-                GestureDetector(
+                Tappable(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
                     decoration: BoxDecoration(color: AppColors.evsWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
@@ -77,7 +78,7 @@ class EVSWorldScreen extends StatelessWidget {
   }
 
   Widget _topicCard(BuildContext context, String emoji, String title, String desc, Color color, List<_BodyPart> parts) {
-    return GestureDetector(
+    return Tappable(
       onTap: () {
         HapticFeedback.lightImpact();
         _showTopicDetail(context, emoji, title, color, parts);

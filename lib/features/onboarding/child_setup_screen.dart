@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class ChildSetupScreen extends StatefulWidget {
   const ChildSetupScreen({super.key});
@@ -34,7 +35,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
             children: [
               const SizedBox(height: 32),
               // Back
-              GestureDetector(
+              Tappable(
                 onTap: () => context.go('/signup'),
                 child: Container(
                   width: 44, height: 44,
@@ -85,7 +86,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
                   itemBuilder: (_, i) {
                     final age = i + 2; // 2,3,4,5,6,7
                     final selected = _selectedAge == age;
-                    return GestureDetector(
+                    return Tappable(
                       onTap: () {
                         HapticFeedback.lightImpact();
                         setState(() => _selectedAge = age);
@@ -128,7 +129,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
                 itemCount: _avatars.length,
                 itemBuilder: (_, i) {
                   final selected = _selectedAvatar == i;
-                  return GestureDetector(
+                  return Tappable(
                     onTap: () {
                       HapticFeedback.lightImpact();
                       setState(() => _selectedAvatar = i);
@@ -186,7 +187,7 @@ class _ChildSetupScreenState extends State<ChildSetupScreen> {
   Widget _langOption(String emoji, String label, String value) {
     final selected = _language == value;
     return Expanded(
-      child: GestureDetector(
+      child: Tappable(
         onTap: () {
           HapticFeedback.lightImpact();
           setState(() => _language = value);

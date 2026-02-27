@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/constants/app_constants.dart';
+import 'package:flutter_tilt/flutter_tilt.dart';
 import '../../../core/services/progress_service.dart';
 import '../../../core/services/tts_service.dart';
 import '../../../data/models/models.dart';
@@ -16,6 +17,7 @@ import 'talk/talk_tab.dart';
 import 'write/write_tab.dart';
 import 'draw/draw_tab.dart';
 import 'story/story_tab.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class WordWorldScreen extends ConsumerStatefulWidget {
   final String wordId;
@@ -39,7 +41,7 @@ class _WordWorldScreenState extends ConsumerState<WordWorldScreen> with SingleTi
 
     // Speak word name on entry
     Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) ref.read(ttsServiceProvider).speakEnglish('Welcome to ${_word.word}!');
+      if (mounted) TTSService.instance.speak('Try again!');
     });
   }
 
@@ -77,46 +79,87 @@ class _WordWorldScreenState extends ConsumerState<WordWorldScreen> with SingleTi
                 begin: Alignment.topCenter, end: Alignment.bottomCenter,
               ),
             ),
-            child: Column(children: [
-              Row(children: [
-                GestureDetector(
-                  onTap: () => context.pop(),
-                  child: Container(width: 40, height: 40,
-                    decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle, boxShadow: AppShadows.soft(Colors.grey)),
-                    child: const Icon(Icons.arrow_back_rounded, size: 20)),
-                ),
-                const SizedBox(width: 12),
-                Container(
-                  width: 52, height: 52,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [letterColor.withValues(alpha: 0.15), letterColor.withValues(alpha: 0.05)]),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: letterColor.withValues(alpha: 0.3)),
+            child: Stack(
+              children: [
+                // Floating subtle particles in header
+                Positioned.fill(
+                  child: ParticleSystem(
+                    isPlaying: true,
+                    color: letterColor,
+                    count: 15,
+                    radius: 100,
+                    type: ParticleType.circles,
                   ),
-                  child: Center(child: Text(_word.emoji, style: const TextStyle(fontSize: 32))),
                 ),
-                const SizedBox(width: 10),
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(_word.word.toUpperCase(), style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w900, color: letterColor)),
-                  Text(_word.wordHi, style: GoogleFonts.nunito(fontSize: 13, color: AppColors.textMedium)),
-                ])),
-                // Knowledge bar
                 Column(children: [
-                  Text('Knowledge', style: GoogleFonts.nunito(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.textLight)),
-                  const SizedBox(height: 2),
-                  Container(
-                    width: 60, height: 8,
-                    decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(4)),
-                    child: FractionallySizedBox(
-                      alignment: Alignment.centerLeft,
-                      widthFactor: knowledgePercent / 100,
-                      child: Container(decoration: BoxDecoration(gradient: AppGradients.nature, borderRadius: BorderRadius.circular(4))),
+                  Row(children: [
+                    Tappable(
+                      onTap: () => context.pop(),
+                      child: Container(width: 40, height: 40,
+                        decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle, boxShadow: AppShadows.soft(Colors.grey)),
+                        child: const Icon(Icons.arrow_back_rounded, size: 20)),
                     ),
-                  ),
-                  Text('$knowledgePercent%', style: GoogleFonts.nunito(fontSize: 10, fontWeight: FontWeight.w800, color: letterColor)),
+                    const SizedBox(width: 12),
+                    Tilt(
+                      tiltConfig: const TiltConfig(angle: 15, enableReverse: false),
+                      lightConfig: const LightConfig(minIntensity: 0.0, maxIntensity: 0.4),
+                      shadowConfig: ShadowConfig(color: letterColor.withValues(alpha: 0.4), maxIntensity: 0.5),
+                      child: Container(
+                        width: 52, height: 52,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [letterColor.withValues(alpha: 0.15), letterColor.withValues(alpha: 0.05)]),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: letterColor.withValues(alpha: 0.3)),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 0, left: 0, right: 0,
+                              child: Container(
+                                height: 16,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                                  gradient: LinearGradient(
+                                    colors: [Colors.white.withValues(alpha: 0.3), Colors.white.withValues(alpha: 0.0)],
+                                    begin: Alignment.topCenter, end: Alignment.bottomCenter,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: TiltParallax(
+                                size: const Offset(8, 8),
+                                child: Text(_word.emoji, style: const TextStyle(fontSize: 32))
+                              )
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(_word.word.toUpperCase(), style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w900, color: letterColor)),
+                      Text(_word.wordHi, style: GoogleFonts.nunito(fontSize: 13, color: AppColors.textMedium)),
+                    ])),
+                    // Knowledge bar
+                    Column(children: [
+                      Text('Knowledge', style: GoogleFonts.nunito(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.textLight)),
+                      const SizedBox(height: 2),
+                      Container(
+                        width: 60, height: 8,
+                        decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(4)),
+                        child: FractionallySizedBox(
+                          alignment: Alignment.centerLeft,
+                          widthFactor: knowledgePercent / 100,
+                          child: Container(decoration: BoxDecoration(gradient: AppGradients.nature, borderRadius: BorderRadius.circular(4))),
+                        ),
+                      ),
+                      Text('$knowledgePercent%', style: GoogleFonts.nunito(fontSize: 10, fontWeight: FontWeight.w800, color: letterColor)),
+                    ]),
+                  ]),
                 ]),
-              ]),
-            ]),
+              ],
+            ),
           ),
 
           // ═══════ AI NEURAL NETWORK TAB NODES ═══════
@@ -144,7 +187,7 @@ class _WordWorldScreenState extends ConsumerState<WordWorldScreen> with SingleTi
                 final tabIdx = idx ~/ 2;
                 final tab = tabs[tabIdx];
                 final isSelected = _tabController.index == tabIdx;
-                return GestureDetector(
+                return Tappable(
                   onTap: () => _tabController.animateTo(tabIdx),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),

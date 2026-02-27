@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/xp_service.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Sight Words Screen — Dolch word levels with flashcard + quiz modes
 class SightWordsScreen extends ConsumerStatefulWidget {
@@ -64,7 +65,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
           child: Column(children: [
             // Header
             Row(children: [
-              GestureDetector(onTap: () => context.pop(),
+              Tappable(onTap: () => context.pop(),
                 child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.accent2.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.arrow_back_rounded, color: AppColors.accent2))),
               const SizedBox(width: 12),
@@ -74,7 +75,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
 
             // Level tabs
             Row(children: List.generate(3, (i) => Expanded(
-              child: GestureDetector(
+              child: Tappable(
                 onTap: () => setState(() { _level = i; _currentCard = 0; _quizMode = false; _quizQ = 0; _quizScore = 0; _selected = null; _answered = false; }),
                 child: AnimatedContainer(duration: AppDurations.fast,
                   margin: EdgeInsets.only(right: i < 2 ? 8 : 0),
@@ -94,13 +95,13 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
 
             // Mode toggle
             Row(children: [
-              Expanded(child: GestureDetector(onTap: () => setState(() => _quizMode = false),
+              Expanded(child: Tappable(onTap: () => setState(() => _quizMode = false),
                 child: Container(padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(color: !_quizMode ? AppColors.accent2 : Colors.white, borderRadius: BorderRadius.circular(12)),
                   child: Center(child: Text('📚 Flashcards', style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w700,
                     color: !_quizMode ? Colors.white : AppColors.textMedium)))))),
               const SizedBox(width: 8),
-              Expanded(child: GestureDetector(onTap: () => setState(() { _quizMode = true; _quizQ = 0; _quizScore = 0; _selected = null; _answered = false; }),
+              Expanded(child: Tappable(onTap: () => setState(() { _quizMode = true; _quizQ = 0; _quizScore = 0; _selected = null; _answered = false; }),
                 child: Container(padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(color: _quizMode ? AppColors.accent2 : Colors.white, borderRadius: BorderRadius.circular(12)),
                   child: Center(child: Text('🎯 Quiz', style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w700,
@@ -119,7 +120,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
     final words = _words[_level];
     return Column(children: [
       // Big word card
-      Expanded(child: GestureDetector(
+      Expanded(child: Tappable(
         onHorizontalDragEnd: (d) {
           if (d.velocity.pixelsPerSecond.dx < 0 && _currentCard < words.length - 1) {
             setState(() => _currentCard++);
@@ -153,7 +154,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
         scrollDirection: Axis.horizontal,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 6, crossAxisSpacing: 6, childAspectRatio: 0.5),
         itemCount: words.length,
-        itemBuilder: (_, i) => GestureDetector(
+        itemBuilder: (_, i) => Tappable(
           onTap: () => setState(() => _currentCard = i),
           child: Container(
             decoration: BoxDecoration(
@@ -203,7 +204,7 @@ class _SightWordsScreenState extends ConsumerState<SightWordsScreen> {
           else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; }
         }
         return Padding(padding: const EdgeInsets.only(bottom: 10),
-          child: GestureDetector(onTap: () {
+          child: Tappable(onTap: () {
             if (_answered) return;
             HapticFeedback.lightImpact();
             setState(() { _selected = opt; _answered = true;

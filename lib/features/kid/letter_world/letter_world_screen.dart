@@ -7,6 +7,7 @@ import '../../../core/services/progress_service.dart';
 import '../../../data/seed/content_seed.dart';
 import '../../../providers/app_providers.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class LetterWorldScreen extends ConsumerWidget {
   final String letter;
@@ -17,7 +18,7 @@ class LetterWorldScreen extends ConsumerWidget {
     final letterData = ContentSeed.getAllLetters().firstWhere((l) => l.letter == letter);
     final child = ref.watch(activeChildProvider);
     final progressService = ref.read(progressServiceProvider);
-    final tts = ref.read(ttsServiceProvider);
+    
     final letterColor = AppColors.letterColors[letter] ?? AppColors.primary;
 
     return Scaffold(
@@ -28,7 +29,7 @@ class LetterWorldScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             child: Row(children: [
-              GestureDetector(
+              Tappable(
                 onTap: () => context.pop(),
                 child: Container(
                   width: 40, height: 40,
@@ -55,7 +56,7 @@ class LetterWorldScreen extends ConsumerWidget {
             child: Column(children: [
               Text(letter, style: const TextStyle(fontSize: 80, fontWeight: FontWeight.w800, color: Colors.white, fontFamily: 'Nunito')),
               const SizedBox(height: 8),
-              GestureDetector(
+              Tappable(
                 onTap: () { tts.speakLetter(letter); tts.speakPhonetic(letter); },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -87,7 +88,7 @@ class LetterWorldScreen extends ConsumerWidget {
                 final wp = child != null ? progressService.getProgress(child.id, word.id) : null;
                 final progress = wp != null ? wp.totalStars / wp.maxStars : 0.0;
 
-                return GestureDetector(
+                return Tappable(
                   onTap: () => context.push('/word/${word.id}'),
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),

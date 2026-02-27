@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Physical Activity Prompts — exercise breaks with timers
 class PhysicalActivityScreen extends ConsumerStatefulWidget {
@@ -70,7 +71,7 @@ class _PhysicalActivityScreenState extends ConsumerState<PhysicalActivityScreen>
       body: SafeArea(child: SingleChildScrollView(padding: const EdgeInsets.all(20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            GestureDetector(onTap: () => context.pop(),
+            Tappable(onTap: () => context.pop(),
               child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.error))),
             const SizedBox(width: 12),
@@ -93,7 +94,7 @@ class _PhysicalActivityScreenState extends ConsumerState<PhysicalActivityScreen>
           ...List.generate(_activities.length, (i) {
             final a = _activities[i]; final c = Color(a['color'] as int);
             return Padding(padding: const EdgeInsets.only(bottom: 10),
-              child: GestureDetector(onTap: () => _startActivity(i),
+              child: Tappable(onTap: () => _startActivity(i),
                 child: Container(padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: AppShadows.card),
                   child: Row(children: [

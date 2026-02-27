@@ -6,6 +6,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/exercise_bank.dart';
 import '../../../core/services/freemium_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Exercise Hub — browse & play exercises by subject/topic/level
 class ExerciseHubScreen extends ConsumerWidget {
@@ -44,7 +45,7 @@ class ExerciseHubScreen extends ConsumerWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             // Header
             Row(children: [
-              GestureDetector(onTap: () => context.pop(),
+              Tappable(onTap: () => context.pop(),
                 child: Container(width: 40, height: 40, decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: Icon(Icons.arrow_back_rounded, color: color))),
               const SizedBox(width: 12),
@@ -86,7 +87,7 @@ class ExerciseHubScreen extends ConsumerWidget {
 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: GestureDetector(
+                child: Tappable(
                   onTap: () {
                     if (isLocked) {
                       context.push('/membership');

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class TeacherDashboardScreen extends ConsumerWidget {
   const TeacherDashboardScreen({super.key});
@@ -82,7 +83,7 @@ class TeacherDashboardScreen extends ConsumerWidget {
                 Text('Letter $l', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                 const Text(' • 4 words', style: TextStyle(fontSize: 13, color: AppColors.textMedium)),
                 const Spacer(),
-                GestureDetector(onTap: () => context.push('/letter/$l'),
+                Tappable(onTap: () => context.push('/letter/$l'),
                   child: Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                     child: Text('View', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: color)))),
@@ -96,7 +97,7 @@ class TeacherDashboardScreen extends ConsumerWidget {
   }
 
   Widget _toolCard(String emoji, String title, String desc, Color color, VoidCallback onTap) {
-    return GestureDetector(onTap: onTap, child: Container(
+    return Tappable(onTap: onTap, child: Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
         border: Border.all(color: color.withValues(alpha: 0.2), width: 2),

@@ -6,10 +6,11 @@ import 'dart:math';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/progress_service.dart';
 import '../../../../core/services/tts_service.dart';
-import '../../../../core/services/sound_service.dart';
+import 'package:learn_app/core/services/audio_service.dart';
 import '../../../../data/models/models.dart';
 import '../../../../providers/app_providers.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class ThinkTab extends ConsumerStatefulWidget {
   final WordData word;
@@ -40,8 +41,8 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
     // Speak the first question
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
-        final tts = ref.read(ttsServiceProvider);
-        tts.speakEnglish(_game.instruction);
+        
+        TTSService.instance.speak(_game.instruction);
       }
     });
   }
@@ -58,15 +59,15 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
     final isCorrect = answer == correct;
     setState(() { _selectedAnswer = answer; _isCorrect = isCorrect; });
 
-    final sound = ref.read(soundServiceProvider);
-    final tts = ref.read(ttsServiceProvider);
+    
+    
 
     if (isCorrect) {
       _score++;
-      sound.playCorrect();
+      AudioService.instance.play(SoundType.correct);
       _confettiController.play();
     } else {
-      sound.playWrong();
+      AudioService.instance.play(SoundType.wrong);
       _shakeController.forward(from: 0);
     }
 
@@ -80,11 +81,11 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
           setState(() { _currentGame++; _selectedAnswer = null; _isCorrect = null; });
           // Speak next question
           Future.delayed(const Duration(milliseconds: 300), () {
-            if (mounted) tts.speakEnglish(widget.word.thinkGames[_currentGame].instruction);
+            if (mounted) TTSService.instance.speak(widget.word.thinkGames[_currentGame].instruction);
           });
         } else {
           setState(() => _gameActive = false);
-          sound.playStarEarned();
+          AudioService.instance.play(SoundType.star);
         }
       } else {
         setState(() { _selectedAnswer = null; _isCorrect = null; });
@@ -150,8 +151,8 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
                   Text(_game.instructionHi, style: GoogleFonts.nunito(fontSize: 13, color: AppColors.textMedium)),
                 ])),
                 // Speaker button
-                GestureDetector(
-                  onTap: () => ref.read(ttsServiceProvider).speakEnglish(_game.instruction),
+                Tappable(
+                  onTap: () => TTSService.instance.speak('Tap to hear'),
                   child: Container(
                     width: 40, height: 40,
                     decoration: BoxDecoration(color: AppColors.thinkTab.withValues(alpha: 0.15), shape: BoxShape.circle),
@@ -306,9 +307,9 @@ class _ThinkTabState extends ConsumerState<ThinkTab> with TickerProviderStateMix
           const SizedBox(height: 24),
           DuoButton(text: '🔄 Play Again', width: 180, color: AppColors.thinkTab, onPressed: () {
             setState(() { _currentGame = 0; _gameActive = true; _selectedAnswer = null; _isCorrect = null; _score = 0; });
-            final tts = ref.read(ttsServiceProvider);
+            
             Future.delayed(const Duration(milliseconds: 300), () {
-              if (mounted) tts.speakEnglish(widget.word.thinkGames[0].instruction);
+              if (mounted) TTSService.instance.speak(widget.word.thinkGames[0].instruction);
             });
           }),
         ])),

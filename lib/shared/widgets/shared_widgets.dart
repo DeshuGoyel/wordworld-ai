@@ -4,6 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'dart:ui';
 import '../../core/theme/app_theme.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
+
+// Exports for new 3D widgets
+export '3d/primary_button_3d.dart';
+export '3d/glass_card.dart';
+export '3d/word_card_3d.dart';
+export '3d/confetti_burst.dart';
+export '3d/particle_system.dart';
+export '3d/shimmer_loading.dart';
+export '3d/brain_meter_3d.dart';
 
 // ══════════════════════════════════════════════════════════════
 //  1. PRIMARY BUTTON – Duolingo 3D press with shadow + haptic
@@ -41,7 +51,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       onTapDown: (_) => setState(() => _pressed = true),
       onTapUp: (_) {
         setState(() => _pressed = false);
@@ -161,7 +171,7 @@ class WorldItemCard extends StatelessWidget {
     final isCompleted = state == WorldItemState.completed;
     final isCurrent = state == WorldItemState.current;
 
-    return GestureDetector(
+    return Tappable(
       onTap: isLocked ? null : () {
         HapticFeedback.lightImpact();
         onTap?.call();
@@ -516,7 +526,7 @@ class _FillBlankWidgetState extends State<FillBlankWidget> with SingleTickerProv
           children: widget.options.map((opt) {
             final isThis = _selected == opt;
             final showCorrect = _selected != null && opt == widget.correctAnswer;
-            return GestureDetector(
+            return Tappable(
               onTap: () => _selectOption(opt),
               child: AnimatedContainer(
                 duration: AppDurations.normal,
@@ -638,7 +648,7 @@ class _SentenceBuilderWidgetState extends State<SentenceBuilderWidget> {
               : Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: List.generate(_placed.length, (i) => GestureDetector(
+                  children: List.generate(_placed.length, (i) => Tappable(
                     onTap: () => _removePlaced(i),
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -658,7 +668,7 @@ class _SentenceBuilderWidgetState extends State<SentenceBuilderWidget> {
         Wrap(
           spacing: 10,
           runSpacing: 10,
-          children: _available.map((word) => GestureDetector(
+          children: _available.map((word) => Tappable(
             onTap: () => _placeWord(word),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -674,7 +684,7 @@ class _SentenceBuilderWidgetState extends State<SentenceBuilderWidget> {
         ),
         if (_isCorrect == false) ...[
           const SizedBox(height: 12),
-          GestureDetector(
+          Tappable(
             onTap: _reset,
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               const Icon(Icons.refresh_rounded, color: AppColors.primary, size: 18),
@@ -712,7 +722,7 @@ class SubjectWorldTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       onTap: isLocked ? null : () {
         HapticFeedback.lightImpact();
         onTap?.call();
@@ -896,7 +906,7 @@ class _DuoButtonState extends State<DuoButton> {
   bool _pressed = false;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       onTapDown: (_) => setState(() => _pressed = true),
       onTapUp: (_) { setState(() => _pressed = false); widget.onPressed(); },
       onTapCancel: () => setState(() => _pressed = false),
@@ -1140,7 +1150,7 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
       child: Container(
         width: 88, height: 88,
@@ -1184,7 +1194,7 @@ class _BounceWidgetState extends State<BounceWidget> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       onTapDown: (_) => _ctrl.reverse(),
       onTapUp: (_) { _ctrl.forward(); widget.onTap?.call(); },
       onTapCancel: () => _ctrl.forward(),
@@ -1254,7 +1264,7 @@ class DailyMissionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
       child: Container(
         width: 120,

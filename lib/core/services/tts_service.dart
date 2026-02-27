@@ -1,66 +1,95 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-final ttsServiceProvider = Provider<TtsService>((ref) {
-  return TtsService();
-});
-
-class TtsService {
+class TTSService {
+  static final instance = TTSService._();
+  TTSService._();
+  
   final FlutterTts _tts = FlutterTts();
-  bool _initialized = false;
-
+  bool _isPlaying = false;
+  double _speed = 0.9;
+  
+  // Callbacks for subtitle sync:
+  VoidCallback? onComplete;
+  Function(String word, int start, int end)? onWordBoundary;
+  
   Future<void> init() async {
-    if (_initialized) return;
+    // iOS audio session:
+    if (!kIsWeb && Platform.isIOS) {
+      await _tts.setSharedInstance(true);
+      await _tts.setIosAudioCategory(
+        IosTextToSpeechAudioCategory.playback,
+        [IosTextToSpeechAudioCategoryOptions.allowBluetooth],
+        IosTextToSpeechAudioMode.defaultMode,
+      );
+    }
+    
+    await _tts.setLanguage('en-US');
+    await _tts.setSpeechRate(0.9);
     await _tts.setVolume(1.0);
-    await _tts.setSpeechRate(0.4); // Slower for kids
-    await _tts.setPitch(1.1); // Slightly higher pitch
-    _initialized = true;
+    await _tts.setPitch(1.1);
+    
+    _tts.setCompletionHandler(() {
+      _isPlaying = false;
+      onComplete?.call();
+    });
+    
+    _tts.setProgressHandler((text, start, end, word) {
+        onWordBoundary?.call(word, start, end);
+    });
+    
+    _tts.setErrorHandler((msg) {
+      _isPlaying = false;
+      debugPrint('TTS Error: $msg');
+    });
   }
-
-  Future<void> speakEnglish(String text) async {
-    await init();
-    await _tts.setLanguage('en-US');
-    await _tts.setSpeechRate(0.4);
-    await _tts.speak(text);
+  
+  Future<void> speak(
+    String text, {
+    String lang = 'en',
+    bool isGyani = false,
+  }) async {
+    await stop();
+    
+    if (lang == 'hi') {
+      await _tts.setLanguage('hi-IN');
+      await _tts.setSpeechRate(_speed * 0.85);
+    } else {
+      await _tts.setLanguage('en-US');
+      await _tts.setSpeechRate(_speed);
+    }
+    
+    if (isGyani) {
+      await _tts.setPitch(1.35);
+      await _tts.setSpeechRate(_speed * 0.85);
+    } else {
+      await _tts.setPitch(1.1);
+    }
+    
+    _isPlaying = true;
+    final result = await _tts.speak(text);
+    if (result != 1) _isPlaying = false;
   }
-
-  Future<void> speakHindi(String text) async {
-    await init();
-    await _tts.setLanguage('hi-IN');
-    await _tts.setSpeechRate(0.4);
-    await _tts.speak(text);
-  }
-
-  Future<void> speakLetter(String letter) async {
-    await init();
-    await _tts.setLanguage('en-US');
-    await _tts.setSpeechRate(0.3);
-    await _tts.speak(letter);
-  }
-
-  Future<void> speakPhonetic(String letter) async {
-    await init();
-    await _tts.setLanguage('en-US');
-    await _tts.setSpeechRate(0.3);
-    // Speak the sound the letter makes
-    final sounds = {
-      'A': 'aah', 'B': 'buh', 'C': 'kuh', 'D': 'duh',
-      'E': 'eh', 'F': 'fff', 'G': 'guh', 'H': 'huh',
-      'I': 'ih', 'J': 'juh', 'K': 'kuh', 'L': 'luh',
-      'M': 'mmm', 'N': 'nnn', 'O': 'ah', 'P': 'puh',
-      'Q': 'kwuh', 'R': 'rrr', 'S': 'sss', 'T': 'tuh',
-      'U': 'uh', 'V': 'vvv', 'W': 'wuh', 'X': 'ks',
-      'Y': 'yuh', 'Z': 'zzz',
+  
+  // Speak bilingual: EN then HI:
+  Future<void> speakBilingual(String textEn, String textHi) async {
+    onComplete = () async {
+      onComplete = null;
+      await Future.delayed(const Duration(milliseconds: 300));
+      await speak(textHi, lang: 'hi');
     };
-    await _tts.speak(sounds[letter] ?? letter.toLowerCase());
+    await speak(textEn, lang: 'en');
   }
-
+  
   Future<void> stop() async {
     await _tts.stop();
+    _isPlaying = false;
   }
-
-  void dispose() {
-    _tts.stop();
+  
+  void setSpeed(double speed) {
+    _speed = speed.clamp(0.5, 1.5);
   }
+  
+  bool get isPlaying => _isPlaying;
 }

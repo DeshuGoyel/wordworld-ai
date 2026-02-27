@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Values World — 5 Emotion characters + choice scenarios
 class ValuesWorldScreen extends StatelessWidget {
@@ -49,7 +50,7 @@ class ValuesWorldScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(children: [
-                GestureDetector(
+                Tappable(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
                     decoration: BoxDecoration(color: AppColors.valuesWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
@@ -116,7 +117,7 @@ class ValuesWorldScreen extends StatelessWidget {
   }
 
   Widget _emotionCard(BuildContext context, _EmotionChar e) {
-    return GestureDetector(
+    return Tappable(
       onTap: () {
         HapticFeedback.lightImpact();
         _showScenario(context, e);
@@ -175,7 +176,7 @@ class ValuesWorldScreen extends StatelessWidget {
           const SizedBox(height: 16),
           ...e.choices.asMap().entries.map((entry) => Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: GestureDetector(
+            child: Tappable(
               onTap: () {
                 HapticFeedback.mediumImpact();
                 Navigator.pop(context);

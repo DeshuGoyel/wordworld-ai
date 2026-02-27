@@ -1,0 +1,354 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:1374271384067565518",
+      "lastPropertyId": "3:2742028218823625374",
+      "name": "AchievementEntity",
+      "properties": [
+        {
+          "id": "1:8771655310149993189",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5132939712054334440",
+          "name": "achievementId",
+          "type": 9
+        },
+        {
+          "id": "3:2742028218823625374",
+          "name": "unlockedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:7013063340276291450",
+      "lastPropertyId": "7:7242354837289101868",
+      "name": "ActivityLogEntity",
+      "properties": [
+        {
+          "id": "1:6478471990537975527",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3842356176060792788",
+          "name": "wordId",
+          "type": 9
+        },
+        {
+          "id": "3:6467024591852958562",
+          "name": "tabName",
+          "type": 9
+        },
+        {
+          "id": "4:7846030196715590676",
+          "name": "score",
+          "type": 6
+        },
+        {
+          "id": "5:716883683883350958",
+          "name": "xpEarned",
+          "type": 6
+        },
+        {
+          "id": "6:410949825746874427",
+          "name": "durationSeconds",
+          "type": 6
+        },
+        {
+          "id": "7:7242354837289101868",
+          "name": "timestamp",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:3588983662817578184",
+      "lastPropertyId": "14:4680712389311466001",
+      "name": "ChildEntity",
+      "properties": [
+        {
+          "id": "1:1236588667292561573",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1082947661506715368",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3241969920317064953",
+          "name": "avatarEmoji",
+          "type": 9
+        },
+        {
+          "id": "4:2421773243469609354",
+          "name": "ageBandStr",
+          "type": 9
+        },
+        {
+          "id": "5:2645401791628261601",
+          "name": "xp",
+          "type": 6
+        },
+        {
+          "id": "6:5792068830773916444",
+          "name": "level",
+          "type": 6
+        },
+        {
+          "id": "7:402334987129145966",
+          "name": "streakDays",
+          "type": 6
+        },
+        {
+          "id": "8:5203513343918447660",
+          "name": "lastSessionDate",
+          "type": 10
+        },
+        {
+          "id": "9:2972478869206060886",
+          "name": "hearts",
+          "type": 6
+        },
+        {
+          "id": "10:8973653967842256385",
+          "name": "heartsLastRefill",
+          "type": 10
+        },
+        {
+          "id": "11:2684886413720721519",
+          "name": "isPremium",
+          "type": 1
+        },
+        {
+          "id": "12:1275383567485264178",
+          "name": "premiumExpiry",
+          "type": 10
+        },
+        {
+          "id": "13:3029464117395726254",
+          "name": "languageMode",
+          "type": 9
+        },
+        {
+          "id": "14:4680712389311466001",
+          "name": "selectedAvatar",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:6499829790914562177",
+          "name": "wordProgress",
+          "targetId": "5:6198316658734401237"
+        },
+        {
+          "id": "2:7765431170856388706",
+          "name": "activityLog",
+          "targetId": "2:7013063340276291450"
+        },
+        {
+          "id": "3:6200940940522720377",
+          "name": "achievements",
+          "targetId": "1:1374271384067565518"
+        },
+        {
+          "id": "4:417922031944122408",
+          "name": "stories",
+          "targetId": "4:2467489899712539784"
+        }
+      ]
+    },
+    {
+      "id": "4:2467489899712539784",
+      "lastPropertyId": "11:2673766623130060804",
+      "name": "StoryEntity",
+      "properties": [
+        {
+          "id": "1:1224837305033813273",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9179474898004644414",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:2244793699311472381",
+          "name": "titleHi",
+          "type": 9
+        },
+        {
+          "id": "4:8725441896812877578",
+          "name": "heroName",
+          "type": 9
+        },
+        {
+          "id": "5:3793591303214858853",
+          "name": "setting",
+          "type": 9
+        },
+        {
+          "id": "6:9125462962102341243",
+          "name": "problem",
+          "type": 9
+        },
+        {
+          "id": "7:7525622725661540925",
+          "name": "scenesJson",
+          "type": 9
+        },
+        {
+          "id": "8:5755495411886905964",
+          "name": "moralEn",
+          "type": 9
+        },
+        {
+          "id": "9:5987535152339585886",
+          "name": "moralHi",
+          "type": 9
+        },
+        {
+          "id": "10:565141525158173450",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "11:2673766623130060804",
+          "name": "isShared",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:6198316658734401237",
+      "lastPropertyId": "19:8219291902732632445",
+      "name": "WordProgressEntity",
+      "properties": [
+        {
+          "id": "1:8517863362973093591",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9080207567398410385",
+          "name": "wordId",
+          "type": 9
+        },
+        {
+          "id": "3:2155211093048571768",
+          "name": "meetComplete",
+          "type": 1
+        },
+        {
+          "id": "4:4546111364755800145",
+          "name": "thinkComplete",
+          "type": 1
+        },
+        {
+          "id": "5:656921766097306227",
+          "name": "talkComplete",
+          "type": 1
+        },
+        {
+          "id": "6:6939399547001231795",
+          "name": "writeComplete",
+          "type": 1
+        },
+        {
+          "id": "7:2153447064701168752",
+          "name": "drawComplete",
+          "type": 1
+        },
+        {
+          "id": "8:663642082969683471",
+          "name": "storyComplete",
+          "type": 1
+        },
+        {
+          "id": "9:8237563429432124319",
+          "name": "thinkScore",
+          "type": 6
+        },
+        {
+          "id": "10:8956412211385998575",
+          "name": "talkScore",
+          "type": 6
+        },
+        {
+          "id": "11:434323156348097246",
+          "name": "talkClarity",
+          "type": 6
+        },
+        {
+          "id": "12:1253992557651254300",
+          "name": "talkAccuracy",
+          "type": 6
+        },
+        {
+          "id": "13:844980565231125264",
+          "name": "talkFluency",
+          "type": 6
+        },
+        {
+          "id": "14:2825051847420667293",
+          "name": "writeScore",
+          "type": 6
+        },
+        {
+          "id": "15:2481267120146315617",
+          "name": "drawScore",
+          "type": 6
+        },
+        {
+          "id": "16:4944998693523888034",
+          "name": "starsEarned",
+          "type": 6
+        },
+        {
+          "id": "17:7996419589131497725",
+          "name": "totalXpEarned",
+          "type": 6
+        },
+        {
+          "id": "18:8667855646582372196",
+          "name": "attemptCount",
+          "type": 6
+        },
+        {
+          "id": "19:8219291902732632445",
+          "name": "lastAttempt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "5:6198316658734401237",
+  "lastIndexId": "0:0",
+  "lastRelationId": "4:417922031944122408",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

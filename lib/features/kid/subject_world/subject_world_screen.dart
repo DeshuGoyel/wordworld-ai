@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Reusable subject world screen wrapper
 class SubjectWorldScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class SubjectWorldScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  GestureDetector(
+                  Tappable(
                     onTap: () => context.pop(),
                     child: Container(
                       width: 44, height: 44,

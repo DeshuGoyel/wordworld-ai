@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// ADA's Adjective Module — describing words, degrees of comparison
 class AdjectiveModuleScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _AdjectiveModuleScreenState extends State<AdjectiveModuleScreen> {
       backgroundColor: AppColors.bgLight,
       body: SafeArea(child: Column(children: [
         Padding(padding: const EdgeInsets.all(16), child: Row(children: [
-          GestureDetector(
+          Tappable(
             onTap: () => context.pop(),
             child: Container(width: 40, height: 40,
               decoration: BoxDecoration(color: AppColors.adaAdjective.withValues(alpha: 0.1), shape: BoxShape.circle),

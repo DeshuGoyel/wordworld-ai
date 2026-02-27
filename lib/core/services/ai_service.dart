@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+// Hive import removed
 import 'ai_provider.dart';
 import 'providers/mock_ai_provider.dart';
 import 'providers/openai_provider.dart';

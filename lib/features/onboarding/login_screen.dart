@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const SizedBox(height: 40),
               // Back button
-              GestureDetector(
+              Tappable(
                 onTap: () => context.go('/welcome'),
                 child: Container(
                   width: 44, height: 44,
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hint: '••••••••',
                 icon: Icons.lock_outline_rounded,
                 obscure: _obscure,
-                suffixIcon: GestureDetector(
+                suffixIcon: Tappable(
                   onTap: () => setState(() => _obscure = !_obscure),
                   child: Icon(_obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined, color: AppColors.textLight, size: 20),
                 ),
@@ -178,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildSocialButton({required String label, required String emoji, required VoidCallback onPressed}) {
-    return GestureDetector(
+    return Tappable(
       onTap: onPressed,
       child: Container(
         width: double.infinity,

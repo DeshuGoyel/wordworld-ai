@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Class Leaderboard — rankings, friends, XP comparison
 class LeaderboardScreen extends ConsumerWidget {
@@ -37,7 +38,7 @@ class LeaderboardScreen extends ConsumerWidget {
         child: Column(children: [
           // Header
           Row(children: [
-            GestureDetector(onTap: () => context.pop(),
+            Tappable(onTap: () => context.pop(),
               child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.starActive.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.starActive))),
             const SizedBox(width: 12),

@@ -1,13 +1,17 @@
+import 'dart:ui' as ui;
+import 'dart:typed_data';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/tts_service.dart';
-import '../../../../core/services/sound_service.dart';
+import 'package:learn_app/core/services/audio_service.dart';
 import '../../../../core/services/progress_service.dart';
 import '../../../../data/models/models.dart';
 import '../../../../providers/app_providers.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class DrawTab extends ConsumerStatefulWidget {
   final WordData word;
@@ -22,7 +26,9 @@ class _DrawTabState extends ConsumerState<DrawTab> {
   Color _selectedColor = AppColors.drawTab;
   int _currentStep = 0;
   bool _completed = false;
-  double _strokeWidth = 4.0;
+  bool _isProcessing = false;
+  final double _strokeWidth = 4.0;
+  final GlobalKey _canvasKey = GlobalKey();
 
   final _colors = [AppColors.drawTab, AppColors.meetTab, AppColors.thinkTab, AppColors.talkTab,
     AppColors.writeTab, AppColors.storyTab, Colors.black, Colors.brown, Colors.yellow, Colors.white];
@@ -34,27 +40,58 @@ class _DrawTabState extends ConsumerState<DrawTab> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted && _step != null) {
-        ref.read(ttsServiceProvider).speakEnglish('Let us draw a ${widget.word.word}! ${_step!.instruction}');
+        TTSService.instance.speak('Try again!', lang: 'en');
       }
     });
   }
 
-  void _completeStep() {
-    final sound = ref.read(soundServiceProvider);
-    final tts = ref.read(ttsServiceProvider);
+  void _completeStep() async {
+    if (_strokes.isEmpty) {
+       TTSService.instance.speak("Please draw something first!", lang: 'en');
+       return;
+    }
+    
+    setState(() => _isProcessing = true);
+    try {
+      RenderRepaintBoundary boundary = _canvasKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      var image = await boundary.toImage(pixelRatio: 2.0);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
 
-    if (_currentStep < widget.word.drawContent.steps.length - 1) {
-      sound.playCorrect();
-      setState(() => _currentStep++);
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted && _step != null) tts.speakEnglish(_step!.instruction);
-      });
-    } else {
-      setState(() => _completed = true);
-      sound.playStarEarned();
-      tts.speakEnglish('Amazing drawing! You are an artist!');
-      final child = ref.read(activeChildProvider);
-      if (child != null) ref.read(progressServiceProvider).completeTab(child.id, widget.word.id, 'draw');
+      final vision = ref.read(visionServiceProvider);
+      Map<String, dynamic> result;
+      
+      if (_step!.instruction.toLowerCase().contains('write') || _step!.instruction.toLowerCase().contains('draw the letter')) {
+         result = await vision.gradeHandwriting(pngBytes, widget.word.word.substring(0, 1));
+      } else {
+         result = await vision.assessDrawing(pngBytes, widget.word.word);
+      }
+      
+      final stars = result['stars'] as int;
+      final feedback = result['feedback'] as String;
+      
+      TTSService.instance.speak(feedback, lang: 'en');
+      if (stars >= 4) {
+         AudioService.instance.play(SoundType.correct);
+      } else {
+         AudioService.instance.play(SoundType.pop);
+      }
+
+      if (_currentStep < widget.word.drawContent.steps.length - 1) {
+        setState(() => _currentStep++);
+        Future.delayed(const Duration(milliseconds: 2000), () {
+          if (mounted && _step != null) TTSService.instance.speak(_step!.instruction, lang: 'en');
+        });
+      } else {
+        setState(() => _completed = true);
+        AudioService.instance.play(SoundType.star);
+        final child = ref.read(activeChildProvider);
+        if (child != null) ref.read(progressServiceProvider).completeTab(child.id, widget.word.id, 'draw');
+      }
+    } catch (e) {
+      debugPrint("Drawing capture error: $e");
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
     }
   }
 
@@ -88,8 +125,8 @@ class _DrawTabState extends ConsumerState<DrawTab> {
               Text(_step!.instruction, style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w700)),
               Text(_step!.instructionHi, style: GoogleFonts.nunito(fontSize: 12, color: AppColors.textMedium)),
             ])),
-            GestureDetector(
-              onTap: () => ref.read(ttsServiceProvider).speakEnglish(_step!.instruction),
+            Tappable(
+              onTap: () => TTSService.instance.speak('Tap to hear', lang: 'en'),
               child: Container(
                 width: 36, height: 36,
                 decoration: BoxDecoration(color: AppColors.drawTab.withValues(alpha: 0.15), shape: BoxShape.circle),
@@ -124,23 +161,26 @@ class _DrawTabState extends ConsumerState<DrawTab> {
 
       // Canvas
       Expanded(
-        child: Container(
-          margin: const EdgeInsets.all(12),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppColors.drawTab.withValues(alpha: 0.3), width: 2),
-            boxShadow: AppShadows.card),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(22),
-            child: GestureDetector(
-              onPanStart: (d) => setState(() => _currentStroke = [d.localPosition]),
-              onPanUpdate: (d) => setState(() => _currentStroke.add(d.localPosition)),
-              onPanEnd: (d) => setState(() {
-                _strokes.add(_DrawStroke(List.from(_currentStroke), _selectedColor, _strokeWidth));
-                _currentStroke = [];
-              }),
-              child: CustomPaint(
-                size: Size.infinite,
-                painter: _DrawPainter(strokes: _strokes, currentStroke: _currentStroke, currentColor: _selectedColor, strokeWidth: _strokeWidth),
+        child: RepaintBoundary(
+          key: _canvasKey,
+          child: Container(
+            margin: const EdgeInsets.all(12),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: AppColors.drawTab.withValues(alpha: 0.3), width: 2),
+              boxShadow: AppShadows.card),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(22),
+              child: Tappable(
+                onPanStart: (d) => setState(() => _currentStroke = [d.localPosition]),
+                onPanUpdate: (d) => setState(() => _currentStroke.add(d.localPosition)),
+                onPanEnd: (d) => setState(() {
+                  _strokes.add(_DrawStroke(List.from(_currentStroke), _selectedColor, _strokeWidth));
+                  _currentStroke = [];
+                }),
+                child: CustomPaint(
+                  size: Size.infinite,
+                  painter: _DrawPainter(strokes: _strokes, currentStroke: _currentStroke, currentColor: _selectedColor, strokeWidth: _strokeWidth),
+                ),
               ),
             ),
           ),
@@ -152,7 +192,7 @@ class _DrawTabState extends ConsumerState<DrawTab> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(children: [
           SizedBox(height: 36, child: ListView(scrollDirection: Axis.horizontal, children:
-            _colors.map((c) => GestureDetector(
+            _colors.map((c) => Tappable(
               onTap: () => setState(() => _selectedColor = c),
               child: Container(width: 32, height: 32, margin: const EdgeInsets.symmetric(horizontal: 3),
                 decoration: BoxDecoration(color: c, shape: BoxShape.circle,
@@ -162,20 +202,29 @@ class _DrawTabState extends ConsumerState<DrawTab> {
           const SizedBox(height: 8),
           Row(children: [
             Expanded(child: DuoButton(text: '↩️ Undo', color: Colors.grey.shade400, onPressed: () {
-              if (_strokes.isNotEmpty) setState(() => _strokes.removeLast());
+               if (_isProcessing) return;
+               if (_strokes.isNotEmpty) setState(() => _strokes.removeLast());
             })),
             const SizedBox(width: 8),
-            Expanded(child: DuoButton(text: '🗑️ Clear', color: Colors.grey.shade400, onPressed: () => setState(() => _strokes = []))),
+            Expanded(child: DuoButton(text: '🗑️ Clear', color: Colors.grey.shade400, onPressed: () {
+               if (_isProcessing) return;
+               setState(() => _strokes = []);
+            })),
             const SizedBox(width: 8),
-            Expanded(child: DuoButton(text: _completed ? '🔄 Redo' : '✅ Step Done', color: AppColors.drawTab,
-              onPressed: _completed ? () {
-                setState(() { _strokes = []; _currentStep = 0; _completed = false; });
-                Future.delayed(const Duration(milliseconds: 300), () {
-                  if (mounted && widget.word.drawContent.steps.isNotEmpty) {
-                    ref.read(ttsServiceProvider).speakEnglish(widget.word.drawContent.steps[0].instruction);
-                  }
-                });
-              } : _completeStep)),
+            Expanded(child: DuoButton(text: _isProcessing ? '⏳' : _completed ? '🔄 Redo' : '✅ Done', color: AppColors.drawTab,
+              onPressed: () {
+                if (_isProcessing) return;
+                if (_completed) {
+                  setState(() { _strokes = []; _currentStep = 0; _completed = false; });
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    if (mounted && widget.word.drawContent.steps.isNotEmpty) {
+                      TTSService.instance.speak('Try again!', lang: 'en');
+                    }
+                  });
+                } else {
+                  _completeStep();
+                }
+              })),
           ]),
         ]),
       ),

@@ -7,6 +7,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/exercise_bank.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Universal Exercise Player — plays exercises from ExerciseBank
 class ExercisePlayerScreen extends ConsumerStatefulWidget {
@@ -100,7 +101,7 @@ class _ExercisePlayerScreenState extends ConsumerState<ExercisePlayerScreen> {
           child: Column(children: [
             // Top bar
             Row(children: [
-              GestureDetector(
+              Tappable(
                 onTap: () => context.pop(),
                 child: Container(width: 40, height: 40,
                   decoration: BoxDecoration(color: _color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
@@ -167,7 +168,7 @@ class _ExercisePlayerScreenState extends ConsumerState<ExercisePlayerScreen> {
                   }
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
-                    child: GestureDetector(
+                    child: Tappable(
                       onTap: () => _answer(opt),
                       child: AnimatedContainer(
                         duration: AppDurations.fast,

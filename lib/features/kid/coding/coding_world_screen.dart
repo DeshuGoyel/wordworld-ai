@@ -7,6 +7,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../shared/widgets/shared_widgets.dart';
 import '../../../shared/widgets/quiz_result_screen.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Coding World — visual block coding for kids (sequences, loops, conditions, debugging)
 class CodingWorldScreen extends ConsumerStatefulWidget {
@@ -39,7 +40,7 @@ class _CodingWorldScreenState extends ConsumerState<CodingWorldScreen> {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             // Header
             Row(children: [
-              GestureDetector(onTap: () => context.pop(),
+              Tappable(onTap: () => context.pop(),
                 child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.codingWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.arrow_back_rounded, color: AppColors.codingWorld))),
               const SizedBox(width: 12),
@@ -71,7 +72,7 @@ class _CodingWorldScreenState extends ConsumerState<CodingWorldScreen> {
               final m = _modules[i];
               final color = Color(m['color'] as int);
               return Padding(padding: const EdgeInsets.only(bottom: 12),
-                child: GestureDetector(
+                child: Tappable(
                   onTap: () => setState(() => _selectedModule = i),
                   child: Container(
                     padding: const EdgeInsets.all(16),
@@ -192,7 +193,7 @@ class _SequencesModuleState extends State<_SequencesModule> {
       body: SafeArea(child: Padding(padding: const EdgeInsets.all(20),
         child: Column(children: [
           Row(children: [
-            GestureDetector(onTap: widget.onBack,
+            Tappable(onTap: widget.onBack,
               child: Container(width: 40, height: 40, decoration: BoxDecoration(color: const Color(0xFF00CEC9).withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: Color(0xFF00CEC9)))),
             const SizedBox(width: 12),
@@ -215,7 +216,7 @@ class _SequencesModuleState extends State<_SequencesModule> {
           const SizedBox(height: 8),
           Wrap(spacing: 8, runSpacing: 8, children: [
             for (int i = 0; i < _userOrder.length; i++)
-              GestureDetector(
+              Tappable(
                 onTap: _checked ? null : () => setState(() => _userOrder.removeAt(i)),
                 child: Container(padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
@@ -234,7 +235,7 @@ class _SequencesModuleState extends State<_SequencesModule> {
             Text('Tap blocks to add:', style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
             Wrap(spacing: 8, runSpacing: 8, children: available.map((step) =>
-              GestureDetector(
+              Tappable(
                 onTap: () { HapticFeedback.lightImpact(); setState(() => _userOrder.add(step)); },
                 child: Container(padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12),
@@ -511,7 +512,7 @@ class _QuizShell extends StatelessWidget {
       body: SafeArea(child: Padding(padding: const EdgeInsets.all(20),
         child: Column(children: [
           Row(children: [
-            GestureDetector(onTap: onBack,
+            Tappable(onTap: onBack,
               child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.codingWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.codingWorld))),
             const SizedBox(width: 12),
@@ -538,7 +539,7 @@ class _QuizShell extends StatelessWidget {
               else if (isThis) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; }
             }
             return Padding(padding: const EdgeInsets.only(bottom: 10),
-              child: GestureDetector(onTap: () => onSelect(opt),
+              child: Tappable(onTap: () => onSelect(opt),
                 child: Container(width: double.infinity, padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                   decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(16), border: Border.all(color: border, width: 2)),
                   child: Row(children: [

@@ -11,11 +11,28 @@ import '../../../data/seed/content_seed.dart';
 import '../../../providers/app_providers.dart';
 import '../../../shared/widgets/shared_widgets.dart';
 
-class ParentDashboardScreen extends ConsumerWidget {
+class ParentDashboardScreen extends ConsumerStatefulWidget {
   const ParentDashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ParentDashboardScreen> createState() => _ParentDashboardScreenState();
+}
+
+class _ParentDashboardScreenState extends ConsumerState<ParentDashboardScreen> {
+  String? _aiReport;
+  bool _isGeneratingReport = false;
+
+  Future<void> _generateReport(String childId, String name, int age) async {
+    setState(() => _isGeneratingReport = true);
+    final report = await ref.read(tutorBrainProvider).generateProgressReport(childId, name, age);
+    setState(() {
+      _aiReport = report;
+      _isGeneratingReport = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final child = ref.watch(activeChildProvider);
     final progress = ref.read(progressServiceProvider);
     final tutor = ref.read(tutorBrainProvider);
@@ -157,6 +174,36 @@ class ParentDashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
           ],
+
+          // ═══════════════ AI PROGRESS REPORT ═══════════════
+          Row(
+            children: [
+              Text('Smart Insights 🧠', style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800)),
+              const Spacer(),
+              if (_aiReport == null)
+                TextButton.icon(
+                  onPressed: _isGeneratingReport || child == null ? null : () => _generateReport(child.id, child.name, child.age),
+                  icon: _isGeneratingReport ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.auto_awesome),
+                  label: Text(_isGeneratingReport ? 'Analyzing...' : 'Generate AI Report'),
+                ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          if (_aiReport != null)
+            Container(
+              width: double.infinity, padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [AppColors.primary.withValues(alpha: 0.1), Colors.white]),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+              ),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Tutor Brain Report', style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.primary)),
+                const SizedBox(height: 8),
+                Text(_aiReport!, style: GoogleFonts.nunito(fontSize: 14, height: 1.5, color: AppColors.textMedium)),
+              ]),
+            ),
+          if (_aiReport != null) const SizedBox(height: 24),
 
           // ═══════════════ LETTER PROGRESS ═══════════════
           Text('Letter Progress 🔤', style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800)),

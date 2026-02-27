@@ -1,5 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+class Box {
+  dynamic get(dynamic key, {dynamic defaultValue}) => null;
+  void put(dynamic key, dynamic value) {}
+  Iterable get keys => [];
+  Iterable get values => [];
+  bool containsKey(dynamic key) => false;
+  void delete(dynamic key) {}
+  void clear() {}
+}
+class Hive {
+  static Box box(String name) => Box();
+}
 import '../../data/models/models.dart';
 
 final storageServiceProvider = Provider<StorageService>((ref) {

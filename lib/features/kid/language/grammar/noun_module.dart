@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// NORA's Noun Module — common/proper, singular/plural, is-it-a-noun game
 class NounModuleScreen extends StatefulWidget {
@@ -61,7 +62,7 @@ class _NounModuleScreenState extends State<NounModuleScreen> {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  GestureDetector(
+                  Tappable(
                     onTap: () => context.pop(),
                     child: Container(
                       width: 40, height: 40,

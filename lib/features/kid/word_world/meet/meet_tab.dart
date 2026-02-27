@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/tts_service.dart';
-import '../../../../core/services/sound_service.dart';
+import 'package:learn_app/core/services/audio_service.dart';
 import '../../../../core/services/progress_service.dart';
 import '../../../../data/models/models.dart';
 import '../../../../providers/app_providers.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class MeetTab extends ConsumerStatefulWidget {
   final WordData word;
@@ -29,26 +30,26 @@ class _MeetTabState extends ConsumerState<MeetTab> {
 
   void _playScript() async {
     setState(() => _playing = true);
-    final tts = ref.read(ttsServiceProvider);
+    
     for (int i = 0; i < _lines.length; i++) {
       if (!mounted) return;
       setState(() => _currentLine = i);
 
       if (_activeLang == 'hi') {
-        await tts.speakHindi(_lines[i].textHi);
+        await TTSService.instance.speak(_lines[i].textHi, lang: 'hi');
       } else {
-        await tts.speakEnglish(_lines[i].textEn);
+        await TTSService.instance.speak(_lines[i].textEn);
       }
       await Future.delayed(const Duration(milliseconds: 1000));
 
       if (_activeLang == 'both' && mounted) {
-        await tts.speakHindi(_lines[i].textHi);
+        await TTSService.instance.speak(_lines[i].textHi, lang: 'hi');
         await Future.delayed(const Duration(milliseconds: 800));
       }
     }
     if (mounted) {
       setState(() { _completed = true; _playing = false; });
-      ref.read(soundServiceProvider).playStarEarned();
+      AudioService.instance.play(SoundType.star);
       final child = ref.read(activeChildProvider);
       if (child != null) ref.read(progressServiceProvider).completeTab(child.id, widget.word.id, 'meet');
     }
@@ -225,7 +226,7 @@ class _MeetTabState extends ConsumerState<MeetTab> {
 
   Widget _langBtn(String label, String value) {
     final isActive = _activeLang == value;
-    return GestureDetector(
+    return Tappable(
       onTap: () => setState(() => _activeLang = value),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

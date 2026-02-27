@@ -8,6 +8,7 @@ import '../../../core/services/streak_service.dart';
 import '../../../core/services/xp_service.dart';
 import '../../../providers/app_providers.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 const _rewardAvatarEmojis = ['🦁', '🦊', '🐼', '🐰', '🐸', '🦄', '🐶', '🐱', '🐻', '🦋'];
 String _rewardEmojiForAvatarId(String? avatarId) {
@@ -38,7 +39,7 @@ class RewardsScreen extends ConsumerWidget {
               // Header
               Row(
                 children: [
-                  GestureDetector(
+                  Tappable(
                     onTap: () => context.pop(),
                     child: Container(
                       width: 44, height: 44,

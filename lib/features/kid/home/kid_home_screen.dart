@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_tilt/flutter_tilt.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/tts_service.dart';
 import '../../../core/services/progress_service.dart';
@@ -16,6 +17,7 @@ import '../../../core/services/storage_service.dart';
 import '../../../providers/app_providers.dart';
 import '../../../shared/widgets/shared_widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 const _avatarEmojis = ['🦁', '🦊', '🐼', '🐰', '🐸', '🦄', '🐶', '🐱', '🐻', '🦋'];
 String _emojiForAvatarId(String? avatarId) {
@@ -30,7 +32,7 @@ class KidHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final child = ref.watch(activeChildProvider);
     final progressService = ref.read(progressServiceProvider);
-    final tts = ref.read(ttsServiceProvider);
+    
     final streak = ref.read(streakServiceProvider);
     final xp = ref.read(xpServiceProvider);
     final hearts = ref.read(heartsServiceProvider);
@@ -48,6 +50,16 @@ class KidHomeScreen extends ConsumerWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            // 3D Animated Background
+            const Positioned.fill(
+              child: ParticleSystem(
+                isPlaying: true,
+                color: AppColors.primaryLight,
+                count: 30,
+                radius: 400,
+                type: ParticleType.circles,
+              ),
+            ),
             CustomScrollView(
               slivers: [
                 // ═══ TOP BAR ═══
@@ -57,7 +69,7 @@ class KidHomeScreen extends ConsumerWidget {
                     child: Row(
                       children: [
                         // Avatar
-                        GestureDetector(
+                        Tappable(
                           onTap: () => _showParentLock(context, ref),
                           child: Container(
                             width: 48, height: 48,
@@ -100,7 +112,7 @@ class KidHomeScreen extends ConsumerWidget {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-                    child: BrainMeter(currentXP: xp.totalXP),
+                    child: BrainMeter3D(currentXP: xp.totalXP, maxXP: xp.currentLevel.minXP == 0 ? 100 : xp.currentLevel.minXP * 2), // Demo maxXP logic
                   ),
                 ),
 
@@ -112,6 +124,77 @@ class KidHomeScreen extends ConsumerWidget {
                   ),
                 ),
 
+                // ═══ TUTOR BRAIN: NEXT ACTIVITY ═══
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Tutor Brain Suggests 🧠", style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800)),
+                        const SizedBox(height: 12),
+                        FutureBuilder<Map<String, dynamic>>(
+                          future: ref.read(tutorBrainProvider).suggestNextActivity(child?.id ?? ''),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Container(
+                                height: 90, width: double.infinity,
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                                child: const Center(child: CircularProgressIndicator()),
+                              );
+                            }
+                            if (!snapshot.hasData || snapshot.hasError) {
+                              return const SizedBox.shrink();
+                            }
+                            
+                            final data = snapshot.data!;
+                            final letter = data['letter'] as String;
+                            final tab = data['tab'] as String;
+                            final reason = data['reason'] as String;
+                            final tabColor = Color(int.parse(data['tabColor']));
+
+                            return Tappable(
+                              onTap: () {
+                                HapticFeedback.lightImpact();
+                                context.push('/letter/$letter/$tab');
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(colors: [tabColor.withValues(alpha: 0.15), Colors.white]),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: tabColor.withValues(alpha: 0.3)),
+                                  boxShadow: AppShadows.card,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 50, height: 50,
+                                      decoration: BoxDecoration(color: tabColor, borderRadius: BorderRadius.circular(16)),
+                                      child: Center(child: Text(letter, style: GoogleFonts.nunito(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.white))),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Play $tab!', style: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.textDark)),
+                                          Text(reason, style: GoogleFonts.nunito(fontSize: 12, color: AppColors.textMedium), maxLines: 2, overflow: TextOverflow.ellipsis),
+                                        ],
+                                      ),
+                                    ),
+                                    Icon(Icons.arrow_forward_ios_rounded, color: tabColor, size: 20),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
                 // ═══ TODAY'S MISSIONS ═══
                 SliverToBoxAdapter(
                   child: Padding(
@@ -119,7 +202,7 @@ class KidHomeScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Today's Missions 🎯", style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800)),
+                        Text("Missions 🎯", style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800)),
                         const SizedBox(height: 12),
                         SizedBox(
                           height: 130,
@@ -151,11 +234,6 @@ class KidHomeScreen extends ConsumerWidget {
                 // ═══ SUBJECT WORLDS GRID ═══
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Subject Worlds 🌍', style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800)),
                         const SizedBox(height: 12),
                         GridView.count(
                           crossAxisCount: 2,
@@ -227,7 +305,7 @@ class KidHomeScreen extends ConsumerWidget {
                               CategoryTile(emoji: '📝', label: 'Grammar', color: AppColors.languageWorld, onTap: () => context.push('/grammar')),
                               const SizedBox(width: 10),
                               CategoryTile(emoji: '🔢', label: 'Numbers', color: AppColors.mathWorld, onTap: () {
-                                tts.speakEnglish('Numbers! Let us count together.');
+                                TTSService.instance.speak('Numbers! Let us count together.');
                                 context.push('/math');
                               }),
                               const SizedBox(width: 10),
@@ -320,52 +398,64 @@ class KidHomeScreen extends ConsumerWidget {
                             Future.delayed(const Duration(milliseconds: 600), () => tts.speakPhonetic(letter));
                             context.push('/letter/$letter');
                           } : null,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: isActive
-                                  ? LinearGradient(colors: [letterColor.withValues(alpha: 0.15), letterColor.withValues(alpha: 0.05)])
-                                  : null,
-                              color: isActive ? null : Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: isMastered ? AppColors.success : isActive ? letterColor.withValues(alpha: 0.4) : Colors.grey.shade200,
-                                width: isMastered ? 2.5 : 1.5,
-                              ),
-                              boxShadow: isActive ? [BoxShadow(color: letterColor.withValues(alpha: 0.1), blurRadius: 8, offset: const Offset(0, 3))] : [],
-                            ),
-                            child: Stack(
-                              children: [
-                                Center(
-                                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                    if (isMastered) const Text('👑', style: TextStyle(fontSize: 14)),
-                                    Text(letter, style: GoogleFonts.nunito(
-                                      fontSize: 30, fontWeight: FontWeight.w800,
-                                      color: isActive ? letterColor : AppColors.textLight,
-                                    )),
-                                    if (isActive) ...[
-                                      const SizedBox(height: 2),
-                                      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                        Icon(Icons.star_rounded, size: 12, color: letterStars > 0 ? AppColors.starActive : AppColors.starInactive),
-                                        const SizedBox(width: 2),
-                                        Text('$letterStars', style: GoogleFonts.nunito(fontSize: 11, fontWeight: FontWeight.w700, color: letterStars > 0 ? AppColors.accent1 : AppColors.textLight)),
-                                      ]),
-                                    ] else ...[
-                                      const SizedBox(height: 2),
-                                      Icon(Icons.lock_rounded, size: 12, color: Colors.grey.shade400),
-                                    ],
-                                  ]),
+                          child: Tilt(
+                            tiltConfig: const TiltConfig(angle: 15, enableReverse: false),
+                            lightConfig: const LightConfig(minIntensity: 0.0, maxIntensity: 0.4),
+                            shadowConfig: ShadowConfig(color: isActive ? letterColor.withValues(alpha: 0.4) : Colors.transparent, maxIntensity: 0.5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: isActive
+                                    ? LinearGradient(colors: [letterColor.withValues(alpha: 0.15), letterColor.withValues(alpha: 0.05)])
+                                    : null,
+                                color: isActive ? null : Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: isMastered ? AppColors.success : isActive ? letterColor.withValues(alpha: 0.4) : Colors.grey.shade200,
+                                  width: isMastered ? 2.5 : 1.5,
                                 ),
-                                // PRO badge for locked premium letters
-                                if (isActive && !isFree)
-                                  Positioned(
-                                    top: 2, right: 2,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                                      decoration: BoxDecoration(color: AppColors.proBadge, borderRadius: BorderRadius.circular(6)),
-                                      child: Text('PRO', style: GoogleFonts.nunito(fontSize: 7, fontWeight: FontWeight.w800, color: Colors.white)),
-                                    ),
+                                boxShadow: isActive ? [BoxShadow(color: letterColor.withValues(alpha: 0.1), blurRadius: 8, offset: const Offset(0, 3))] : [],
+                              ),
+                              child: Stack(
+                                children: [
+                                  Center(
+                                    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                      if (isMastered) const TiltParallax(size: Offset(5,5), child: Text('👑', style: TextStyle(fontSize: 14))),
+                                      TiltParallax(
+                                        size: const Offset(10, 10),
+                                        child: Text(letter, style: GoogleFonts.nunito(
+                                          fontSize: 30, fontWeight: FontWeight.w800,
+                                          color: isActive ? letterColor : AppColors.textLight,
+                                          shadows: isActive ? [Shadow(color: letterColor.withValues(alpha: 0.3), offset: const Offset(0, 2), blurRadius: 2)] : [],
+                                        )),
+                                      ),
+                                      if (isActive) ...[
+                                        const SizedBox(height: 2),
+                                        TiltParallax(
+                                          size: const Offset(5, 5),
+                                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                            Icon(Icons.star_rounded, size: 12, color: letterStars > 0 ? AppColors.starActive : AppColors.starInactive),
+                                            const SizedBox(width: 2),
+                                            Text('$letterStars', style: GoogleFonts.nunito(fontSize: 11, fontWeight: FontWeight.w700, color: letterStars > 0 ? AppColors.accent1 : AppColors.textLight)),
+                                          ]),
+                                        ),
+                                      ] else ...[
+                                        const SizedBox(height: 2),
+                                        Icon(Icons.lock_rounded, size: 12, color: Colors.grey.shade400),
+                                      ],
+                                    ]),
                                   ),
-                              ],
+                                  // PRO badge
+                                  if (isActive && !isFree)
+                                    Positioned(
+                                      top: 2, right: 2,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                        decoration: BoxDecoration(color: AppColors.proBadge, borderRadius: BorderRadius.circular(6)),
+                                        child: Text('PRO', style: GoogleFonts.nunito(fontSize: 7, fontWeight: FontWeight.w800, color: Colors.white)),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -429,7 +519,7 @@ class KidHomeScreen extends ConsumerWidget {
     final challenge = dailyChallenge.todayChallenge;
     final completed = dailyChallenge.isCompleted;
 
-    return GestureDetector(
+    return Tappable(
       onTap: completed ? null : () {
         HapticFeedback.lightImpact();
         // Navigate to appropriate subject
@@ -564,34 +654,33 @@ class _MoreTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BounceWidget(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
-          boxShadow: [BoxShadow(color: color.withValues(alpha: 0.08), blurRadius: 10, offset: const Offset(0, 4))],
-        ),
+    return Tappable(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
+      child: GlassCard(
+        padding: const EdgeInsets.all(12),
+        borderRadius: 18,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 42, height: 42,
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.12),
+                color: color.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Center(child: Text(emoji, style: const TextStyle(fontSize: 22))),
             ),
-            const SizedBox(height: 6),
-            Text(label, style: GoogleFonts.nunito(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textDark),
+            const SizedBox(height: 8),
+            Text(label, style: GoogleFonts.nunito(fontSize: 11, fontWeight: FontWeight.w800, color: AppColors.textDark),
               textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis),
           ],
         ),
       ),
     )
-    .animate(delay: Duration(milliseconds: 80 * index))
+    .animate(delay: Duration(milliseconds: 60 * index))
     .fadeIn(duration: 400.ms, curve: Curves.easeOut)
     .slideY(begin: 0.2, end: 0, duration: 400.ms, curve: Curves.easeOut);
   }

@@ -11,9 +11,8 @@ import '../core/services/voice_gen_service.dart';
 import '../core/services/video_gen_service.dart';
 import '../core/services/video_analysis_service.dart';
 import '../core/services/fast_ai_service.dart';
-import '../core/services/curriculum_ai_service.dart';
-import '../core/services/adaptive_engine.dart';
-import '../core/services/sound_service.dart';
+import '../core/services/tutor_brain_service.dart';
+import 'package:learn_app/core/services/audio_service.dart';
 
 // ─── AI Service Providers ───
 
@@ -56,19 +55,11 @@ final fastAIServiceProvider = Provider<FastAIService>((ref) {
   return FastAIService(ref.read(aiServiceProvider));
 });
 
-final curriculumAIServiceProvider = Provider<CurriculumAIService>((ref) {
-  return CurriculumAIService(
-    ref.read(aiServiceProvider),
+final tutorBrainProvider = Provider<TutorBrainService>((ref) {
+  return TutorBrainService(
     ref.read(storageServiceProvider),
     ref.read(progressServiceProvider),
-  );
-});
-
-final adaptiveEngineProvider = Provider<AdaptiveEngine>((ref) {
-  return AdaptiveEngine(
     ref.read(aiServiceProvider),
-    ref.read(storageServiceProvider),
-    ref.read(progressServiceProvider),
   );
 });
 

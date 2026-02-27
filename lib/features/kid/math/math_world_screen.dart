@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Math World — Numbers 1-10 character grid + Shape/Pattern games
 class MathWorldScreen extends StatelessWidget {
@@ -40,7 +41,7 @@ class MathWorldScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(children: [
-                GestureDetector(
+                Tappable(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
                     decoration: BoxDecoration(color: AppColors.mathWorld.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
@@ -73,7 +74,7 @@ class MathWorldScreen extends StatelessWidget {
                       itemCount: _numbers.length,
                       itemBuilder: (context, i) {
                         final n = _numbers[i];
-                        return GestureDetector(
+                        return Tappable(
                           onTap: () {
                             HapticFeedback.lightImpact();
                             _showNumberDetail(context, n);
@@ -102,7 +103,7 @@ class MathWorldScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     ..._games.map((game) => Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: GestureDetector(
+                      child: Tappable(
                         onTap: () {
                           HapticFeedback.lightImpact();
                           _showMathGame(context, game);

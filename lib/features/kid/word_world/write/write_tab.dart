@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/tts_service.dart';
-import '../../../../core/services/sound_service.dart';
+import 'package:learn_app/core/services/audio_service.dart';
 import '../../../../core/services/progress_service.dart';
 import '../../../../data/models/models.dart';
 import '../../../../providers/app_providers.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class WriteTab extends ConsumerStatefulWidget {
   final WordData word;
@@ -36,8 +37,8 @@ class _WriteTabState extends ConsumerState<WriteTab> {
     // Speak what to trace
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
-        final tts = ref.read(ttsServiceProvider);
-        tts.speakEnglish('Trace the letter ${widget.word.writeContent.letters.isNotEmpty ? widget.word.writeContent.letters[0] : widget.word.word}');
+        
+        TTSService.instance.speak('Trace the letter ${widget.word.writeContent.letters.isNotEmpty ? widget.word.writeContent.letters[0] : widget.word.word}');
       }
     });
   }
@@ -46,29 +47,29 @@ class _WriteTabState extends ConsumerState<WriteTab> {
 
   void _done() {
     if (_points.length < 10) {
-      ref.read(soundServiceProvider).playWrong();
-      ref.read(ttsServiceProvider).speakEnglish('Keep tracing! You need more strokes.');
+      AudioService.instance.play(SoundType.wrong);
+      TTSService.instance.speak('Try again!');
       return;
     }
-    final sound = ref.read(soundServiceProvider);
-    final tts = ref.read(ttsServiceProvider);
+    
+    
 
     if (_isWordPhase) {
       setState(() => _completed = true);
-      sound.playStarEarned();
-      tts.speakEnglish('Great writing! You earned a star!');
+      AudioService.instance.play(SoundType.star);
+      TTSService.instance.speak('Great writing! You earned a star!');
       final child = ref.read(activeChildProvider);
       if (child != null) ref.read(progressServiceProvider).completeTab(child.id, widget.word.id, 'write');
     } else {
-      sound.playCorrect();
+      AudioService.instance.play(SoundType.correct);
       setState(() { _currentLetterIdx++; _points = []; });
       // Speak next letter
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           if (_isWordPhase) {
-            tts.speakEnglish('Now trace the whole word: ${widget.word.word}');
+            TTSService.instance.speak('Now trace the whole word: ${widget.word.word}');
           } else {
-            tts.speakEnglish('Trace the letter $_currentChar');
+            TTSService.instance.speak('Trace the letter $_currentChar');
           }
         }
       });
@@ -111,8 +112,8 @@ class _WriteTabState extends ConsumerState<WriteTab> {
                 style: GoogleFonts.nunito(fontSize: 13, color: AppColors.textMedium)),
             ])),
             // Speaker
-            GestureDetector(
-              onTap: () => ref.read(ttsServiceProvider).speakEnglish(_isWordPhase ? 'Trace the word ${widget.word.word}' : 'Trace the letter $_currentChar'),
+            Tappable(
+              onTap: () => TTSService.instance.speak(widget.word.word),
               child: Container(
                 width: 40, height: 40,
                 decoration: BoxDecoration(color: AppColors.writeTab.withValues(alpha: 0.15), shape: BoxShape.circle),
@@ -151,7 +152,7 @@ class _WriteTabState extends ConsumerState<WriteTab> {
                   style: GoogleFonts.nunito(fontSize: _isWordPhase ? 60 : 160, fontWeight: FontWeight.w800,
                     color: AppColors.writeTab.withValues(alpha: 0.12))),
               ),
-              GestureDetector(
+              Tappable(
                 onPanStart: (d) => setState(() => _points.add(d.localPosition)),
                 onPanUpdate: (d) => setState(() => _points.add(d.localPosition)),
                 onPanEnd: (d) => setState(() => _points.add(null)),
@@ -200,7 +201,7 @@ class _WriteTabState extends ConsumerState<WriteTab> {
       DuoButton(text: '🔄 Practice Again', width: 180, color: AppColors.writeTab, onPressed: () {
         setState(() { _currentLetterIdx = 0; _completed = false; _points = []; });
         Future.delayed(const Duration(milliseconds: 300), () {
-          if (mounted) ref.read(ttsServiceProvider).speakEnglish('Let us practice again. Trace the letter ${widget.word.writeContent.letters.isNotEmpty ? widget.word.writeContent.letters[0] : widget.word.word}');
+          if (mounted) TTSService.instance.speak('Try again!');
         });
       }),
     ]));

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/xp_service.dart';
 import '../../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Reading Screen — paragraph comprehension passages with questions
 class ReadingScreen extends ConsumerStatefulWidget {
@@ -118,7 +119,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
       body: SafeArea(child: Padding(padding: const EdgeInsets.all(20),
         child: Column(children: [
           Row(children: [
-            GestureDetector(onTap: () => context.pop(),
+            Tappable(onTap: () => context.pop(),
               child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.primary))),
             const SizedBox(width: 12),
@@ -179,7 +180,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
         Color bg = Colors.white, border = AppColors.textLight.withValues(alpha: 0.2);
         if (_ans) { if (isA) { bg = AppColors.success.withValues(alpha: 0.1); border = AppColors.success; }
           else if (isSel) { bg = AppColors.error.withValues(alpha: 0.1); border = AppColors.error; } }
-        return Padding(padding: const EdgeInsets.only(bottom: 8), child: GestureDetector(
+        return Padding(padding: const EdgeInsets.only(bottom: 8), child: Tappable(
           onTap: () { if (_ans) return; HapticFeedback.lightImpact();
             setState(() { _sel = o; _ans = true; if (o == q['a']) { _score++; ref.read(xpServiceProvider).addXP(8); } }); },
           child: Container(width: double.infinity, padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

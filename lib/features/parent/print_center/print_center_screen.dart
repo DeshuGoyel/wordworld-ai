@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class PrintCenterScreen extends ConsumerWidget {
   const PrintCenterScreen({super.key});
@@ -29,7 +30,7 @@ class PrintCenterScreen extends ConsumerWidget {
   }
 
   Widget _printCard(String title, String desc, Color color, VoidCallback onTap) {
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/freemium_service.dart';
 import '../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -58,7 +59,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SizedBox(height: 32),
             // Back button
-            GestureDetector(
+            Tappable(
               onTap: () => context.go('/welcome'),
               child: Container(width: 44, height: 44,
                 decoration: BoxDecoration(color: AppColors.bgLight, borderRadius: BorderRadius.circular(14)),
@@ -94,7 +95,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
             const SizedBox(height: 6),
             _field(controller: _passCtrl, hint: 'At least 8 characters', icon: Icons.lock_outline_rounded,
               obscure: _obscure,
-              suffixIcon: GestureDetector(
+              suffixIcon: Tappable(
                 onTap: () => setState(() => _obscure = !_obscure),
                 child: Icon(_obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined, color: AppColors.textLight, size: 20),
               )),
@@ -113,7 +114,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
             // Terms
             Row(children: [
-              GestureDetector(
+              Tappable(
                 onTap: () => setState(() => _termsAccepted = !_termsAccepted),
                 child: AnimatedContainer(
                   duration: AppDurations.fast, width: 24, height: 24,
@@ -152,7 +153,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
             const SizedBox(height: 16),
 
             // Google sign in
-            GestureDetector(
+            Tappable(
               onTap: () => context.go('/child-setup'),
               child: Container(
                 width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 14),
@@ -201,7 +202,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
   Widget _planOption(int index, String title, String subtitle, String price, String emoji) {
     final selected = _selectedPlan == index;
-    return GestureDetector(
+    return Tappable(
       onTap: () => setState(() => _selectedPlan = index),
       child: AnimatedContainer(
         duration: AppDurations.fast,

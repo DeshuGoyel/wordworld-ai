@@ -3,8 +3,8 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
-import 'shared_widgets.dart';
-
+import '3d/confetti_burst.dart';
+import '3d/primary_button_3d.dart';
 /// A polished quiz result screen with confetti for scores ≥ 60%.
 /// Drop-in replacement for custom result widgets in V2/V3 screens.
 class QuizResultScreen extends StatefulWidget {
@@ -54,7 +54,6 @@ class _QuizResultScreenState extends State<QuizResultScreen>
 
   @override
   void dispose() {
-    _confetti.dispose();
     _scaleCtrl.dispose();
     super.dispose();
   }
@@ -75,21 +74,9 @@ class _QuizResultScreenState extends State<QuizResultScreen>
         alignment: Alignment.topCenter,
         children: [
           // ──── Confetti ────
-          ConfettiWidget(
-            confettiController: _confetti,
-            blastDirection: pi / 2, // straight down
-            emissionFrequency: 0.05,
-            numberOfParticles: 30,
-            maxBlastForce: 20,
-            minBlastForce: 5,
-            gravity: 0.3,
-            colors: [
-              widget.color,
-              AppColors.starActive,
-              AppColors.success,
-              const Color(0xFFFF6B6B),
-              const Color(0xFF6C5CE7),
-            ],
+          ConfettiBurst(
+            trigger: ratio >= 0.6,
+            child: const SizedBox.shrink(),
           ),
 
           SafeArea(
@@ -206,10 +193,10 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: PrimaryButton(
+                        child: PrimaryButton3D(
                           label: 'Retry 🔄',
-                          onPressed: widget.onRetry,
-                          color: widget.color,
+                          onTap: widget.onRetry,
+                          solidColor: widget.color,
                         ),
                       ),
                     ],

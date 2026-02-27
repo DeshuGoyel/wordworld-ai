@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// AI Story Generator — dropdown-only (kid-safe) custom story builder
 class AIStoryGeneratorScreen extends StatefulWidget {
@@ -37,7 +38,7 @@ class _AIStoryGeneratorScreenState extends State<AIStoryGeneratorScreen> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(children: [
-                GestureDetector(
+                Tappable(
                   onTap: () => context.pop(),
                   child: Container(width: 44, height: 44,
                     decoration: BoxDecoration(color: AppColors.storyTab.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(14)),
@@ -132,7 +133,7 @@ class _AIStoryGeneratorScreenState extends State<AIStoryGeneratorScreen> {
           spacing: 8, runSpacing: 8,
           children: options.map((opt) {
             final isSelected = opt == selected;
-            return GestureDetector(
+            return Tappable(
               onTap: () => onChanged(opt),
               child: AnimatedContainer(
                 duration: AppDurations.fast,

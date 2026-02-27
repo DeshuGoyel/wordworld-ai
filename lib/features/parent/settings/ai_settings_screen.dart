@@ -4,6 +4,7 @@ import '../../../providers/app_providers.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/ai_provider.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// AI Settings screen — choose AI provider and configure API key.
 class AISettingsScreen extends ConsumerStatefulWidget {
@@ -162,7 +163,7 @@ class _AISettingsScreenState extends ConsumerState<AISettingsScreen> {
 
   Widget _providerCard(AIProviderType type, String icon, String name, String desc, Color color) {
     final isSelected = _selectedProvider == type;
-    return GestureDetector(
+    return Tappable(
       onTap: () => setState(() => _selectedProvider = type),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),

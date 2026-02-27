@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/shared_widgets.dart';
+import 'package:learn_app/core/widgets/tappable.dart';
 
 /// Mimo-style lesson card screen — swipeable card stack
 class LessonCardScreen extends ConsumerStatefulWidget {
@@ -101,7 +102,7 @@ class _LessonCardScreenState extends ConsumerState<LessonCardScreen> {
         child: Column(children: [
           // Header
           Row(children: [
-            GestureDetector(onTap: () => context.pop(),
+            Tappable(onTap: () => context.pop(),
               child: Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                 child: const Icon(Icons.arrow_back_rounded, color: AppColors.primary))),
             const SizedBox(width: 12),
@@ -119,7 +120,7 @@ class _LessonCardScreenState extends ConsumerState<LessonCardScreen> {
           const SizedBox(height: 20),
 
           // Card
-          Expanded(child: GestureDetector(
+          Expanded(child: Tappable(
             onHorizontalDragEnd: (d) {
               if (d.velocity.pixelsPerSecond.dx < -100) _nextCard();
               if (d.velocity.pixelsPerSecond.dx > 100) _prevCard();
@@ -144,7 +145,7 @@ class _LessonCardScreenState extends ConsumerState<LessonCardScreen> {
                     const SizedBox(height: 20),
                     ...((card['opts'] as List?)?.cast<String>() ?? <String>[]).map((opt) =>
                       Padding(padding: const EdgeInsets.only(bottom: 8),
-                        child: GestureDetector(
+                        child: Tappable(
                           onTap: () {
                             HapticFeedback.lightImpact();
                             final correct = opt == (card['a'] as String?);

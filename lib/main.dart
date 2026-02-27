@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:learn_app/core/services/objectbox_service.dart';
+import 'package:learn_app/core/services/audio_service.dart';
+import 'package:learn_app/core/services/tts_service.dart';
 import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-
-  // Register Hive adapters
-  await _initHive();
+  await ObjectBoxService.init();
+  await AudioService.instance.init();
+  await TTSService.instance.init();
 
   runApp(const ProviderScope(child: LearnVerseApp()));
 }
 
-Future<void> _initHive() async {
-  await Hive.openBox('app_settings');
-  await Hive.openBox('child_profiles');
-  await Hive.openBox('activities');
-  await Hive.openBox('progress');
-  await Hive.openBox('user_data');
-  await Hive.openBox('ai_cache'); // Added for offline persistence of AI requests
-}
